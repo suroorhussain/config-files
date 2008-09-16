@@ -10,7 +10,6 @@
 
 (add-to-list 'load-path "~/.emacs.d")
 
-
 ; Setup menu's etc.
 (show-paren-mode t)
 (scroll-bar-mode -1)
@@ -37,19 +36,6 @@
               (error "cannot start fancy-pants browser"))))))
 
 
-; Compile the .emacs file when changed. 
-(defun byte-compile-user-init-file ()
-  (let ((byte-compile-warnings '(unresolved)))
-    ;; in case compilation fails, don't leave the old .elc around:
-    (delete-file (concat user-init-file ".elc"))
-    (byte-compile-file user-init-file) ))
-
-(defun my-emacs-lisp-mode-hook ()
-  (when (equal buffer-file-name user-init-file)
-    (add-hook 'after-save-hook 'byte-compile-user-init-file t t)))
-
-(add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
-
 ; color-theme
 (require 'color-theme)
 (color-theme-initialize)
@@ -57,7 +43,7 @@
 
 
 ; SLIME
-(setq inferior-lisp-program "/usr/bin/sbcl")
+(setq inferior-lisp-program "/usr/local/bin/sbcl")
 (add-to-list 'load-path "~/.emacs.d/slime")
 (require 'slime)
 (slime-setup '(slime-fancy))
@@ -75,3 +61,5 @@
 	    auto-mode-alist))
 
 (server-start)
+
+

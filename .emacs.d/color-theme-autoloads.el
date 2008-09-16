@@ -14,8 +14,34 @@
 (provide 'color-theme-autoloads)
 ;;; Generated autoloads follow (made by autoload.el).
 
+;;;### (autoloads (javascript-mode) "javascript" "javascript.el"
+;;;;;;  (18618 37000))
+;;; Generated autoloads from javascript.el
+
+(autoload 'javascript-mode "javascript" "\
+Major mode for editing JavaScript source text.
+
+Key bindings:
+
+\\{javascript-mode-map}
+
+\(fn)" t nil)
+
+;;;***
+
+;;;### (autoloads (js2-mode) "js2" "js2.el" (18618 37000))
+;;; Generated autoloads from js2.el
+ (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+(autoload 'js2-mode "js2" "\
+Major mode for editing JavaScript code.
+
+\(fn)" t nil)
+
+;;;***
+
 ;;;### (autoloads nil nil ("themes/color-theme-example.el" "themes/color-theme-library.el")
-;;;;;;  (18317 49531 627014))
+;;;;;;  (18633 44068 618094))
 
 ;;;***
 
@@ -23,7 +49,7 @@
 ;;;;;;  color-theme-compare color-theme-make-snapshot color-theme-analyze-defun
 ;;;;;;  color-theme-print color-theme-install-at-point-for-current-frame
 ;;;;;;  color-theme-install-at-mouse color-theme-describe color-theme-select)
-;;;;;;  "color-theme" "color-theme.el" (17529 41105))
+;;;;;;  "color-theme" "color-theme.el" (18618 37000))
 ;;; Generated autoloads from color-theme.el
 
 (autoload 'color-theme-select "color-theme" "\
