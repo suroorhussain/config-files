@@ -22,18 +22,18 @@
 (setq mac-pass-command-to-system nil)
 
 ; Setup browser
-(when (executable-find "twb-browser")
-  (eval-after-load "browse-url"
-    '(defun browse-url-default-browser (url &rest unused)
-       (cond ((getenv "DISPLAY")
-              (call-process "twb-browser" nil 0 nil url))
-             ;;; This is BROKEN because Screen does test -t 0 before realizing
-             ;;; that it doesn't need a controlling tty to make a new window.
-             ;; ((getenv "STY")
-             ;;  (call-process "screen" nil 0 nil "twb-browser" url)
-             ;;  (call-process "screen" nil 0 nil "-X" "screen" "twb-browser" "http://google.com"))
-             (nil
-              (error "cannot start fancy-pants browser"))))))
+;(when (executable-find "twb-browser")
+;  (eval-after-load "browse-url"
+;    '(defun browse-url-default-browser (url &rest unused)
+;       (cond ((getenv "DISPLAY")
+;              (call-process "twb-browser" nil 0 nil url))
+;             ;;; This is BROKEN because Screen does test -t 0 before realizing
+;             ;;; that it doesn't need a controlling tty to make a new window.
+;             ;; ((getenv "STY")
+;             ;;  (call-process "screen" nil 0 nil "twb-browser" url)
+;             ;;  (call-process "screen" nil 0 nil "-X" "screen" "twb-browser" "http://google.com"))
+;             (nil
+;              (error "cannot start fancy-pants browser"))))))
 
 
 ; color-theme
@@ -54,11 +54,15 @@
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
+
+; nxhtml-mode 
+(load "~/.emacs.d/nxhtml/autostart.el")
 ; nXML-mode
-(load "~/.emacs.d/nxml-mode-20041004/rng-auto.el")
-(setq auto-mode-alist
-      (cons '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|html\\)\\'" . nxml-mode)
-	    auto-mode-alist))
+
+;(load "~/.emacs.d/nxml-mode-20041004/rng-auto.el")
+;(setq auto-mode-alist
+;      (cons '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|html\\)\\'" . nxml-mode);
+;	    auto-mode-alist))
 
 (server-start)
 
