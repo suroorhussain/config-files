@@ -39,11 +39,11 @@
 ; color-theme
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-comidia)
+(color-theme-billw)
 
 
 ; SLIME
-(setq inferior-lisp-program "/usr/local/bin/sbcl")
+(setq inferior-lisp-program "/usr/bin/sbcl")
 (add-to-list 'load-path "~/.emacs.d/slime")
 (require 'slime)
 (slime-setup '(slime-fancy))
@@ -56,7 +56,7 @@
 
 
 ; nxhtml-mode 
-(load "~/.emacs.d/nxhtml/autostart.el")
+;(load "~/.emacs.d/nxhtml/autostart.el")
 ; nXML-mode
 
 ;(load "~/.emacs.d/nxml-mode-20041004/rng-auto.el")
