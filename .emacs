@@ -1,69 +1,139 @@
-;(set-default-font "Dejavu Sans Mono-10")
+(defmacro try-this (&rest body)
+  `(unwind-protect
+       (let (retval (gensym))
+         (condition-case ex
+             (setq retval (progn ,@body))
+           ('error
+            (message (format "Caught exception: [%s]" ex))
+            (setq retval (cons 'exception (list ex)))))
+         retval)))
 
-;(set-default-font "-bitstream-bitstream vera sans mono-medium-r-normal--10-100-72-72-m-100-iso8859-9")
-;(set-default-font "-apple-andale mono-medium-r-normal--12-120-72-72-m-120-mac-roman")
-;(set-default-font "-apple-monaco-medium-r-normal--12-120-72-72-m-120-mac-roman")
-;(set-default-font "-apple-dejavu sans mono-medium-r-normal--14-140-72-72-m-140-mac-cyrillic")
-(set-default-font "-misc-fixed-medium-r-normal--13-120-75-75-c-80-iso8859-1")
-(setq default-frame-alist
-                '((font . "-misc-fixed-medium-r-normal--13-120-75-75-c-80-iso8859-1")))
+(defmacro try-independently (&rest body)
+  (let (retval (gensym))
+    (dolist (x body retval) ()
+	    (push `(try-this ,x) retval))
+    (setq retval (reverse retval))
+    (push 'progn retval)))
 
 (add-to-list 'load-path "~/.emacs.d")
 
+; Set font
+(try-this
+ (setq default-frame-alist '((font . "Monaco-7.5"))))
+
+(try-independently
+ (set-background-color "#080808")
+ (set-foreground-color "#e6e3d8")
+ (set-cursor-color "#656565")
+ (set-face-foreground 'font-lock-comment-face "#99968b")
+ (set-face-italic-p 'font-lock-comment-face t)
+ (set-face-foreground 'font-lock-doc-face "#99968b")
+ (set-face-italic-p 'font-lock-doc-face t)
+ (set-face-foreground 'font-lock-constant-face "#e5786d")
+ (set-face-foreground 'font-lock-string-face "#95e454")
+ (set-face-italic-p 'font-lock-string-face t)
+ (set-face-foreground 'font-lock-variable-name-face "#cae682")
+ (set-face-foreground 'font-lock-function-name-face "#cae682")
+ (set-face-foreground 'font-lock-type-face "#cae682")
+ (set-face-foreground 'font-lock-builtin-face "#8ac6f2")
+ (set-face-foreground 'font-lock-keyword-face "#8ac6f2")
+ (set-face-foreground 'font-lock-preprocessor-face "#e5786d")
+ (set-face-foreground 'font-lock-negation-char-face "#e7f6da")
+ (set-face-foreground 'link "#8ac6f2")
+ (set-face-bold-p 'link t)
+ (set-face-underline-p 'link t)
+ (set-face-foreground 'show-paren-match "#f6f3e8")
+ (set-face-background 'show-paren-match "#857b6f")
+ (set-face-bold-p 'show-paren-match t)
+ (set-face-foreground 'region "#f6f3e8")
+ (set-face-background 'region "#444444")
+ (set-face-foreground 'lazy-highlight "black")
+ (set-face-background 'lazy-highlight "yellow"))
+
 ; Setup menu's etc.
-(show-paren-mode t)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(setq inhibit-startup-message t)
+(try-independently
+ (show-paren-mode t)
+ (scroll-bar-mode -1)
+ (tool-bar-mode -1)
+ (menu-bar-mode -1)
+ (setq inhibit-startup-message t)
+ (setq require-final-newline t)
+ (setq ring-bell-function 'ignore)
+ (setq mac-pass-command-to-system nil))
 
-(setq require-final-newline t)
-(setq ring-bell-function 'ignore)
-(setq mac-pass-command-to-system nil)
+(try-this
+ (autoload 'python-mode "python-mode" "Python Mode." t)
+ (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+ (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
 
-; Setup browser
-;(when (executable-find "twb-browser")
-;  (eval-after-load "browse-url"
-;    '(defun browse-url-default-browser (url &rest unused)
-;       (cond ((getenv "DISPLAY")
-;              (call-process "twb-browser" nil 0 nil url))
-;             ;;; This is BROKEN because Screen does test -t 0 before realizing
-;             ;;; that it doesn't need a controlling tty to make a new window.
-;             ;; ((getenv "STY")
-;             ;;  (call-process "screen" nil 0 nil "twb-browser" url)
-;             ;;  (call-process "screen" nil 0 nil "-X" "screen" "twb-browser" "http://google.com"))
-;             (nil
-;              (error "cannot start fancy-pants browser"))))))
+;; code checking via flymake
+;; set code checker here from "epylint", "pyflakes"
+(setq pycodechecker "pyflakes")
+(try-this
+ (when (load "flymake" t)
+   (defun flymake-pycodecheck-init ()
+     (let* ((temp-file (flymake-init-create-temp-buffer-copy
+			'flymake-create-temp-inplace))
+	    (local-file (file-relative-name
+			 temp-file
+			 (file-name-directory buffer-file-name))))
+       (list "epylint" (list local-file))))
+   (add-to-list 'flymake-allowed-file-name-masks
+		'("\\.py\\'" flymake-pycodecheck-init))))
 
 
-; color-theme
-(require 'color-theme)
-(color-theme-initialize)
-(color-theme-billw)
+(add-hook 'find-file-hook 'flymake-find-file-hook)
 
+ 
+;pymacs, ropemacs
+(try-this
+ (require 'pymacs)
+ (autoload 'pymacs-apply "pymacs")
+ (autoload 'pymacs-call "pymacs")
+ (autoload 'pymacs-eval "pymacs" nil t)
+ (autoload 'pymacs-exec "pymacs" nil t)
+ (autoload 'pymacs-load "pymacs" nil t)
+
+ (pymacs-load "ropemacs" "rope-")
+ (setq ropemacs-enable-autoimport t))
+
+; autocomplete-mode
+(try-this
+ (require 'auto-complete)
+ (global-auto-complete-mode t))
+
+; css-mode
+(try-this
+ (autoload 'css-mode "css-mode" "Mode for editing CSS files" t)
+ (setq auto-mode-alist
+       (append '(("\\.css$" . css-mode))
+	       auto-mode-alist)))
 
 ; SLIME
-(setq inferior-lisp-program "/usr/bin/sbcl")
-(add-to-list 'load-path "~/.emacs.d/slime")
-(require 'slime)
-(slime-setup '(slime-fancy))
-
-
+(try-this
+ (setq inferior-lisp-program "/usr/bin/sbcl")
+ (setq common-lisp-hyperspec-root "file:///home/jvanwink/Documents/HyperSpec/")
+ (add-to-list 'load-path "~/.emacs.d/slime")
+ (require 'slime)
+ (slime-setup '(slime-fancy)))
 
 ; javascript-mode
-(autoload 'js2-mode "js2" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(try-this
+ (autoload 'js2-mode "js2" nil t)
+ (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
+ (add-to-list 'auto-mode-alist '("\\.\\(html\\|rng\\|xhtml\\)$" . html-mode)))
 
-; nxhtml-mode 
-;(load "~/.emacs.d/nxhtml/autostart.el")
-; nXML-mode
+(try-this
+ (require 'nav))
 
-;(load "~/.emacs.d/nxml-mode-20041004/rng-auto.el")
-;(setq auto-mode-alist
-;      (cons '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|html\\)\\'" . nxml-mode);
-;	    auto-mode-alist))
-
-(server-start)
+;; Bind hippie-expand
+(try-this
+ (global-set-key [(meta f1)] (make-hippie-expand-function
+			      '(try-expand-dabbrev-visible
+				try-expand-dabbrev
+				try-expand-dabbrev-all-buffers) t)))
+(try-this
+ (server-start))
 
 
