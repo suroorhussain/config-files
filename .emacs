@@ -112,10 +112,47 @@
 ; SLIME
 (try-this
  (setq inferior-lisp-program "/usr/bin/sbcl")
- (setq common-lisp-hyperspec-root "file:///home/jvanwink/Documents/HyperSpec/")
- (add-to-list 'load-path "~/.emacs.d/slime")
+ ;(add-to-list 'load-path "~/.emacs.d/slime")
  (require 'slime)
- (slime-setup '(slime-fancy)))
+ (slime-setup '(slime-fancy slime-asdf))
+ (define-key global-map (kbd "<f12>") 'slime-selector)
+
+ (require 'paredit)
+
+ (define-key slime-mode-map (kbd "(") 'paredit-open-parenthesis)
+ (define-key slime-mode-map (kbd ")") 'paredit-close-parenthesis)
+ 
+ (define-key slime-mode-map (kbd "\"") 'paredit-doublequote)
+ (define-key slime-mode-map (kbd "\\") 'paredit-backslash)
+ 
+ (define-key slime-mode-map (kbd "RET") 'paredit-newline)
+ (define-key slime-mode-map (kbd "<return>") 'paredit-newline)
+ (define-key slime-mode-map (kbd "C-j") 'newline)
+ 
+;;;; nb: this assumes dvorak key layout
+ (define-key slime-mode-map (kbd "C-h") 'backward-sexp)
+ (define-key slime-mode-map (kbd "C-t") 'transpose-sexps)
+ (define-key slime-mode-map (kbd "C-M-t") 'transpose-chars)
+ (define-key slime-mode-map (kbd "C-n") 'forward-sexp)
+ (define-key slime-mode-map (kbd "C-k") 'kill-sexp)
+ (define-key slime-mode-map (kbd "C-M-k") 'paredit-kill)
+ (define-key slime-mode-map (kbd "C-'") 'paredit-splice-sexp)
+ (define-key slime-mode-map (kbd "C-M-l") 'paredit-recentre-on-sexp)
+ (define-key slime-mode-map (kbd "C-,") 'paredit-backward-slurp-sexp)
+ (define-key slime-mode-map (kbd "C-.") 'paredit-forward-slurp-sexp)
+ (define-key slime-mode-map (kbd "C-<") 'paredit-backward-barf-sexp)
+ (define-key slime-mode-map (kbd "C->") 'paredit-forward-barf-sexp)
+ (define-key slime-mode-map (kbd "C-/") 'backward-up-list)
+ (define-key slime-mode-map (kbd "C-=") 'down-list)
+ (define-key slime-mode-map (kbd "TAB") 'slime-indent-and-complete-symbol)
+ (define-key slime-mode-map (kbd "C-c TAB") 'slime-complete-form)
+;;;; this may seem strange, but i often use the C-<whatever> motion
+;;;; commands in sequence to reformat code and having to take a finger off of control
+;;;; to add a return is a pain
+ (define-key slime-mode-map (kbd "C-<return>") 'paredit-newline)
+;;;; i hate having to take my key off of ctrl for this and i don't use complete-form anyway...
+ (define-key slime-mode-map (kbd "C-c C-i") 'slime-inspect)
+ (define-key global-map (kbd "<f12>") 'slime-selector))
 
 ; javascript-mode
 (try-this
@@ -135,5 +172,19 @@
 				try-expand-dabbrev-all-buffers) t)))
 (try-this
  (server-start))
+
+
+;; Use this for remote so I can specify command line arguments
+(defun remote-term (new-buffer-name cmd &rest switches)
+  (setq term-ansi-buffer-name (concat "*" new-buffer-name "*"))
+  (setq term-ansi-buffer-name (generate-new-buffer-name term-ansi-buffer-name))
+  (setq term-ansi-buffer-name 
+	(apply 'term-ansi-make-term term-ansi-buffer-name cmd nil switches))
+  (set-buffer term-ansi-buffer-name)
+  (term-mode)
+  (term-char-mode)
+  (term-set-escape-char ?\C-x)
+  (switch-to-buffer term-ansi-buffer-name))
+
 
 
