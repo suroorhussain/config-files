@@ -8,7 +8,7 @@
 
 ; contrib modules
 (load-module "battery-portable")
-(load "/home/jvanwink/checkout/stumpwm/contrib/surfraw.lisp")
+;(load "/home/jvanwink/checkout/stumpwm/contrib/surfraw.lisp")
 
 
 (require 'swank)

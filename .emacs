@@ -18,8 +18,9 @@
 (add-to-list 'load-path "~/.emacs.d")
 
 ; Set font
-(try-this
- (setq default-frame-alist '((font . "Monaco-7.5"))))
+(set-default-font "-unknown-Monaco-normal-normal-normal-*-18-160-*-*-*-0-iso10646-1")
+;(try-this
+; (setq default-frame-alist '((font . "Monaco-9"))))
 
 (try-independently
  (set-background-color "#080808")
@@ -61,10 +62,10 @@
  (setq ring-bell-function 'ignore)
  (setq mac-pass-command-to-system nil))
 
-(try-this
- (autoload 'python-mode "python-mode" "Python Mode." t)
- (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
- (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
+;(try-this
+; (autoload 'python-mode "python-mode" "Python Mode." t)
+; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+; (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
 
 ;; code checking via flymake
 ;; set code checker here from "epylint", "pyflakes"
@@ -115,43 +116,6 @@
  ;(add-to-list 'load-path "~/.emacs.d/slime")
  (require 'slime)
  (slime-setup '(slime-fancy slime-asdf))
- (define-key global-map (kbd "<f12>") 'slime-selector)
-
- (require 'paredit)
-
- (define-key slime-mode-map (kbd "(") 'paredit-open-parenthesis)
- (define-key slime-mode-map (kbd ")") 'paredit-close-parenthesis)
- 
- (define-key slime-mode-map (kbd "\"") 'paredit-doublequote)
- (define-key slime-mode-map (kbd "\\") 'paredit-backslash)
- 
- (define-key slime-mode-map (kbd "RET") 'paredit-newline)
- (define-key slime-mode-map (kbd "<return>") 'paredit-newline)
- (define-key slime-mode-map (kbd "C-j") 'newline)
- 
-;;;; nb: this assumes dvorak key layout
- (define-key slime-mode-map (kbd "C-h") 'backward-sexp)
- (define-key slime-mode-map (kbd "C-t") 'transpose-sexps)
- (define-key slime-mode-map (kbd "C-M-t") 'transpose-chars)
- (define-key slime-mode-map (kbd "C-n") 'forward-sexp)
- (define-key slime-mode-map (kbd "C-k") 'kill-sexp)
- (define-key slime-mode-map (kbd "C-M-k") 'paredit-kill)
- (define-key slime-mode-map (kbd "C-'") 'paredit-splice-sexp)
- (define-key slime-mode-map (kbd "C-M-l") 'paredit-recentre-on-sexp)
- (define-key slime-mode-map (kbd "C-,") 'paredit-backward-slurp-sexp)
- (define-key slime-mode-map (kbd "C-.") 'paredit-forward-slurp-sexp)
- (define-key slime-mode-map (kbd "C-<") 'paredit-backward-barf-sexp)
- (define-key slime-mode-map (kbd "C->") 'paredit-forward-barf-sexp)
- (define-key slime-mode-map (kbd "C-/") 'backward-up-list)
- (define-key slime-mode-map (kbd "C-=") 'down-list)
- (define-key slime-mode-map (kbd "TAB") 'slime-indent-and-complete-symbol)
- (define-key slime-mode-map (kbd "C-c TAB") 'slime-complete-form)
-;;;; this may seem strange, but i often use the C-<whatever> motion
-;;;; commands in sequence to reformat code and having to take a finger off of control
-;;;; to add a return is a pain
- (define-key slime-mode-map (kbd "C-<return>") 'paredit-newline)
-;;;; i hate having to take my key off of ctrl for this and i don't use complete-form anyway...
- (define-key slime-mode-map (kbd "C-c C-i") 'slime-inspect)
  (define-key global-map (kbd "<f12>") 'slime-selector))
 
 ; javascript-mode
@@ -188,3 +152,15 @@
 
 
 
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(js2-basic-offset 2))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
