@@ -21,4 +21,12 @@ if [ -d "$HOME/opt/bin" ] ; then
     PATH="$HOME/opt/bin:$PATH"
 fi
 
+# set path to see macports path, if it exists
+if [ -d "/opt/local/sbin" ] ; then
+    PATH="/opt/local/sbin:$PATH"
+fi
+
+if [ -d "/opt/local/bin" ] ; then
+    PATH="/opt/local/bin:$PATH"
+fi
 

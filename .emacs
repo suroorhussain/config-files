@@ -16,9 +16,10 @@
     (push 'progn retval)))
 
 (add-to-list 'load-path "~/.emacs.d")
-
 ; Set font
-(set-default-font "-unknown-Monaco-normal-normal-normal-*-18-160-*-*-*-0-iso10646-1")
+(try-this
+ (set-default-font "-unknown-Monaco-normal-normal-normal-*-18-160-*-*-*-0-iso10646-1"))
+
 ;(try-this
 ; (setq default-frame-alist '((font . "Monaco-9"))))
 
@@ -104,7 +105,9 @@
  (global-auto-complete-mode t))
 
 ; css-mode
+
 (try-this
+ (require 'css-mode)
  (autoload 'css-mode "css-mode" "Mode for editing CSS files" t)
  (setq auto-mode-alist
        (append '(("\\.css$" . css-mode))
@@ -112,11 +115,19 @@
 
 ; SLIME
 (try-this
- (setq inferior-lisp-program "/usr/bin/sbcl")
- ;(add-to-list 'load-path "~/.emacs.d/slime")
+ (setq inferior-lisp-program
+       (car (remove-if-not 'file-exists-p '("/usr/local/bin/sbcl" "/usr/bin/sbcl"))))
+ (setq common-lisp-hyperspec-root "~/.hyperspec")
+ (add-to-list 'load-path "~/.slime")
  (require 'slime)
- (slime-setup '(slime-fancy slime-asdf))
+ (slime-setup '(slime-fancy slime-asdf slime-sbcl-exts slime-compiler-notes-tree))
  (define-key global-map (kbd "<f12>") 'slime-selector))
+
+;icicles
+(try-this
+ (add-to-list 'load-path "~/.icicles")
+ (require 'icicles)
+ (icy-mode))
 
 ; javascript-mode
 (try-this
@@ -164,3 +175,18 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  )
+
+;; I always compile my .emacs, saves me about two seconds
+;; startuptime. But that only helps if the .emacs.elc is newer
+;; than the .emacs. So compile .emacs if it's not.
+(defun recompile-everything-under-the-sun ()
+  (interactive)
+  (dolist (path load-path)
+    (byte-recompile-directory path 0)))
+
+
+
+
+
+
+
