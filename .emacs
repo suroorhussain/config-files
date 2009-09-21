@@ -86,6 +86,31 @@
 
 (add-hook 'find-file-hook 'flymake-find-file-hook)
 
+(try-this
+ (require 'org)
+ (require 'org-publish)
+ (require 'blorg)
+ (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+ (setq org-publish-project-alist
+  (list
+   '("blog" 
+     :base-directory "~/blog/"
+     :base-extension "org"
+     :publishing-directory "/ssh:jvanwink@pythonorific.org:/srv/www/blog/"
+     :publishing-function org-publish-org-to-html
+     :auto-index t
+     :blog-base-url "http://pythonorific.org/blog/"
+     :blog-title "Pythonorific"
+     :blog-description "Blogtastic"
+     :blog-export-rss t
+     :index-function org-publish-blog-index
+     :index-filename "index.org"
+     :index-title "Pythonorific"
+     :index-posts 2
+     :preamble my-blogroll-html
+     :postamble my-footer-html)
+)))
+
  
 ;pymacs, ropemacs
 (try-this
