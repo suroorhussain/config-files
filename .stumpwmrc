@@ -7,16 +7,10 @@
 (setf *default-package* :stumpwm)
 
 ; contrib modules
-(load-module "battery-portable")
+(load-module "wifi")
 ;(load "/home/jvanwink/checkout/stumpwm/contrib/surfraw.lisp")
 
-
-(require 'swank)
-
 (defvar HOME (getenv "HOME") "home directory")
-
-(load "/usr/share/common-lisp/source/slime/swank-loader.lisp")
-(swank-loader::load-swank)
 
 (defparameter X-TERM "exec urxvt")
 
@@ -31,24 +25,31 @@
 (set-fg-color "green")
 (set-border-color "darkgreen")
 
+(setf *mode-line-timeout* 1)
 (setf *screen-mode-line-format*
-      (list ""  '(:eval (run-shell-command "date" t))))
+      (list "%I"))
 
 (defcommand modline () ()
   (toggle-mode-line (current-screen) (current-head)))
 
+(load "/home/jvanwink/.slime/swank-loader.lisp")
+(swank-loader::load-swank)
+
 (defparameter *swank-running* nil)
 (defcommand swank () ()
-	    (setf *swank-running* t)
-	    (setf stumpwm:*top-level-error-action* :break)
-	    (swank:create-server :port swank::default-server-port
-				      :style swank:*communication-style*
-				      :dont-close t))
+  (message "swank loading...")
+  (setf stumpwm:*top-level-error-action* :break)
+  (swank:create-server :port 4044
+		       :style swank:*communication-style*
+		       :dont-close t)
+  (setf *swank-running* t)
+  (message "swank loaded"))
 
 ;; keydefs 
 (define-key *top-map* (kbd "s-b") "modline") ; bar
 (define-key *top-map* (kbd "s-l") "windowlist") ; list windows
 (define-key *top-map* (kbd "s-j") "fnext") ; jump to next frame
 (define-key *top-map* (kbd "s-n") "pull-hidden-other") ; next
+(define-key *top-map* (kbd "s-m") "pull-hidden-next") ; more
 (define-key *top-map* (kbd "s-p") "exec") ; prompt
 (define-key *top-map* (kbd "s-L") "grouplist") ; grouplist

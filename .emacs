@@ -1,3 +1,5 @@
+(require 'cl)
+
 (defmacro try-this (&rest body)
   `(unwind-protect
        (let (retval (gensym))
@@ -18,7 +20,7 @@
 (add-to-list 'load-path "~/.emacs.d")
 ; Set font
 (try-this
- (set-default-font "-unknown-Monaco-normal-normal-normal-*-18-160-*-*-*-0-iso10646-1"))
+ (set-frame-font "-unknown-Monaco-normal-normal-normal-*-16-160-*-*-*-0-iso10646-1"))
 
 ;(try-this
 ; (setq default-frame-alist '((font . "Monaco-9"))))
@@ -72,43 +74,26 @@
 ;; set code checker here from "epylint", "pyflakes"
 (setq pycodechecker "pyflakes")
 (try-this
- (when (load "flymake" t)
-   (defun flymake-pycodecheck-init ()
-     (let* ((temp-file (flymake-init-create-temp-buffer-copy
-			'flymake-create-temp-inplace))
-	    (local-file (file-relative-name
-			 temp-file
-			 (file-name-directory buffer-file-name))))
-       (list "epylint" (list local-file))))
-   (add-to-list 'flymake-allowed-file-name-masks
-		'("\\.py\\'" flymake-pycodecheck-init))))
-
+ (eval-after-load "python-mode"
+   (when (load "flymake" t)
+     (defun flymake-pycodecheck-init ()
+       (let* ((temp-file (flymake-init-create-temp-buffer-copy
+			  'flymake-create-temp-inplace))
+	      (local-file (file-relative-name
+			   temp-file
+			   (file-name-directory buffer-file-name))))
+	 (list "epylint" (list local-file))))
+     (add-to-list 'flymake-allowed-file-name-masks
+		  '("\\.py\\'" flymake-pycodecheck-init)))))
 
 (add-hook 'find-file-hook 'flymake-find-file-hook)
 
- 
-;pymacs, ropemacs
-(try-this
- (require 'pymacs)
- (autoload 'pymacs-apply "pymacs")
- (autoload 'pymacs-call "pymacs")
- (autoload 'pymacs-eval "pymacs" nil t)
- (autoload 'pymacs-exec "pymacs" nil t)
- (autoload 'pymacs-load "pymacs" nil t)
-
- (pymacs-load "ropemacs" "rope-")
- (setq ropemacs-enable-autoimport t))
-
-; autocomplete-mode
 (try-this
  (require 'auto-complete)
  (global-auto-complete-mode t))
 
-; css-mode
-
 (try-this
- (require 'css-mode)
- (autoload 'css-mode "css-mode" "Mode for editing CSS files" t)
+ (autoload 'css-mode "css-mode" nil t)
  (setq auto-mode-alist
        (append '(("\\.css$" . css-mode))
 	       auto-mode-alist)))
@@ -119,9 +104,14 @@
        (car (remove-if-not 'file-exists-p '("/usr/local/bin/sbcl" "/usr/bin/sbcl"))))
  (setq common-lisp-hyperspec-root "~/.hyperspec")
  (add-to-list 'load-path "~/.slime")
- (require 'slime)
- (slime-setup '(slime-fancy slime-asdf slime-sbcl-exts slime-compiler-notes-tree))
- (define-key global-map (kbd "<f12>") 'slime-selector))
+ (autoload 'slime "slime"
+   "Start an inferior^_superior Lisp and connect to its Swank server."
+   t)
+ (autoload 'slime-mode "slime"
+   "SLIME: The Superior Lisp Interaction Mode for Emacs (minor-mode)."
+   t)
+ (eval-after-load "slime"
+   '(slime-setup '(slime-fancy slime-asdf slime-sbcl-exts slime-compiler-notes-tree))))
 
 ;icicles
 (try-this
@@ -137,31 +127,7 @@
  (add-to-list 'auto-mode-alist '("\\.\\(html\\|rng\\|xhtml\\)$" . html-mode)))
 
 (try-this
- (require 'nav))
-
-;; Bind hippie-expand
-(try-this
- (global-set-key [(meta f1)] (make-hippie-expand-function
-			      '(try-expand-dabbrev-visible
-				try-expand-dabbrev
-				try-expand-dabbrev-all-buffers) t)))
-(try-this
  (server-start))
-
-
-;; Use this for remote so I can specify command line arguments
-(defun remote-term (new-buffer-name cmd &rest switches)
-  (setq term-ansi-buffer-name (concat "*" new-buffer-name "*"))
-  (setq term-ansi-buffer-name (generate-new-buffer-name term-ansi-buffer-name))
-  (setq term-ansi-buffer-name 
-	(apply 'term-ansi-make-term term-ansi-buffer-name cmd nil switches))
-  (set-buffer term-ansi-buffer-name)
-  (term-mode)
-  (term-char-mode)
-  (term-set-escape-char ?\C-x)
-  (switch-to-buffer term-ansi-buffer-name))
-
-
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -176,9 +142,6 @@
   ;; If there is more than one, they won't work right.
  )
 
-;; I always compile my .emacs, saves me about two seconds
-;; startuptime. But that only helps if the .emacs.elc is newer
-;; than the .emacs. So compile .emacs if it's not.
 (defun recompile-everything-under-the-sun ()
   (interactive)
   (dolist (path load-path)

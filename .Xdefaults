@@ -1,0 +1,24 @@
+
+XTerm*Background: black
+XTerm*Foreground: white
+XTerm*faceName: Monaco
+XTerm*faceSize: 10
+
+XTerm*saveLines: 1000
+XTerm*HiForeColor: white
+XTerm*HiBackColor: black
+XTerm*geometry: +50+100
+
+
+urxvt.font: xft:Monaco-9
+urxvt.scrollBar: false
+urxvt.saveLines: 50000
+urxvt.urlLauncher: conkeror
+urxvt.cursorBlink: true
+
+urxvt*background:#303030
+urxvt.depth: 32
+urxvt.background: rgba:0000/0000/0000/bbbb
+urxvt.foreground: grey80
+urxvt.tintColor: #262626
+
