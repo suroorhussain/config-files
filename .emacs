@@ -88,6 +88,48 @@
 
 (add-hook 'find-file-hook 'flymake-find-file-hook)
 
+<<<<<<< HEAD:.emacs
+=======
+(try-this
+ (require 'org)
+ (require 'org-publish)
+ (require 'blorg)
+ (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+ (setq org-publish-project-alist
+  (list
+   '("blog" 
+     :base-directory "~/blog/"
+     :base-extension "org"
+     :publishing-directory "/ssh:jvanwink@pythonorific.org:/srv/www/blog/"
+     :publishing-function org-publish-org-to-html
+     :auto-index t
+     :blog-base-url "http://pythonorific.org/blog/"
+     :blog-title "Pythonorific"
+     :blog-description "Blogtastic"
+     :blog-export-rss t
+     :index-function org-publish-blog-index
+     :index-filename "index.org"
+     :index-title "Pythonorific"
+     :index-posts 2
+     :preamble my-blogroll-html
+     :postamble my-footer-html)
+)))
+
+ 
+;pymacs, ropemacs
+(try-this
+ (require 'pymacs)
+ (autoload 'pymacs-apply "pymacs")
+ (autoload 'pymacs-call "pymacs")
+ (autoload 'pymacs-eval "pymacs" nil t)
+ (autoload 'pymacs-exec "pymacs" nil t)
+ (autoload 'pymacs-load "pymacs" nil t)
+
+ (pymacs-load "ropemacs" "rope-")
+ (setq ropemacs-enable-autoimport t))
+
+; autocomplete-mode
+>>>>>>> a450d1d05f845d13955e028c4ad2a4ac41c196f0:.emacs
 (try-this
  (require 'auto-complete)
  (global-auto-complete-mode t))
