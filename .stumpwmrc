@@ -29,6 +29,41 @@
 (setf *screen-mode-line-format*
       (list "%I"))
 
+(defun shell-command (command)
+  "Run a shell command and display output to screen.
+   This must be used in a functional side-effects-free style!
+   If a program does not exit, Stumpwm might hang!"
+  (check-type command string)
+  (echo-string (current-screen) (run-shell-command command t)))
+
+(defcommand firefox () ()
+  "Start/Switchto Firefox."
+  (run-or-raise "firefox" '(:class "Firefox")))
+
+(defcommand conkeror () ()
+  "Start/Switchto Conkeror."
+  (run-or-raise "conkeror" '(:class "Conkeror")))
+
+(defcommand toggle-touchpad () ()
+  "Toggle the laptop touchpad on/off.
+   Need to have set 'Option SHMConfig' for Synaptics Touchpad
+   device in xorg.conf."
+  (let ((state (run-shell-command
+		"synclient -l | grep TouchpadOff | awk '{ print $3 }'" t)))
+    (case (string= (subseq state 0 1) "1")
+      (t (shell-command "synclient TouchpadOff=0"))
+      (otherwise (shell-command "synclient TouchpadOff=1")
+		 (banish-pointer)))))
+
+(defcommand refocus-conkeror () ()
+  "Re-focus the conkeror buffer.
+   Useful when you want to escape Flash without a mouse."
+  (shell-command "conkeror -batch -e 'if (w=window_watcher.activeWindow) {
+                     unfocus(w.buffers.current);
+                     w.minibuffer.message(\"focus regained\");
+                   }'"))
+
+
 (defcommand modline () ()
   (toggle-mode-line (current-screen) (current-head)))
 
@@ -45,6 +80,13 @@
   (setf *swank-running* t)
   (message "swank loaded"))
 
+
+; Turn off Touchpad initially
+(shell-command "synclient TouchpadOff=1")
+
+;; Get rid of cursor
+(banish-pointer)
+
 ;; keydefs 
 (define-key *top-map* (kbd "s-b") "modline") ; bar
 (define-key *top-map* (kbd "s-l") "windowlist") ; list windows
@@ -53,3 +95,10 @@
 (define-key *top-map* (kbd "s-m") "pull-hidden-next") ; more
 (define-key *top-map* (kbd "s-p") "exec") ; prompt
 (define-key *top-map* (kbd "s-L") "grouplist") ; grouplist
+
+(define-key *root-map* (kbd "f") "firefox")
+(define-key *root-map* (kbd "x") "conkeror")
+(define-key *root-map* (kbd "^") "top")
+(define-key *root-map* (kbd "T") "toggle-touchpad")
+(define-key *root-map* (kbd "X") "refocus-conkeror")
+
