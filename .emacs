@@ -65,95 +65,56 @@
  (setq ring-bell-function 'ignore)
  (setq mac-pass-command-to-system nil))
 
-;(try-this
-; (autoload 'python-mode "python-mode" "Python Mode." t)
-; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-; (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
+(try-this
+ (autoload 'python-mode "python-mode" "Python Mode." t)
+ (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+ (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
 
 ;; code checking via flymake
 ;; set code checker here from "epylint", "pyflakes"
-(setq pycodechecker "pyflakes")
-(try-this
- (eval-after-load "python-mode"
-   (when (load "flymake" t)
-     (defun flymake-pycodecheck-init ()
-       (let* ((temp-file (flymake-init-create-temp-buffer-copy
-			  'flymake-create-temp-inplace))
-	      (local-file (file-relative-name
-			   temp-file
-			   (file-name-directory buffer-file-name))))
-	 (list "epylint" (list local-file))))
-     (add-to-list 'flymake-allowed-file-name-masks
-		  '("\\.py\\'" flymake-pycodecheck-init)))))
+;; (setq pycodechecker "pyflakes")
+;; (try-this
+;;  (eval-after-load "python-mode"
+;;    (when (load "flymake" t)
+;;      (defun flymake-pycodecheck-init ()
+;;        (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;; 			  'flymake-create-temp-inplace))
+;; 	      (local-file (file-relative-name
+;; 			   temp-file
+;; 			   (file-name-directory buffer-file-name))))
+;; 	 (list "epylint" (list local-file))))
+;;      (add-to-list 'flymake-allowed-file-name-masks
+;; 		  '("\\.py\\'" flymake-pycodecheck-init)))))
 
-(add-hook 'find-file-hook 'flymake-find-file-hook)
-
-<<<<<<< HEAD:.emacs
-=======
 (try-this
+ (require 'htmlize)
  (require 'org)
  (require 'org-publish)
- (require 'blorg)
+ (require 'org-blog)
  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
  (setq org-publish-project-alist
-  (list
-   '("blog" 
-     :base-directory "~/blog/"
-     :base-extension "org"
-     :publishing-directory "/ssh:jvanwink@pythonorific.org:/srv/www/blog/"
-     :publishing-function org-publish-org-to-html
-     :auto-index t
-     :blog-base-url "http://pythonorific.org/blog/"
-     :blog-title "Pythonorific"
-     :blog-description "Blogtastic"
-     :blog-export-rss t
-     :index-function org-publish-blog-index
-     :index-filename "index.org"
-     :index-title "Pythonorific"
-     :index-posts 2
-     :preamble my-blogroll-html
-     :postamble my-footer-html)
-)))
+       (list
+	'("blog" 
+	  :author "Justin Van Winkle"
+	  :email "justin.vanwinkle@gmail.com"
+	  :base-directory "/home/jvanwink/blog/"
+	  :base-extension "org"
+	  :publishing-directory "/ssh:jvanwink@pythonorific.org:/srv/www/blog/"
+	  :publishing-function org-publish-org-to-html
+	  :auto-index t
+	  :blog-base-url "http://pythonorific.org/blog/"
+	  :blog-title "Pythonorific"
+	  :blog-description "Blogtastic"
+	  :blog-export-rss t
+	  ;:index-function org-publish-blog-index
+	  :index-filename "index.org"
+	  :index-title "Pythonorific"
+	  :index-posts 2
+	  :style "<style>pre.src {color:#e6e3d8; background:#080808;}</style><link rel=stylesheet href=\"../other/mystyle.css\" type=\"text/css\">"
+	  :preamble ""; my-blogroll-html
+	  :postamble ""))))
 
- 
-;pymacs, ropemacs
-(try-this
- (require 'pymacs)
- (autoload 'pymacs-apply "pymacs")
- (autoload 'pymacs-call "pymacs")
- (autoload 'pymacs-eval "pymacs" nil t)
- (autoload 'pymacs-exec "pymacs" nil t)
- (autoload 'pymacs-load "pymacs" nil t)
-
- (pymacs-load "ropemacs" "rope-")
- (setq ropemacs-enable-autoimport t))
-
-; autocomplete-mode
->>>>>>> a450d1d05f845d13955e028c4ad2a4ac41c196f0:.emacs
-(try-this
- (require 'org)
- (require 'org-publish)
- (require 'blorg)
- (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
- (setq org-publish-project-alist
-  (list
-   '("blog" 
-     :base-directory "~/blog/"
-     :base-extension "org"
-     :publishing-directory "/ssh:jvanwink@pythonorific.org:/srv/www/blog/"
-     :publishing-function org-publish-org-to-html
-     :auto-index t
-     :blog-base-url "http://pythonorific.org/blog/"
-     :blog-title "Pythonorific"
-     :blog-description "Blogtastic"
-     :blog-export-rss t
-     :index-function org-publish-blog-index
-     :index-filename "index.org"
-     :index-title "Pythonorific"
-     :index-posts 2
-     :preamble my-blogroll-html
-     :postamble my-footer-html)
-)))
+(setq org-publish-blog-index ())
 
 (try-this
  (require 'auto-complete)
@@ -201,7 +162,8 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(js2-basic-offset 2))
+ '(js2-basic-offset 2)
+ '(org-export-html-style-include-default nil))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
