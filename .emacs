@@ -99,7 +99,7 @@
 	  :email "justin.vanwinkle@gmail.com"
 	  :base-directory "/home/jvanwink/blog/"
 	  :base-extension "org"
-	  :publishing-directory "/ssh:jvanwink@pythonorific.org:/srv/www/blog/"
+	  :publishing-directory "~/.blog_deploy"
 	  :publishing-function org-publish-org-to-html
 	  :auto-index t
 	  :blog-base-url "http://pythonorific.org/blog/"
@@ -110,9 +110,19 @@
 	  :index-filename "index.org"
 	  :index-title "Pythonorific"
 	  :index-posts 2
-	  :style "<style>pre.src {color:#e6e3d8; background:#080808;}</style><link rel=stylesheet href=\"../other/mystyle.css\" type=\"text/css\">"
-	  :preamble ""; my-blogroll-html
-	  :postamble ""))))
+	  :style "<style>pre.src {color:#e6e3d8; background:#080808;}</style><link rel=stylesheet href=\"files/style.css\" type=\"text/css\">"
+	  :preamble "<div id=\"header\"><h1>Pythonorific</h1></div>"
+	  :postamble "")
+	'("images" :base-directory "~/blog/images/"
+ 	             :base-extension "jpg\\|gif\\|png"
+ 		     :publishing-directory "~/.blog_deploy/images/"
+ 		     :publishing-function org-publish-attachment)
+
+	'("other"  :base-directory "~/blog/files/"
+ 	   	     :base-extension "css"
+ 		     :publishing-directory "~/.blog_deploy/files/"
+ 		     :publishing-function org-publish-attachment)
+	'("website" :components ("orgfiles" "images" "other")))))
 
 (setq org-publish-blog-index ())
 
