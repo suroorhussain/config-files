@@ -17,15 +17,16 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi 
-
 if [ -d "$HOME/opt/bin" ] ; then
     PATH="$HOME/opt/bin:$PATH"
 fi
 
-# set path to see macports path, if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi 
+
+
+# add macports path, if it exists
 if [ -d "/opt/local/sbin" ] ; then
     PATH="/opt/local/sbin:$PATH"
 fi

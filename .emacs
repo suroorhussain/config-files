@@ -26,28 +26,28 @@
 ; (setq default-frame-alist '((font . "Monaco-9"))))
 
 (try-independently
- (set-background-color "#080808")
- (set-foreground-color "#e6e3d8")
+ (set-background-color "#060606")
+ (set-foreground-color "#c0c0c0")
  (set-cursor-color "#656565")
- (set-face-foreground 'font-lock-comment-face "#99968b")
+ (set-face-foreground 'font-lock-comment-face "#303030")
  (set-face-italic-p 'font-lock-comment-face t)
- (set-face-foreground 'font-lock-doc-face "#99968b")
+ (set-face-foreground 'font-lock-doc-face "#090909")
  (set-face-italic-p 'font-lock-doc-face t)
  (set-face-foreground 'font-lock-constant-face "#e5786d")
- (set-face-foreground 'font-lock-string-face "#95e454")
+ (set-face-foreground 'font-lock-string-face "#908080")
  (set-face-italic-p 'font-lock-string-face t)
- (set-face-foreground 'font-lock-variable-name-face "#cae682")
- (set-face-foreground 'font-lock-function-name-face "#cae682")
+ (set-face-foreground 'font-lock-variable-name-face "#7a0402")
+ (set-face-foreground 'font-lock-function-name-face "#992020")
  (set-face-foreground 'font-lock-type-face "#cae682")
- (set-face-foreground 'font-lock-builtin-face "#8ac6f2")
- (set-face-foreground 'font-lock-keyword-face "#8ac6f2")
+ (set-face-foreground 'font-lock-builtin-face "#3030c0")
+ (set-face-foreground 'font-lock-keyword-face "#8080ff")
  (set-face-foreground 'font-lock-preprocessor-face "#e5786d")
- (set-face-foreground 'font-lock-negation-char-face "#e7f6da")
+ (set-face-foreground 'font-lock-negation-char-face "#dd0000")
  (set-face-foreground 'link "#8ac6f2")
  (set-face-bold-p 'link t)
  (set-face-underline-p 'link t)
- (set-face-foreground 'show-paren-match "#f6f3e8")
- (set-face-background 'show-paren-match "#857b6f")
+ (set-face-foreground 'show-paren-match "#006900")
+ (set-face-background 'show-paren-match "#000000")
  (set-face-bold-p 'show-paren-match t)
  (set-face-foreground 'region "#f6f3e8")
  (set-face-background 'region "#444444")
@@ -66,25 +66,29 @@
  (setq mac-pass-command-to-system nil))
 
 (try-this
+ (autoload 'yaml-mode "yaml-mode" "yaml Mode." t)
+ (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
+
+(try-this
  (autoload 'python-mode "python-mode" "Python Mode." t)
  (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
  (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
 
-;; code checking via flymake
-;; set code checker here from "epylint", "pyflakes"
-;; (setq pycodechecker "pyflakes")
-;; (try-this
-;;  (eval-after-load "python-mode"
-;;    (when (load "flymake" t)
-;;      (defun flymake-pycodecheck-init ()
-;;        (let* ((temp-file (flymake-init-create-temp-buffer-copy
-;; 			  'flymake-create-temp-inplace))
-;; 	      (local-file (file-relative-name
-;; 			   temp-file
-;; 			   (file-name-directory buffer-file-name))))
-;; 	 (list "epylint" (list local-file))))
-;;      (add-to-list 'flymake-allowed-file-name-masks
-;; 		  '("\\.py\\'" flymake-pycodecheck-init)))))
+code checking via flymake
+set code checker here from "epylint", "pyflakes"
+(setq pycodechecker "pyflakes")
+(try-this
+ (eval-after-load "python-mode"
+   (when (load "flymake" t)
+     (defun flymake-pycodecheck-init ()
+       (let* ((temp-file (flymake-init-create-temp-buffer-copy
+			  'flymake-create-temp-inplace))
+	      (local-file (file-relative-name
+			   temp-file
+			   (file-name-directory buffer-file-name))))
+	 (list "epylint" (list local-file))))
+     (add-to-list 'flymake-allowed-file-name-masks
+		  '("\\.py\\'" flymake-pycodecheck-init)))))
 
 (try-this
  (require 'htmlize)
