@@ -95,6 +95,7 @@ set code checker here from "epylint", "pyflakes"
  (require 'org)
  (require 'org-publish)
  (require 'org-blog)
+ (setq org-hide-leading-stars t)
  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
  (setq org-publish-project-alist
        (list
