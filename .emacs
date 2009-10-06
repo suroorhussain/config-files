@@ -18,9 +18,15 @@
     (push 'progn retval)))
 
 (add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/color-theme")
+(try-this
+ (require 'color-theme)
+ (color-theme-initialize)
+ (color-theme-billw))
+
 ; Set font
 (try-this
- (set-frame-font "-unknown-Monaco-normal-normal-normal-*-16-160-*-*-*-0-iso10646-1"))
+ (set-frame-font "Consolas-13"))
 
 ;(try-this
 ; (setq default-frame-alist '((font . "Monaco-9"))))
@@ -71,24 +77,24 @@
 
 (try-this
  (autoload 'python-mode "python-mode" "Python Mode." t)
- (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+ (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
  (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
 
-code checking via flymake
-set code checker here from "epylint", "pyflakes"
+;code checking via flymake
+;set code checker here from "epylint", "pyflakes"
 (setq pycodechecker "pyflakes")
-(try-this
- (eval-after-load "python-mode"
-   (when (load "flymake" t)
-     (defun flymake-pycodecheck-init ()
-       (let* ((temp-file (flymake-init-create-temp-buffer-copy
-			  'flymake-create-temp-inplace))
-	      (local-file (file-relative-name
-			   temp-file
-			   (file-name-directory buffer-file-name))))
-	 (list "epylint" (list local-file))))
-     (add-to-list 'flymake-allowed-file-name-masks
-		  '("\\.py\\'" flymake-pycodecheck-init)))))
+(try-this    
+ (when (load "flymake" t)
+   (defun flymake-pylint-init ()
+     (let* ((temp-file (flymake-init-create-temp-buffer-copy
+			'flymake-create-temp-inplace))
+	    (local-file (file-relative-name
+			 temp-file
+			 (file-name-directory buffer-file-name))))
+       (list "epylint" (list local-file))))
+   
+   (add-to-list 'flymake-allowed-file-name-masks
+		'("\\.py\\'" flymake-pylint-init))))
 
 (try-this
  (require 'htmlize)
