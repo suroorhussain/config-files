@@ -35,3 +35,7 @@ if [ -d "/opt/local/bin" ] ; then
     PATH="/opt/local/bin:$PATH"
 fi
 
+# add macports path, if it exists
+if [ -d "/opt/local/lib/postgresql84/bin/" ] ; then
+    PATH="/opt/local/lib/postgresql84/bin/:$PATH"
+fi
