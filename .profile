@@ -35,7 +35,11 @@ if [ -d "/opt/local/bin" ] ; then
     PATH="/opt/local/bin:$PATH"
 fi
 
-# add macports path, if it exists
-if [ -d "/opt/local/lib/postgresql84/bin/" ] ; then
-    PATH="/opt/local/lib/postgresql84/bin/:$PATH"
+# add android path, if it exists
+if [ -d "/opt/android-sdk-linux_86/tools/" ] ; then
+    PATH="/opt/android-sdk-linux_86/tools/:$PATH"
+fi
+
+if [ -d "$HOME/.cabal/bin" ] ; then
+    PATH=$PATH:~/.cabal/bin
 fi

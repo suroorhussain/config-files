@@ -102,3 +102,8 @@ fi
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
+
+if [ -x /pluto/local/activate-environment ]; then
+    . /pluto/local/activate-environment 
+fi
+
