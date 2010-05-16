@@ -33,6 +33,8 @@ fi
 
 if [ -d "/opt/local/bin" ] ; then
     PATH="/opt/local/bin:$PATH"
+    LIBRARY_PATH="/opt/local/include:$LIBRARY_PATH"
+    LD_LIBRARY_PATH="/opt/local/lib:$LD_LIBRARY_PATH"
 fi
 
 # add android path, if it exists
@@ -52,3 +54,6 @@ if [ -d "/pluto/pycloud/apps/utils/bin" ] ; then
     PATH=$PATH:/pluto/pycloud/apps/utils/bin
 fi
 
+if [ -d "/opt/local/lib/postgresql84/bin/" ] ; then
+    PATH="/opt/local/lib/postgresql84/bin/:$PATH"
+fi
