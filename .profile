@@ -43,3 +43,12 @@ fi
 if [ -d "$HOME/.cabal/bin" ] ; then
     PATH=$PATH:~/.cabal/bin
 fi
+
+if [ -d "/var/lib/gems/1.8/bin" ] ; then
+    PATH=$PATH:/var/lib/gems/1.8/bin
+fi
+
+if [ -d "/pluto/pycloud/apps/utils/bin" ] ; then
+    PATH=$PATH:/pluto/pycloud/apps/utils/bin
+fi
+
