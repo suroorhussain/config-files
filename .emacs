@@ -47,7 +47,7 @@
 
 ; Set font
 (try-this
- (set-frame-font "Menlo-12.5"))
+ (set-frame-font "DejaVu Sans Mono-10"))
 
 (try-this
  (column-number-mode 1))
@@ -86,63 +86,75 @@
  (autoload 'yaml-mode "yaml-mode" "yaml Mode." t)
  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
 
-(try-this
- (autoload 'python-mode "python-mode" "Python Mode." t)
- (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
- (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
+;(try-this
+; (autoload 'python-mode "python-mode" "Python Mode." t)
+; (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+; (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
 
 ;code checking via flymake
-;set code checker here from "epylint", "pyflakes"
-(try-this
+(try-this    
  (when (load "flymake" t)
    (defun flymake-pylint-init ()
-     (list "ssh" (list
-		  "captcrunch" "/pluto/pycloud/apps/emacs/bin/lintrunner.sh"
-		  buffer-file-name)))
-   (defun flymake-display-warning (warning)
-     "Display a warning to the user, using lwarn"
-     (message warning))
+     (list "/pluto/pycloud/apps/emacs/bin/lintrunner.py" 
+	   (list buffer-file-name)))
+
+;set code checker here from "epylint", "pyflakes"
+;(try-this
+; (when (load "flymake" t)
+;   (defun flymake-pylint-init ()
+;     (list "ssh" (list;
+;		  "captcrunch" "/pluto/pycloud/apps/emacs/bin/lintrunner.sh"
+;		  buffer-file-name)))
+;   (defun flymake-display-warning (warning)
+;     "Display a warning to the user, using lwarn"
+;     (message warning))
 
    (add-to-list 'flymake-allowed-file-name-masks
-		'("\\.py\\'" flymake-pylint-init))))
+        '("^[^\*]+\\.py$" flymake-pylint-init))))
 
 (try-this
+ (require 'htmlize)
+ (require 'org)
+ (require 'org-publish)
+ (require 'org-blog)
+ (setq org-hide-leading-stars t)
+ (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+
+ (setq org-publish-project-alist
+       (list
+    '("blog" 
+      :author "Justin Van Winkle"
+      :email "justin.vanwinkle@gmail.com"
+      :base-directory "/home/jvanwink/blog/"
+      :base-extension "org"
+      :publishing-directory "~/.blog_deploy"
+      :publishing-function org-publish-org-to-html
+      :auto-index t
+      :blog-base-url "http://pythonorific.org/blog/"
+      :blog-title "Pythonorific"
+      :blog-description "Blogtastic"
+      :blog-export-rss t
+      ;:index-function org-publish-blog-index
+      :index-filename "index.org"
+      :index-title "Pythonorific"
+      :index-posts 2
+      :style "<style>pre.src {color:#e6e3d8; background:#080808;}</style><link rel=stylesheet href=\"files/style.css\" type=\"text/css\">"
+      :preamble "<div id=\"header\"><h1>Pythonorific</h1></div>"
+      :postamble "")
+    '("images" :base-directory "~/blog/images/"
+                 :base-extension "jpg\\|gif\\|png"
+             :publishing-directory "~/.blog_deploy/images/"
+             :publishing-function org-publish-attachment)
+
+    '("other"  :base-directory "~/blog/files/"
+             :base-extension "css"
+             :publishing-directory "~/.blog_deploy/files/"
+             :publishing-function org-publish-attachment)
+    '("website" :components ("orgfiles" "images" "other")))))
+
  (add-hook 'python-mode-hook '(lambda ()
 				(if (not (null buffer-file-name)) (flymake-mode)))))
 
-
-;; (try-independently
-;;  (set-background-color "#040A04")
-;;  (set-foreground-color "#EEEEEE")
-;;  (set-cursor-color "#656565")
-;;  (set-face-background 'flymake-errline "#500000")
-;;  (set-face-foreground 'flymake-errline "#FFFFFF")
-;;  (set-face-background 'flymake-warnline "#000050")
-;;  (set-face-foreground 'flymake-warnline "#FFFFFF")
-;;  (set-face-foreground 'font-lock-comment-face "#555540")
-;;  (set-face-italic-p 'font-lock-comment-face nil)
-;;  (set-face-foreground 'font-lock-doc-face "#393939")
-;;  (set-face-italic-p 'font-lock-doc-face t)
-;;  (set-face-foreground 'font-lock-constant-face "#e5786d")
-;;  (set-face-foreground 'font-lock-string-face "#908080")
-;;  (set-face-italic-p 'font-lock-string-face nil)
-;;  (set-face-foreground 'font-lock-variable-name-face "#7a0402")
-;;  (set-face-foreground 'font-lock-function-name-face "#992020")
-;;  (set-face-foreground 'font-lock-type-face "#cae682")
-;;  (set-face-foreground 'font-lock-builtin-face "#3030c0")
-;;  (set-face-foreground 'font-lock-keyword-face "#8080ff")
-;;  (set-face-foreground 'font-lock-preprocessor-face "#e5786d")
-;;  (set-face-foreground 'font-lock-negation-char-face "#990000")
-;;  (set-face-foreground 'link "#8ac6f2")
-;;  (set-face-bold-p 'link t)
-;;  (set-face-underline-p 'link t)
-;;  (set-face-foreground 'show-paren-match "#000000")
-;;  (set-face-background 'show-paren-match "#40FFC0")
-;;  (set-face-bold-p 'show-paren-match t)
-;;  (set-face-foreground 'region "#f6f3e8")
-;;  (set-face-background 'region "#444444")
-;;  (set-face-foreground 'lazy-highlight "black")
-;;  (set-face-background 'lazy-highlight "yellow"))
 
 (setq org-publish-blog-index ())
 
@@ -154,25 +166,7 @@
  (autoload 'css-mode "css-mode" nil t)
  (setq auto-mode-alist
        (append '(("\\.css$" . css-mode))
-	       auto-mode-alist)))
-
-; SLIME
-(try-this
- (setq inferior-lisp-program
-       (car (remove-if-not 'file-exists-p
-			   '("/usr/local/bin/sbcl" "/usr/bin/sbcl"))))
- (setq common-lisp-hyperspec-root "~/.hyperspec")
- (add-to-list 'load-path "~/.slime")
- (autoload 'slime "slime"
-   "Start an inferior^_superior Lisp and connect to its Swank server."
-   t)
- (autoload 'slime-mode "slime"
-   "SLIME: The Superior Lisp Interaction Mode for Emacs (minor-mode)."
-   t)
- (eval-after-load "slime"
-   '(slime-setup '(slime-fancy slime-asdf
-			       slime-sbcl-exts
-			       slime-compiler-notes-tree))))
+           auto-mode-alist)))
 
 ;icicles
 ;(try-this
