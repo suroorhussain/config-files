@@ -47,7 +47,7 @@
 
 ; Set font
 (try-this
- (set-frame-font "DejaVu Sans Mono-10"))
+ (set-frame-font "DejaVu Sans Mono-8"))
 
 (try-this
  (column-number-mode 1))
@@ -83,6 +83,17 @@
 
 
 (try-this
+ (require 'sql)
+ (defun sql-add-newline-first (output)
+   "Add newline to beginning of OUTPUT for `comint-preoutput-filter-functions'"
+   (concat "\n" output))
+ (defun sqli-add-hooks ()
+   "Add hooks to `sql-interactive-mode-hook'."
+   (add-hook 'comint-preoutput-filter-functions
+	     'sql-add-newline-first))
+ (add-hook 'sql-interactive-mode-hook 'sqli-add-hooks))
+
+(try-this
  (autoload 'yaml-mode "yaml-mode" "yaml Mode." t)
  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
 
@@ -92,11 +103,15 @@
 ; (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
 
 ;code checking via flymake
-(try-this    
+(try-this
  (when (load "flymake" t)
    (defun flymake-pylint-init ()
-     (list "/pluto/pycloud/apps/emacs/bin/lintrunner.py" 
+     (list "/pluto/pycloud/apps/emacs/bin/lintrunner.py"
 	   (list buffer-file-name)))
+
+   (add-to-list 'flymake-allowed-file-name-masks
+        '("^[^\*]+\\.py$" flymake-pylint-init))))
+
 
 ;set code checker here from "epylint", "pyflakes"
 ;(try-this
@@ -109,9 +124,6 @@
 ;     "Display a warning to the user, using lwarn"
 ;     (message warning))
 
-   (add-to-list 'flymake-allowed-file-name-masks
-        '("^[^\*]+\\.py$" flymake-pylint-init))))
-
 (try-this
  (require 'htmlize)
  (require 'org)
@@ -122,7 +134,7 @@
 
  (setq org-publish-project-alist
        (list
-    '("blog" 
+    '("blog"
       :author "Justin Van Winkle"
       :email "justin.vanwinkle@gmail.com"
       :base-directory "/home/jvanwink/blog/"
@@ -151,10 +163,6 @@
              :publishing-directory "~/.blog_deploy/files/"
              :publishing-function org-publish-attachment)
     '("website" :components ("orgfiles" "images" "other")))))
-
- (add-hook 'python-mode-hook '(lambda ()
-				(if (not (null buffer-file-name)) (flymake-mode)))))
-
 
 (setq org-publish-blog-index ())
 
