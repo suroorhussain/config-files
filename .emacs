@@ -41,7 +41,9 @@
 (global-set-key [mouse-16] 'revert-buffer)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs)
+(try-this
+ (require 'show-wspace)
+ (add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs)
 
 (try-this
  (require 'color-theme)
