@@ -76,7 +76,7 @@ speedbar, tex, view, viper, w3m, widget, woman"
   (color-theme-install
    `(color-theme-justin
      ;; Frame parameters
-     ((foreground-color . "light gray")
+     ((foreground-color . "gray")
       (background-color . "black")
       (mouse-color      . "khaki")
       (cursor-color     . "aquamarine")
@@ -140,25 +140,25 @@ speedbar, tex, view, viper, w3m, widget, woman"
 
       (widget-mouse-face . highlight))
      ;; Faces
-     (default ((t (:background "gray4" :foreground "light gray"
+     (default ((t (:background "gray4" :foreground "gray"
                    :stipple nil :box nil :strike-through nil :overline nil
                    :underline nil :slant normal :weight normal
                    :inverse-video nil))))
 
      (font-lock-builtin-face ((t (:foreground "sandy brown"))))
      (font-lock-color-constant-face ((t (:foreground "khaki"))))
-     (font-lock-comment-face ((t (:foreground "midnight blue"))))
+     (font-lock-comment-face ((t (:foreground "gray14"))))
      (font-lock-comment-delimiter-face ((t (:foreground "midnight blue"))))
      (font-lock-constant-face ((t (:foreground "pale violet red"))))
      (font-lock-doc-face ((t (:foreground "khaki"))))
      (font-lock-doc-string-face ((t (:foreground "medium purple"))))
-     (font-lock-function-name-face ((t (:foreground "red4"))))
+     (font-lock-function-name-face ((t (:foreground "firebrick"))))
      (font-lock-keyword-face ((t (:foreground "steel blue"))))
      (font-lock-preprocessor-face ((t (:foreground "khaki"))))
      (font-lock-reference-face ((t (:foreground "khaki"))))
-     (font-lock-string-face ((t (:foreground "SpringGreen4"))))
+     (font-lock-string-face ((t (:foreground "dark slate grey"))))
      (font-lock-negation-char-face ((t (:forground "dark red"))))
-     (font-lock-type-face ((t (:foreground "medium sea green"))))
+     (font-lock-type-face ((t (:foreground "SeaGreen3" :weight bold))))
      (font-lock-variable-name-face ((t (:foreground "IndianRed1"))))
      (font-lock-warning-face ((t (:background "indian red" :foreground "white"))))
 
