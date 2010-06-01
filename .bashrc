@@ -43,12 +43,12 @@ force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
 fi
 
@@ -79,7 +79,7 @@ fi
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     eval "`dircolors -b`"
-    alias ls='ls --color=auto'	
+    alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 
@@ -90,11 +90,12 @@ fi
 
 #if macports and coreutils installed
 if [ -x /opt/local/bin/gls ]; then
-    alias ls='gls --color=auto'	
+    alias ls='gls --color=auto'
 fi
 
 
-alias fg='find | grep -v \.pyc$ | grep'
+alias gf='find | grep -v \.pyc$ | grep'
+alias ggf='git ls-files | grep'
 # some more ls aliases
 #alias ll='ls -l'
 #alias la='ls -A'
@@ -108,6 +109,6 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 if [ -x /pluto/local/activate-environment ]; then
-    . /pluto/local/activate-environment 
+    . /pluto/local/activate-environment
 fi
 

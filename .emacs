@@ -1,22 +1,21 @@
 (require 'cl)
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/color-theme")
-(add-to-list 'load-path "~/.emacs.d/predictive")
 
 (defmacro try-this (&rest body)
   `(unwind-protect
        (let (retval (gensym))
-	 (condition-case ex
-	     (setq retval (progn ,@body))
-	   ('error
-	    (message (format "Caught exception: [%s]" ex))
-	    (setq retval (cons 'exception (list ex)))))
-	 retval)))
+         (condition-case ex
+             (setq retval (progn ,@body))
+           ('error
+            (message (format "Caught exception: [%s]" ex))
+            (setq retval (cons 'exception (list ex)))))
+         retval)))
 
 (defmacro try-independently (&rest body)
   (let (retval (gensym))
     (dolist (x body retval) ()
-	    (push `(try-this ,x) retval))
+            (push `(try-this ,x) retval))
     (setq retval (reverse retval))
     (push 'progn retval)))
 
@@ -33,7 +32,6 @@
 
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "M-RET") 'ns-toggle-fullscreen)
-;(global-set-key (kbd "M-c") 'whitespace-cleanup)
 (global-set-key (kbd "C-\\") 'condense-whitespace)
 (global-set-key (kbd "C-;") 'dabbrev-expand)
 (global-set-key (kbd "<M-f12>") 'revert-buffer)
@@ -41,9 +39,11 @@
 (global-set-key [mouse-16] 'revert-buffer)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs)
+
 (try-this
  (require 'show-wspace)
- (add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs)
+ (add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs))
 
 (try-this
  (require 'color-theme)
@@ -63,13 +63,6 @@
  (require 'ido)
  (ido-mode t)
  (setq ido-enable-flex-matching t))
-;(try-this
-; (setq default-frame-alist '((font . "Monaco-9"))))
-
-;(try-this
- ;(require 'sql)
- ;(defalias 'sql-get-login 'ignore))
-
 
 ; Setup menu's etc.
 (try-independently
@@ -78,7 +71,6 @@
  (tool-bar-mode -1)
  (menu-bar-mode -1)
  (tooltip-mode -1)
- (fringe-mode 'minimal)
  (setq inhibit-startup-message t)
  (setq require-final-newline t)
  (setq ring-bell-function 'ignore)
@@ -98,7 +90,7 @@
  (defun sqli-add-hooks ()
    "Add hooks to `sql-interactive-mode-hook'."
    (add-hook 'comint-preoutput-filter-functions
-	     'sql-add-newline-first))
+             'sql-add-newline-first))
  (add-hook 'sql-interactive-mode-hook 'sqli-add-hooks))
 
 (try-this

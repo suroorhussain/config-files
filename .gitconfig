@@ -1,12 +1,24 @@
 [user]
-	name = Justin Van Winkle
-	email = justin.vanwinkle@gmail.com
+    name = Justin Van Winkle
+    email = justin.vanwinkle@gmail.com
+
+[push]
+    default = matching
 
 [alias]
-    ci = commit -a
-    co = checkout
+    lc = log -p --color
+    merge = merge --no-ff
+    grep = grep --color
+    gf = grep
+    ci = commit -am
     st = status -a
 
+[log]
+    color = auto
+    
+[grep]
+    color = auto
+    
 [apply]
     whitespace = strip
 
