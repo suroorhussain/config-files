@@ -147,7 +147,7 @@ speedbar, tex, view, viper, w3m, widget, woman"
 
      (font-lock-builtin-face ((t (:foreground "sandy brown"))))
      (font-lock-color-constant-face ((t (:foreground "khaki"))))
-     (font-lock-comment-face ((t (:foreground "gray14"))))
+     (font-lock-comment-face ((t (:foreground "gray30"))))
      (font-lock-comment-delimiter-face ((t (:foreground "midnight blue"))))
      (font-lock-constant-face ((t (:foreground "pale violet red"))))
      (font-lock-doc-face ((t (:foreground "khaki"))))
