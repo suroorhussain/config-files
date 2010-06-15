@@ -95,6 +95,7 @@ fi
 
 
 alias gf='find | grep -v \.pyc$ | grep'
+alias fa='find | ack-grep'
 alias ggf='git ls-files | grep'
 # some more ls aliases
 #alias ll='ls -l'
