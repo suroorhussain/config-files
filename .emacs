@@ -136,9 +136,6 @@
 
  (add-to-list 'auto-mode-alist '("\\.\\(html\\|rng\\|xhtml\\)$" . html-mode)))
 
-(try-this
- (server-start))
-
 (defun recompile-everything-under-the-sun ()
   (interactive)
   (dolist (path load-path)
