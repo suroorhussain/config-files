@@ -113,3 +113,4 @@ if [ -x /pluto/local/activate-environment ]; then
     . /pluto/local/activate-environment
 fi
 
+. ~/.profile

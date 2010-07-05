@@ -11,14 +11,15 @@
     grep = grep --color
     gf = grep
     ci = commit -am
-    st = status -a
+    st = status -a\
+    rb = !sh -c 'git checkout --track -b $1 origin/$1'
 
 [log]
     color = auto
-    
+
 [grep]
     color = auto
-    
+
 [apply]
     whitespace = strip
 

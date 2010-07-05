@@ -25,17 +25,18 @@
   (save-excursion
     (save-restriction
       (save-match-data
-	(progn
-	  (re-search-backward "[^ \t\r\n]" nil t)
-	  (re-search-forward "[ \t\r\n]+" nil t)
-	  (replace-match " " nil nil))))))
+        (progn
+          (re-search-backward "[^ \t\r\n]" nil t)
+          (re-search-forward "[ \t\r\n]+" nil t)
+          (replace-match " " nil nil))))))
 
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "M-RET") 'ns-toggle-fullscreen)
 (global-set-key (kbd "C-\\") 'condense-whitespace)
 (global-set-key (kbd "C-;") 'dabbrev-expand)
-(global-set-key (kbd "<M-f12>") 'revert-buffer)
+(global-set-key (kbd "<XF86Launch1>") 'revert-buffer)
 (global-set-key (kbd "M-c") 'kill-ring-save)
+(global-set-key (kbd "s-N") 'flymake-goto-next-error)
 (global-set-key [mouse-16] 'revert-buffer)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -53,7 +54,7 @@
 
 ; Set font
 (try-this
- (set-frame-font "DejaVu Sans Mono-12")
+ (set-frame-font "DejaVu Sans Mono-9")
  (set-frame-font "Menlo-12"))
 
 (try-this
@@ -101,21 +102,13 @@
 (try-this
  (when (load "flymake" t)
    (defun flymake-pylint-init ()
-     (list "/pluto/pycloud/apps/emacs/bin/lintrunner.py"
-	   (list buffer-file-name)))
+     (list "/pluto/pycloud/apps/emacs/bin/lintrunner.sh"
+           (list buffer-file-name)))
 
    (add-to-list 'flymake-allowed-file-name-masks
-        '("^[^\*]+\\.py$" flymake-pylint-init))))
-
-;(try-this
-;(when (load "flymake" t)
-;  (defun flymake-pylint-init ()
-;    (list "ssh" (list
-;		  "captcrunch" "/pluto/pycloud/apps/emacs/bin/lintrunner.sh"
-;		  buffer-file-name)))
-;  (defun flymake-display-warning (warning)
-;    "Display a warning to the user, using lwarn"
-;    (message warning))
+        '("^[^\*]+\\.py$" flymake-pylint-init)))
+ (add-hook 'python-mode-hook '(lambda ()
+                                (if (not (null buffer-file-name)) (flymake-mode)))))
 
 (try-this
  (autoload 'css-mode "css-mode" nil t)
