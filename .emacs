@@ -54,7 +54,7 @@
 
 ; Set font
 (try-this
- (set-frame-font "DejaVu Sans Mono-9")
+ (set-frame-font "DejaVu Sans Mono-8.5")
  (set-frame-font "Menlo-12"))
 
 (try-this

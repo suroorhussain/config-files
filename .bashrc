@@ -17,6 +17,9 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
+if [ -d "$HOME/.gem/ruby/1.8/bin" ] ; then
+    PATH="$HOME/.gem/ruby/1.8/bin:$PATH"
+fi
 
 # add macports path, if it exists
 if [ -d "/opt/local/sbin" ] ; then

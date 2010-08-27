@@ -1,18 +1,16 @@
 [user]
     name = Justin Van Winkle
-    email = justin.vanwinkle@gmail.com
+    email = justin@milo.com
 
 [push]
     default = matching
 
 [alias]
-    lc = log -p --color
-    merge = merge --no-ff
-    grep = grep --color
-    gf = grep
+    merge = merge --ff-only
+    pull = pull --ff-only
     ci = commit -am
-    st = status -a\
     rb = !sh -c 'git checkout --track -b $1 origin/$1'
+    w = diff -M -w --color-words
 
 [log]
     color = auto
@@ -32,3 +30,5 @@
 
 [status]
     color = auto
+[color]
+    ui = true
