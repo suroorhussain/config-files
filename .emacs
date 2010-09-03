@@ -1,6 +1,7 @@
 (require 'cl)
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/color-theme")
+(add-to-list 'load-path "~/.emacs.d/icicles")
 
 (defmacro try-this (&rest body)
   `(unwind-protect
@@ -60,10 +61,10 @@
 (try-this
  (column-number-mode 1))
 
-(try-this
- (require 'ido)
- (ido-mode t)
- (setq ido-enable-flex-matching t))
+;; (try-this
+;;  (require 'ido)
+;;  (ido-mode t)
+;;  (setq ido-enable-flex-matching t))
 
 ; Setup menu's etc.
 (try-independently
@@ -116,11 +117,10 @@
        (append '(("\\.css$" . css-mode))
            auto-mode-alist)))
 
-;icicles
-;(try-this
-; (add-to-list 'load-path "~/.icicles")
-; (require 'icicles)
-; (icy-mode))
+;; icicles
+(try-this
+ (require 'icicles)
+ (icy-mode))
 
 ; javascript-mode
 (try-this
