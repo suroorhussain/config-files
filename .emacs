@@ -44,6 +44,10 @@
 (add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs)
 
 (try-this
+ (require 'midnight)
+ (midnight-delay-set 'midnight-delay "4:30am"))
+
+(try-this
  (require 'show-wspace)
  (add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs))
 
@@ -83,7 +87,6 @@
  (setq mac-option-modifier nil)
  (setq-default indent-tabs-mode nil))
 
-
 (try-this
  (require 'sql)
  (defun sql-add-newline-first (output)
@@ -94,6 +97,9 @@
    (add-hook 'comint-preoutput-filter-functions
              'sql-add-newline-first))
  (add-hook 'sql-interactive-mode-hook 'sqli-add-hooks))
+
+(try-this
+ (eval-after-load "dabbrev" '(defalias 'dabbrev-expand 'hippie-expand)))
 
 (try-this
  (autoload 'yaml-mode "yaml-mode" "yaml Mode." t)

@@ -57,7 +57,7 @@ if [ -d "/home/jvanwink/.gem/ruby/1.8/gems/jekyll-0.6.2/bin/" ] ; then
     PATH="/home/jvanwink/.gem/ruby/1.8/gems/jekyll-0.6.2/bin/:$PATH"
 fi
 
-export EDITOR=emacsclient
+export EDITOR='emacs -nw'
 export VISUAL=$EDITOR
 
 
@@ -157,6 +157,7 @@ fi
 alias gf='find | grep -v \.pyc$ | grep'
 alias fa='find | ack-grep'
 alias ggf='git ls-files | grep'
+alias gg='git grep'
 # some more ls aliases
 #alias ll='ls -l'
 #alias la='ls -A'
