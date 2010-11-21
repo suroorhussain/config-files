@@ -15,10 +15,10 @@ XTerm*HiBackColor: black
 XTerm*geometry: +50+100
 
 
-urxvt.font: xft:Monaco-9
+urxvt.font: xft:DejaVu Sans Mono-8
 urxvt.scrollBar: false
-urxvt.saveLines: 50000
-urxvt.urlLauncher: conkeror
+urxvt.saveLines: 100000
+urxvt.urlLauncher: google-chrome
 urxvt.cursorBlink: true
 
 urxvt*background:#303030
