@@ -1,8 +1,3 @@
-(require 'cl)
-(add-to-list 'load-path "~/.emacs.d")
-(add-to-list 'load-path "~/.emacs.d/color-theme")
-(add-to-list 'load-path "~/.emacs.d/icicles")
-
 (defmacro try-this (&rest body)
   `(unwind-protect
        (let (retval (gensym))
@@ -19,6 +14,29 @@
             (push `(try-this ,x) retval))
     (setq retval (reverse retval))
     (push 'progn retval)))
+
+; Setup menu's etc.
+(try-independently
+ (show-paren-mode t)
+ (scroll-bar-mode -1)
+ (tool-bar-mode -1)
+ (menu-bar-mode -1)
+ (tooltip-mode -1)
+ (setq inhibit-startup-message t)
+ (setq require-final-newline t)
+ (setq ring-bell-function 'ignore)
+ (setq mac-pass-command-to-system nil)
+ (setq mac-option-key-is-meta nil)
+ (setq mac-command-key-is-meta t)
+ (setq mac-command-modifier 'meta)
+ (setq mac-option-modifier nil)
+ (setq-default indent-tabs-mode nil)
+ (global-auto-revert-mode 1))
+
+(require 'cl)
+(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/color-theme")
+(add-to-list 'load-path "~/.emacs.d/icicles")
 
 (defun condense-whitespace ()
   "Kill the whitespace between two non-whitespace characters"
@@ -55,12 +73,13 @@
  (require 'color-theme)
  (color-theme-initialize)
  (require 'color-theme-justin)
- (color-theme-justin))
-
+ (if window-system
+   (color-theme-justin)
+   (color-theme-dark-green)))
 ; Set font
-(try-this
- (set-frame-font "DejaVu Sans Mono-8.5")
- (set-frame-font "Menlo-12"))
+;; (try-this
+;;  (set-frame-font "DejaVu Sans Mono-8.5")
+;;  (set-frame-font "Menlo-12"))
 
 (try-this
  (column-number-mode 1))
@@ -70,22 +89,7 @@
 ;;  (ido-mode t)
 ;;  (setq ido-enable-flex-matching t))
 
-; Setup menu's etc.
-(try-independently
- (show-paren-mode t)
- (scroll-bar-mode -1)
- (tool-bar-mode -1)
- (menu-bar-mode -1)
- (tooltip-mode -1)
- (setq inhibit-startup-message t)
- (setq require-final-newline t)
- (setq ring-bell-function 'ignore)
- (setq mac-pass-command-to-system nil)
- (setq mac-option-key-is-meta nil)
- (setq mac-command-key-is-meta t)
- (setq mac-command-modifier 'meta)
- (setq mac-option-modifier nil)
- (setq-default indent-tabs-mode nil))
+
 
 (try-this
  (require 'sql)
