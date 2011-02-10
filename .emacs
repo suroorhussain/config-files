@@ -31,12 +31,15 @@
  (setq mac-command-modifier 'meta)
  (setq mac-option-modifier nil)
  (setq-default indent-tabs-mode nil)
- (global-auto-revert-mode 1))
+ (global-auto-revert-mode 1)
+ (column-number-mode 1))
 
 (require 'cl)
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/color-theme")
 (add-to-list 'load-path "~/.emacs.d/icicles")
+(add-to-list 'load-path "~/.emacs.d/slime")
+(add-to-list 'load-path "~/.emacs.d/slime/contrib")
 
 (defun condense-whitespace ()
   "Kill the whitespace between two non-whitespace characters"
@@ -61,6 +64,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs)
 
+;; (require 'dvc-autoloads)
+
 (try-this
  (require 'midnight)
  (midnight-delay-set 'midnight-delay "4:30am"))
@@ -76,20 +81,37 @@
  (if window-system
    (color-theme-justin)
    (color-theme-dark-green)))
+
 ; Set font
-;; (try-this
-;;  (set-frame-font "DejaVu Sans Mono-8.5")
-;;  (set-frame-font "Menlo-12"))
+(try-this
+ (set-frame-font "DejaVu Sans Mono-12")
+ (set-frame-font "Menlo-12"))
 
 (try-this
- (column-number-mode 1))
+ (require 'slime)
+ (setq inferior-lisp-program "/opt/local/bin/sbcl")
+ (slime-setup
+  '(inferior-slime
+    slime-asdf
+    slime-autodoc
+    slime-banner
+    slime-c-p-c
+    slime-editing-commands
+    slime-fancy-inspector
+    slime-fancy
+    slime-fuzzy
+    slime-highlight-edits
+    slime-parse
+    slime-presentation-streams
+    slime-presentations
+    slime-references
+    slime-scratch
+    slime-tramp
+    slime-typeout-frame
+    slime-xref-browser)))
 
-;; (try-this
-;;  (require 'ido)
-;;  (ido-mode t)
-;;  (setq ido-enable-flex-matching t))
-
-
+(try-this
+ (require 'paredit))
 
 (try-this
  (require 'sql)
@@ -113,7 +135,7 @@
 (try-this
  (when (load "flymake" t)
    (defun flymake-pylint-init ()
-     (list "/pluto/pycloud/apps/emacs/bin/lintrunner.sh"
+     (list "~/bin/lintrunner.sh"
            (list buffer-file-name)))
 
    (add-to-list 'flymake-allowed-file-name-masks

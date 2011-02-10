@@ -1,14 +1,3 @@
-# ~/.profile: executed by the command interpreter for login shells.
-# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
-# exists.
-# see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
-
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
-
-# set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/opt/bin" ] ; then
     PATH="$HOME/opt/bin:$PATH"
 fi
@@ -28,8 +17,8 @@ fi
 
 if [ -d "/opt/local/bin" ] ; then
     PATH="/opt/local/bin:$PATH"
-    LIBRARY_PATH="/opt/local/include:$LIBRARY_PATH"
-    LD_LIBRARY_PATH="/opt/local/lib:$LD_LIBRARY_PATH"
+    LIBRARY_PATH="/opt/local/include:/opt/include:$LIBRARY_PATH"
+    LD_LIBRARY_PATH="/opt/local/lib:/opt/lib:$LD_LIBRARY_PATH"
 fi
 
 # add android path, if it exists
@@ -53,17 +42,17 @@ if [ -d "/opt/local/lib/postgresql84/bin/" ] ; then
     PATH="/opt/local/lib/postgresql84/bin/:$PATH"
 fi
 
+if [ -d "/opt/local/lib/postgresql90/bin/" ] ; then
+    PATH="/opt/local/lib/postgresql90/bin/:$PATH"
+    alias psql=psql90
+fi
+
 if [ -d "/home/jvanwink/.gem/ruby/1.8/gems/jekyll-0.6.2/bin/" ] ; then
     PATH="/home/jvanwink/.gem/ruby/1.8/gems/jekyll-0.6.2/bin/:$PATH"
 fi
 
 export EDITOR='emacs -nw'
 export VISUAL=$EDITOR
-
-
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -174,4 +163,4 @@ if [ -x /pluto/local/activate-environment ]; then
     . /pluto/local/activate-environment
 fi
 
-. ~/.profile
+# . ~/.profile
