@@ -19,6 +19,7 @@ if [ -d "/opt/local/bin" ] ; then
     PATH="/opt/local/bin:$PATH"
     LIBRARY_PATH="/opt/local/include:/opt/include:$LIBRARY_PATH"
     LD_LIBRARY_PATH="/opt/local/lib:/opt/lib:$LD_LIBRARY_PATH"
+    DYLD_LIBRARY_PATH="/opt/local/lib:$DYLD_LIBRARY_PATH"
 fi
 
 # add android path, if it exists
@@ -45,6 +46,10 @@ fi
 if [ -d "/opt/local/lib/postgresql90/bin/" ] ; then
     PATH="/opt/local/lib/postgresql90/bin/:$PATH"
     alias psql=psql90
+fi
+
+if [ -d "/usr/local/cuda/bin/" ] ; then
+	PATH="/usr/local/cuda/bin/:$PATH"
 fi
 
 if [ -d "/home/jvanwink/.gem/ruby/1.8/gems/jekyll-0.6.2/bin/" ] ; then

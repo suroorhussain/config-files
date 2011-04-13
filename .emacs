@@ -35,11 +35,10 @@
  (column-number-mode 1))
 
 (require 'cl)
+
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/color-theme")
 (add-to-list 'load-path "~/.emacs.d/icicles")
-(add-to-list 'load-path "~/.emacs.d/slime")
-(add-to-list 'load-path "~/.emacs.d/slime/contrib")
 
 (defun condense-whitespace ()
   "Kill the whitespace between two non-whitespace characters"
@@ -84,31 +83,52 @@
 
 ; Set font
 (try-this
- (set-frame-font "DejaVu Sans Mono-12")
+ (set-frame-font "DejaVu Sans Mono-10")
  (set-frame-font "Menlo-12"))
 
+(add-to-list 'load-path "/opt/local/share/emacs/site-lisp/slime")
+(require 'slime-autoloads)
+(setq slime-lisp-implementations
+     `((sbcl ("/opt/local/bin/sbcl"))))
+
+(add-hook 'lisp-mode-hook
+           (lambda ()
+             (cond ((not (featurep 'slime))
+                    (require 'slime)
+                    (normal-mode)))))
+(eval-after-load "slime"
+   '(slime-setup '(slime-fancy slime-banner)))
+
+
+;; (try-this
+;;  (require 'slime)
+;;  (setq inferior-lisp-program "/opt/local/bin/sbcl")
+;;  (slime-setup
+;;   '(inferior-slime
+;;     slime-asdf
+;;     slime-autodoc
+;;     slime-banner
+;;     slime-c-p-c
+;;     slime-editing-commands
+;;     slime-fancy-inspector
+;;     slime-fancy
+;;     slime-fuzzy
+;;     slime-highlight-edits
+;;     slime-parse
+;;     slime-presentation-streams
+;;     slime-presentations
+;;     slime-references
+;;     slime-scratch
+;;     slime-tramp
+;;     slime-xref-browser)))
+
 (try-this
- (require 'slime)
- (setq inferior-lisp-program "/opt/local/bin/sbcl")
- (slime-setup
-  '(inferior-slime
-    slime-asdf
-    slime-autodoc
-    slime-banner
-    slime-c-p-c
-    slime-editing-commands
-    slime-fancy-inspector
-    slime-fancy
-    slime-fuzzy
-    slime-highlight-edits
-    slime-parse
-    slime-presentation-streams
-    slime-presentations
-    slime-references
-    slime-scratch
-    slime-tramp
-    slime-typeout-frame
-    slime-xref-browser)))
+ (require 'nxml-mode)
+ (setq nxml-slash-auto-complete-flag t)
+ (add-to-list
+  'auto-mode-alist
+  '("\.\(xml\|svg\|wsdl\|xslt\|wsdd\|xsl\|rng\|xhtml\)\'" . nxml-mode) nil))
+
 
 (try-this
  (require 'paredit))

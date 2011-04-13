@@ -1,8 +1,15 @@
-Xft.antialias: 1
-Xft.dpi: 93
-Xft.hinting: 4
-Xft.hintstyle: hintfull
-Xft.rgba: rgb
+Emacs.fontBackend: xft
+Emacs.font: DejaVu Sans Mono-8.5
+Emacs.verticalScrollBars: off
+Emacs.menuBar: off
+Emacs.toolBar: off
+
+Xft.dpi:        96
+Xft.antialias:  1
+Xft.hinting:    4
+Xft.hintstyle:  hintslight
+Xft.rgba:       rgb
+Xft.lcdfilter:  lcddefault
 
 XTerm*Background: black
 XTerm*Foreground: white
