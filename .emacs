@@ -63,7 +63,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs)
 
-;; (require 'dvc-autoloads)
+(try-this
+ (set-fringe-mode 2))
 
 (try-this
  (require 'midnight)
@@ -82,9 +83,9 @@
    (color-theme-dark-green)))
 
 ; Set font
-(try-this
- (set-frame-font "DejaVu Sans Mono-10")
- (set-frame-font "Menlo-12"))
+;(try-this
+; (set-frame-font "DejaVu Sans Mono-9"))
+; (set-frame-font "Monaco-9"))
 
 (add-to-list 'load-path "/opt/local/share/emacs/site-lisp/slime")
 (require 'slime-autoloads)
@@ -162,6 +163,9 @@
         '("^[^\*]+\\.py$" flymake-pylint-init)))
  (add-hook 'python-mode-hook '(lambda ()
                                 (if (not (null buffer-file-name)) (flymake-mode)))))
+
+(try-this
+ (load "coverage.el"))
 
 (try-this
  (autoload 'css-mode "css-mode" nil t)
