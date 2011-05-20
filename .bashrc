@@ -136,6 +136,10 @@ if [ -f /usr/bin/ack-grep ]; then
     alias ack=ack-grep
 fi
 
+if [ -f /usr/bin/most ]; then
+    export PAGER=/usr/bin/most
+fi
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     eval "`dircolors -b`"
