@@ -1,15 +1,15 @@
 #!/bin/sh
 
-date=`date "+%Y-%m-%dT%H_%M_%S"`
-HOME=/home/jvanwink/
-
-rsync -azP \
-  --delete \
-  --delete-excluded \
-  --exclude-from=$HOME/.rsync/exclude \
-  --link-dest=../current \
-  $HOME /media/backup_data/Backups/incomplete_back-$date \
-  && mv /media/backup_data/Backups/incomplete_back-$date \
-    /media/backup_data/Backups/back-$date \
-  && rm -f /media/backup_data/Backups/current \
-  && ln -s back-$date /media/backup_data/Backups/current"
+rsync -av \
+    --delete \
+    --delete-excluded \
+    --exclude=/dev \
+    --exclude=/proc \
+    --exclude=/sys \
+    --exclude=/home/jvanwink/.cache \
+    --exclude=/home/jvanwink/Dropbox \
+    --exclude=/home/jvanwink/.dropbox \
+    --exclude=/home/jvanwink/.* \
+    --exclude=/home/jvanwink/VMs/ \
+    / \
+    /media/backup_data/ebay_desktop/
