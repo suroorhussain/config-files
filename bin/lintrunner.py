@@ -239,7 +239,7 @@ def main():
     options, args = parser.parse_args()
 
     for runnerclass in (PylintRunner,
-                        PycheckerRunner,
+                        #PycheckerRunner,
                         Pep8Runner,
                         PyflakesRunner,
                         CompilerRunner):

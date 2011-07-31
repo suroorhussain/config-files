@@ -62,6 +62,10 @@ if [ -d "/home/jvanwink/.gem/ruby/1.8/gems/jekyll-0.6.2/bin/" ] ; then
     PATH="/home/jvanwink/.gem/ruby/1.8/gems/jekyll-0.6.2/bin/:$PATH"
 fi
 
+if [ -d "/opt/local/libexec/gnubin/" ] ; then
+    PATH="/opt/local/libexec/gnubin/:$PATH"
+fi
+
 export EDITOR='emacs -nw'
 export VISUAL=$EDITOR
 
@@ -136,7 +140,7 @@ if [ -f /usr/bin/ack-grep ]; then
     alias ack=ack-grep
 fi
 
-export LESS='-s'
+export LESS='-S -R'
 alias more='less'
 
 # enable color support of ls and also add handy aliases
@@ -153,7 +157,7 @@ fi
 
 #if macports and coreutils installed
 if [ -x /opt/local/bin/gls ]; then
-    alias ls='gls --color=auto'
+    alias ls='ls --color=auto'
 fi
 
 
