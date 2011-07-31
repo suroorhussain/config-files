@@ -141,7 +141,6 @@ if [ -f /usr/bin/ack-grep ]; then
 fi
 
 export LESS='-S -R'
-alias more='less'
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -165,10 +164,6 @@ alias gf='find | grep -v \.pyc$ | grep'
 alias fa='find | ack-grep'
 alias ggf='git ls-files | grep'
 alias gg='git grep'
-# some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
