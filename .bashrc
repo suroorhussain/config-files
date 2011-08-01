@@ -1,8 +1,10 @@
-PATH="$HOME/opt/bin:$PATH"
-PATH="$HOME/bin:$PATH"
-PATH="/opt/local/sbin:$PATH"
-PATH=$PATH:~/.cabal/bin
-PATH="/opt/local/libexec/gnubin:$PATH"
+for new_path in \
+    "$HOME/opt/bin" \
+    "$HOME/bin" \
+    "/opt/local/sbin" \
+    "/opt/local/libexec/gnubin"; do
+    PATH=$new_path:$PATH
+done
 
 if [ -d "/opt/local/bin" ] ; then
     PATH="/opt/local/bin:$PATH"
@@ -29,7 +31,6 @@ export HISTCONTROL=ignoreboth
 shopt -s histappend
 shopt -s checkwinsize
 
-# set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color) color_prompt=yes;;
 esac
@@ -54,7 +55,3 @@ alias ack=ack-grep
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
-
-DEBEMAIL=justin.vanwinkle@gmail.com
-DEBFULLNAME="Justin Van Winkle"
-export DEBEMAIL DEBFULLNAME
