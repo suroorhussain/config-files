@@ -1,11 +1,3 @@
-for new_path in \
-    "$HOME/opt/bin" \
-    "$HOME/bin" \
-    "/opt/local/sbin" \
-    "/opt/local/libexec/gnubin"; do
-    PATH=$new_path:$PATH
-done
-
 if [ -d "/opt/local/bin" ] ; then
     PATH="/opt/local/bin:$PATH"
     LIBRARY_PATH="/opt/local/include:/opt/include:$LIBRARY_PATH"
@@ -22,6 +14,16 @@ if [ -d "/opt/local/lib/postgresql90/bin" ] ; then
     PATH="/opt/local/lib/postgresql90/bin:$PATH"
     alias psql=psql90
 fi
+
+for new_path in \
+    "/opt/local/sbin" \
+    "/opt/local/libexec/gnubin" \
+    "$HOME/opt/bin" \
+    "$HOME/bin" ; do
+    if [ -d $new_path ] ; then
+        PATH=$new_path:$PATH
+    fi
+done
 
 eval "`dircolors -b`"
 export EDITOR='emacs -nw'
@@ -45,6 +47,8 @@ fi
 
 export LESS='-S -R'
 export GREP_OPTIONS='--color=auto'
+export LS_OPTIONS="-b --color=auto"
+alias ls="ls $LS_OPTIONS"
 
 alias gf='find | grep -v \.pyc$ | grep'
 alias fa='find | ack-grep'
