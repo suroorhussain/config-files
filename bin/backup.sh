@@ -11,5 +11,6 @@ rsync -av \
     --exclude=/home/jvanwink/.dropbox \
     --exclude=/home/jvanwink/.* \
     --exclude=/home/jvanwink/VMs/ \
+    --exclude=/media/ \
     / \
     /media/backup_data/ebay_desktop/
