@@ -26,8 +26,9 @@ for new_path in \
 done
 
 eval "`dircolors -b`"
-export EDITOR='emacs -nw'
+export EDITOR='emacsclient'
 export VISUAL=$EDITOR
+export ALTERNATE_EDITOR='emacs'
 
 export HISTCONTROL=ignoreboth
 shopt -s histappend

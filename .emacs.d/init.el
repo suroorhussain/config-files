@@ -22,10 +22,6 @@
 ; Setup menu's etc.
 (try-independently
  (show-paren-mode t)
- (scroll-bar-mode -1)
- (tool-bar-mode -1)
- (menu-bar-mode -1)
- (tooltip-mode -1)
  (setq inhibit-startup-message t)
  (setq require-final-newline t)
  (setq ring-bell-function 'ignore)
@@ -40,6 +36,12 @@
 
 (defun window-mode-init ()
   "Set things up for a gui window."
+  (try-independently
+   (scroll-bar-mode -1)
+   (tool-bar-mode -1)
+   (menu-bar-mode -1)
+   (tooltip-mode -1))
+
   (try-this
    (set-fringe-mode 2))
 
@@ -53,7 +55,9 @@
 
   (try-this
    (require 'color-theme-justin)
-   (color-theme-justin)))
+   (color-theme-justin))
+  (try-this
+   (server-start)))
 
 (defun text-mode-init ()
   "Set up for quick loading on a terminal window."
