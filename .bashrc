@@ -35,6 +35,12 @@ if [ -d "/var/lib/gems/1.8/bin" ] ; then
     PATH=$PATH:/var/lib/gems/1.8/bin
 fi
 
+if [ -d "/pluto" ] ; then
+    PYTHONPATH=/pluto:/pluto/pycloud
+    export PYTHONPATH
+    export MAGIC_ENV=development
+fi
+
 if [ -d "/pluto/pycloud/apps/utils/bin" ] ; then
     PATH=$PATH:/pluto/pycloud/apps/utils/bin
 fi
@@ -48,8 +54,13 @@ if [ -d "/opt/local/lib/postgresql90/bin/" ] ; then
     alias psql=psql90
 fi
 
+if [ -d "/usr/local/pgsql/bin/" ] ; then
+    PATH="/usr/local/pgsql/bin/:$PATH"
+fi
+
+
 if [ -d "/usr/local/cuda/bin/" ] ; then
-	PATH="/usr/local/cuda/bin/:$PATH"
+    PATH="/usr/local/cuda/bin/:$PATH"
 fi
 
 if [ -d "/home/jvanwink/.gem/ruby/1.8/gems/jekyll-0.6.2/bin/" ] ; then
@@ -169,3 +180,6 @@ if [ -x /pluto/local/activate-environment ]; then
 fi
 
 # . ~/.profile
+DEBEMAIL=justin.vanwinkle@gmail.com
+DEBFULLNAME="Justin Van Winkle"
+export DEBEMAIL DEBFULLNAME

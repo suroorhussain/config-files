@@ -63,7 +63,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs)
 
-;; (require 'dvc-autoloads)
+(try-this
+ (set-fringe-mode 2))
 
 (try-this
  (require 'midnight)
@@ -82,45 +83,22 @@
    (color-theme-dark-green)))
 
 ; Set font
-(try-this
- (set-frame-font "DejaVu Sans Mono-10")
- (set-frame-font "Menlo-12"))
+;(try-this
+; (set-frame-font "DejaVu Sans Mono-9"))
+; (set-frame-font "Monaco-9"))
 
 (add-to-list 'load-path "/opt/local/share/emacs/site-lisp/slime")
-(require 'slime-autoloads)
-(setq slime-lisp-implementations
-     `((sbcl ("/opt/local/bin/sbcl"))))
-
-(add-hook 'lisp-mode-hook
+(try-this
+ (require 'slime-autoloads)
+ (setq slime-lisp-implementations
+       `((sbcl ("/opt/local/bin/sbcl"))))
+ (add-hook 'lisp-mode-hook
            (lambda ()
              (cond ((not (featurep 'slime))
                     (require 'slime)
                     (normal-mode)))))
-(eval-after-load "slime"
-   '(slime-setup '(slime-fancy slime-banner)))
-
-
-;; (try-this
-;;  (require 'slime)
-;;  (setq inferior-lisp-program "/opt/local/bin/sbcl")
-;;  (slime-setup
-;;   '(inferior-slime
-;;     slime-asdf
-;;     slime-autodoc
-;;     slime-banner
-;;     slime-c-p-c
-;;     slime-editing-commands
-;;     slime-fancy-inspector
-;;     slime-fancy
-;;     slime-fuzzy
-;;     slime-highlight-edits
-;;     slime-parse
-;;     slime-presentation-streams
-;;     slime-presentations
-;;     slime-references
-;;     slime-scratch
-;;     slime-tramp
-;;     slime-xref-browser)))
+ (eval-after-load "slime"
+   '(slime-setup '(slime-fancy slime-banner))))
 
 (try-this
  (require 'nxml-mode)
@@ -178,8 +156,16 @@
 (try-this
  (autoload 'js2-mode "js2" nil t)
  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
  (add-to-list 'auto-mode-alist '("\\.\\(html\\|rng\\|xhtml\\)$" . html-mode)))
+
+(try-this
+ (require 'coffee-mode)
+ (defun coffee-custom ()
+   "coffee-mode-hook"
+   (set (make-local-variable 'tab-width) 2))
+
+ (add-hook 'coffee-mode-hook
+           '(lambda() (coffee-custom))) )
 
 (defun recompile-everything-under-the-sun ()
   (interactive)

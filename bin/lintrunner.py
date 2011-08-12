@@ -7,10 +7,10 @@ import compiler
 
 from subprocess import Popen, PIPE
 
-PYLINT_COMMAND = "/usr/local/bin/pylint"
-PYCHECKER_COMMAND = "/usr/local/bin/pychecker"
-PEP8_COMMAND = "/usr/local/bin/pep8"
-PYFLAKES_COMMAND = "/usr/local/bin/pyflakes"
+PYLINT_COMMAND = "pylint"
+PYCHECKER_COMMAND = "pychecker"
+PEP8_COMMAND = "pep8"
+PYFLAKES_COMMAND = "pyflakes"
 
 
 class LintRunner(object):
@@ -60,6 +60,8 @@ class LintRunner(object):
                                         'filename', 'line_number'),
                                        '')
             fixed_data.update(cls.fixup_data(line, m.groupdict()))
+            fixed_data['description'] = (
+                cls.__name__ + ' ' + fixed_data['description'])
             print cls.output_format % fixed_data
         else:
             print >> sys.stderr, "Line is broken: %s %s" % (cls, line)
