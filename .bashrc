@@ -29,6 +29,7 @@ eval "`dircolors -b`"
 export EDITOR='emacsclient'
 export ALTERNATE_EDITOR='emacsnw'
 export VISUAL=$EDITOR
+export ALTERNATE_EDITOR='emacs'
 
 export HISTCONTROL=ignoreboth
 shopt -s histappend
