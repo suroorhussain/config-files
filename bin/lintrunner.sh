@@ -1,4 +1,4 @@
 #!/bin/bash
 
-~/bin/lintrunner.py $*
+PATH=$PATH:/usr/local/bin ~/bin/lintrunner.py $*
 

@@ -1,2 +1,17 @@
 [ui]
 username = Justin Van Winkle <justin@milo.com>
+
+[extensions]
+purge =
+progress =
+color =
+mercurial_keyring =
+pager =
+churn =
+
+[pager]
+pager = less
+
+[color]
+mode = ansi
+
