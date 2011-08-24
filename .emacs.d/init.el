@@ -96,11 +96,6 @@
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-; Set font
-;(try-this
-; (set-frame-font "DejaVu Sans Mono-9"))
-; (set-frame-font "Monaco-9"))
-
 (try-this
  (add-to-list
   'auto-mode-alist
@@ -138,6 +133,15 @@
  (autoload 'js2-mode "js2" nil t)
  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
  (add-to-list 'auto-mode-alist '("\\.\\(html\\|rng\\|xhtml\\)$" . html-mode)))
+
+(try-this
+ (require 'coffee-mode)
+ (defun coffee-custom ()
+   "coffee-mode-hook"
+   (set (make-local-variable 'tab-width) 2))
+
+ (add-hook 'coffee-mode-hook
+           '(lambda() (coffee-custom))) )
 
 (defun recompile-everything-under-the-sun ()
   (interactive)
