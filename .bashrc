@@ -25,6 +25,10 @@ for new_path in \
     fi
 done
 
+function act {
+  source /home/jvanwink/virt/$1/bin/activate
+}
+
 eval "`dircolors -b`"
 export EDITOR='emacsclient'
 export ALTERNATE_EDITOR='emacsnw'
