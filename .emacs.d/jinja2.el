@@ -74,6 +74,7 @@
     "urlize" "wordcount" "wordwrap" "xmlattr"
     )))
 
+
 (defun jinja2-find-open-tag ()
   (if (search-backward-regexp
        (rx-to-string
@@ -291,4 +292,4 @@
 (define-key jinja2-mode-map (kbd "C-c #") 'jinja2-insert-comment)
 
 (add-to-list 'auto-mode-alist '("\\.jinja2\\'" . jinja2-mode))
-(provide 'jinja2-mode)
+(provide 'jinja2)

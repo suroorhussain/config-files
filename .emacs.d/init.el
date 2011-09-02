@@ -107,6 +107,9 @@
  (eval-after-load "dabbrev" '(defalias 'dabbrev-expand 'hippie-expand)))
 
 (try-this
+ (require 'jinja2))
+
+(try-this
  (autoload 'yaml-mode "yaml-mode" "yaml Mode." t)
  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
 
