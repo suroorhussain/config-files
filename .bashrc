@@ -19,7 +19,8 @@ for new_path in \
     "/opt/local/sbin" \
     "/opt/local/libexec/gnubin" \
     "$HOME/opt/bin" \
-    "$HOME/bin" ; do
+    "$HOME/bin" \
+    "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin" ; do
     if [ -d $new_path ] ; then
         PATH=$new_path:$PATH
     fi
