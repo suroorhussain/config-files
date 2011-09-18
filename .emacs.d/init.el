@@ -2,6 +2,15 @@
 (add-to-list 'load-path "~/.emacs.d/color-theme")
 (add-to-list 'load-path "~/.emacs.d/icicles")
 
+(defun set-exec-path-from-shell-PATH ()
+  (let ((path-from-shell
+         (replace-regexp-in-string
+          "[ \t\n]*$"
+          ""
+          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+
 (defmacro try-this (&rest body)
   `(unwind-protect
        (let (retval (gensym))
@@ -19,43 +28,49 @@
     (setq retval (reverse retval))
     (push 'progn retval)))
 
+(defun auto-load-mode (mode extensions &optional mode-fn)
+  ; If not already a list, wrap it in one.
+  (setq extensions (if (listp extensions) extensions (list extensions))
+        extension-fn (if mode-fn mode-fn (symbol-name mode))
+        regex (concat "\\(" (mapconcat 'identity extensions "\\|") "\\)\\'"))
+  (autoload mode extension-fn nil t)
+  (add-to-list 'auto-mode-alist (cons regex mode)))
+
+(defun mapply (func args)
+  (dolist (someargs args)
+    (apply func someargs)))
+
 ; Setup menu's etc.
-(try-independently
- (show-paren-mode t)
- (setq inhibit-startup-message t)
- (setq require-final-newline t)
- (setq ring-bell-function 'ignore)
- (setq mac-pass-command-to-system nil)
- (setq mac-option-key-is-meta nil)
- (setq mac-command-key-is-meta t)
- (setq mac-command-modifier 'meta)
- (setq mac-option-modifier nil)
- (setq-default indent-tabs-mode nil)
- (global-auto-revert-mode 1)
- (column-number-mode 1))
+(setq inhibit-startup-message t
+      require-final-newline t
+      ring-bell-function 'ignore
+      mac-pass-command-to-system nil
+      mac-option-key-is-meta nil
+      mac-command-key-is-meta t
+      mac-command-modifier 'meta
+      mac-option-modifier nil)
+
+(setq-default indent-tabs-mode nil)
+(global-auto-revert-mode 1)
+(column-number-mode 1)
+(show-paren-mode t)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(tooltip-mode -1)
+(set-fringe-mode 2)
 
 (defun window-mode-init ()
   "Set things up for a gui window."
-  (try-independently
-   (scroll-bar-mode -1)
-   (tool-bar-mode -1)
-   (menu-bar-mode -1)
-   (tooltip-mode -1))
+  (set-exec-path-from-shell-PATH)
+  (setq fucknugget 1)
 
-  (try-this
-   (set-fringe-mode 2))
+  (require 'midnight)
+  (midnight-delay-set 'midnight-delay "4:30am")
 
-  (try-this
-   (require 'midnight)
-   (midnight-delay-set 'midnight-delay "4:30am"))
-
-  (try-this
-   (require 'show-wspace)
-   (add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs))
-
-  (try-this
-   (require 'color-theme-justin)
-   (color-theme-justin))
+  (require 'show-wspace)
+  (require 'color-theme-justin)
+  (color-theme-justin)
   (try-this
    (server-start)))
 
@@ -63,17 +78,15 @@
   "Set up for quick loading on a terminal window."
   (color-theme-dark-green))
 
-(try-this
-  (require 'color-theme)
-  (color-theme-initialize)
-  (if window-system
-      (window-mode-init)
-    (text-mode-init)))
+(require 'color-theme)
+(color-theme-initialize)
+(if window-system
+    (window-mode-init)
+  (text-mode-init))
 
 ;; icicles
-(try-this
- (require 'icicles)
- (icy-mode))
+(require 'icicles)
+(icy-mode)
 
 (defun condense-whitespace ()
   "Kill the whitespace between two non-whitespace characters"
@@ -86,32 +99,44 @@
           (re-search-forward "[ \t\r\n]+" nil t)
           (replace-match " " nil nil))))))
 
-(global-set-key (kbd "RET") 'newline-and-indent)
-(global-set-key (kbd "M-RET") 'ns-toggle-fullscreen)
-(global-set-key (kbd "C-\\") 'condense-whitespace)
-(global-set-key (kbd "C-;") 'dabbrev-expand)
-(global-set-key (kbd "M-c") 'kill-ring-save)
-(global-set-key (kbd "s-N") 'flymake-goto-next-error)
-(global-set-key [mouse-16] 'revert-buffer)
+(mapply 'global-set-key
+        `((,(kbd "RET") newline-and-indent)
+          (,(kbd "M-RET") ns-toggle-fullscreen)
+          (,(kbd "C-\\") condense-whitespace)
+          (,(kbd "C-;") dabbrev-expand)
+          (,(kbd "M-c") kill-ring-save)
+          (,(kbd "s-N") flymake-goto-next-error)))
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(eval-after-load "dabbrev" '(defalias 'dabbrev-expand 'hippie-expand))
 
-(try-this
- (add-to-list
-  'auto-mode-alist
-  '("\.\(xml\|svg\|wsdl\|xslt\|wsdd\|xsl\|rng\|xhtml\)\'" . nxml-mode) nil)
- (add-hook 'nxml-mode-hook '(lambda ()
-                              (setq nxml-slash-auto-complete-flag t))))
+;; Auto mode loading
+(mapply 'auto-load-mode
+        '((js2-mode ("\\.js" "\\.json") "js2")
+          (html-mode "\\.html")
+          (css-mode "\\.css")
+          (coffee-mode "\\.coffee")
+          (jinja2-mode "\\.jinja" "jinja2")
+          (yaml-mode ("\\.yml" "\\.yaml"))
+          (python-mode "\\.py" "python")
+          (nxml-mode
+           ("\\.xml" "\\.wsdl" "\\.svg" "\\.xslt"
+            "\\.wsdd" "\\.xsl" "\\.rng" "\\.xhtml"))
+          (cython-mode ("\\.pyx" "\\.pxd"))
+          (go-mode "\\.go")))
 
-(try-this
- (eval-after-load "dabbrev" '(defalias 'dabbrev-expand 'hippie-expand)))
+(mapply 'add-hook
+        '((coffee-mode-hook
+           (lambda () (set (make-local-variable 'tab-width) 2)))
+          (go-mode-hook
+           (lambda () (setq tab-width 4)))
+          (nxml-mode-hook
+           (lambda () (setq nxml-slash-auto-complete-flag t)))
+          (before-save-hook delete-trailing-whitespace)
+          (python-mode-hook show-ws-highlight-tabs)
+          (python-mode-hook
+           (lambda () (if (not (null buffer-file-name)) (flymake-mode))))))
 
-(try-this
- (require 'jinja2))
-
-(try-this
- (autoload 'yaml-mode "yaml-mode" "yaml Mode." t)
- (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
+(autoload 'gofmt "go-mode")
 
 ;code checking via flymake
 (try-this
@@ -119,45 +144,13 @@
    (defun flymake-pylint-init ()
      (list "~/bin/lintrunner.sh"
            (list buffer-file-name)))
-
    (add-to-list 'flymake-allowed-file-name-masks
-        '("^[^\*]+\\.py$" flymake-pylint-init)))
- (add-hook 'python-mode-hook '(lambda ()
-                                (if (not (null buffer-file-name)) (flymake-mode)))))
-
-(try-this
- (autoload 'css-mode "css-mode" nil t)
- (setq auto-mode-alist
-       (append '(("\\.css$" . css-mode))
-           auto-mode-alist)))
-
-(try-this
- (require 'cython-mode))
-
-(try-this
- (require 'go-mode))
-
-; javascript-mode
-(try-this
- (autoload 'js2-mode "js2" nil t)
- (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
- (add-to-list 'auto-mode-alist '("\\.\\(html\\|rng\\|xhtml\\)$" . html-mode)))
-
-(try-this
- (require 'coffee-mode)
- (defun coffee-custom ()
-   "coffee-mode-hook"
-   (set (make-local-variable 'tab-width) 2))
-
- (add-hook 'coffee-mode-hook
-           '(lambda() (coffee-custom))) )
+                '("^[^\*]+\\.py$" flymake-pylint-init))))
 
 (defun recompile-everything-under-the-sun ()
   (interactive)
   (dolist (path load-path)
     (byte-recompile-directory path 0)))
-
-(add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
 
 (defadvice js2-reparse (before json)
   (setq js2-buffer-file-name buffer-file-name))
