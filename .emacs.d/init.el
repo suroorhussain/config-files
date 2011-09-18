@@ -135,7 +135,9 @@
           (before-save-hook delete-trailing-whitespace)
           (python-mode-hook show-ws-highlight-tabs)
           (python-mode-hook
-           (lambda () (if (not (null buffer-file-name)) (flymake-mode))))))
+           (lambda () (if (not (null buffer-file-name)) (flymake-mode))))
+          (before-save-hook
+           gofmt-before-save)))
 
 (autoload 'gofmt "go-mode")
 
