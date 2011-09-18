@@ -134,6 +134,9 @@
 (try-this
  (require 'cython-mode))
 
+(try-this
+ (require 'go-mode))
+
 ; javascript-mode
 (try-this
  (autoload 'js2-mode "js2" nil t)
