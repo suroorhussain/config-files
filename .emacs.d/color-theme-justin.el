@@ -145,6 +145,9 @@ speedbar, tex, view, viper, w3m, widget, woman"
                    :underline nil :slant normal :weight normal
                    :inverse-video nil))))
 
+     (ac-candidate-face ((t (:foreground "lightgray"))))
+     (ac-candidate-face ((t (:foreground "darkgray"))))
+     (ac-selection-face ((t (:foreground "red"))))
      (font-lock-builtin-face ((t (:foreground "sandy brown"))))
      (font-lock-color-constant-face ((t (:foreground "khaki"))))
      (font-lock-comment-face ((t (:foreground "gray40"))))

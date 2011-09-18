@@ -46,9 +46,10 @@
       ring-bell-function 'ignore
       mac-pass-command-to-system nil
       mac-option-key-is-meta nil
+      mac-option-modifier 'hyper
       mac-command-key-is-meta t
       mac-command-modifier 'meta
-      mac-option-modifier nil)
+      ac-auto-start nil)
 
 (setq-default indent-tabs-mode nil)
 (global-auto-revert-mode 1)
@@ -63,16 +64,13 @@
 (defun window-mode-init ()
   "Set things up for a gui window."
   (set-exec-path-from-shell-PATH)
-  (setq fucknugget 1)
 
   (require 'midnight)
   (midnight-delay-set 'midnight-delay "4:30am")
 
   (require 'show-wspace)
   (require 'color-theme-justin)
-  (color-theme-justin)
-  (try-this
-   (server-start)))
+  (color-theme-justin))
 
 (defun text-mode-init ()
   "Set up for quick loading on a terminal window."
@@ -108,11 +106,9 @@
         `((,(kbd "RET") newline-and-indent)
           (,(kbd "M-RET") ns-toggle-fullscreen)
           (,(kbd "C-\\") condense-whitespace)
-          (,(kbd "C-;") dabbrev-expand)
           (,(kbd "M-c") kill-ring-save)
-          (,(kbd "s-N") flymake-goto-next-error)))
-
-(eval-after-load "dabbrev" '(defalias 'dabbrev-expand 'hippie-expand))
+          (,(kbd "C-;") auto-complete)
+          (,(kbd "H-n") flymake-goto-next-error)))
 
 ;; Auto mode loading
 (mapply 'auto-load-mode
