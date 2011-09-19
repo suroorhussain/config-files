@@ -63,6 +63,14 @@ alias ggf='git ls-files | grep'
 alias gg='git grep'
 alias ack=ack-grep
 
+function pssh {
+    machines=`findpool -s $1`
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ]; then
+        cssh -ljvanwinkle $machines
+    fi
+}
+
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
