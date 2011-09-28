@@ -12,7 +12,6 @@ fi
 
 if [ -d "/opt/local/lib/postgresql90/bin" ] ; then
     PATH="/opt/local/lib/postgresql90/bin:$PATH"
-    alias psql=psql90
 fi
 
 for new_path in \
@@ -22,7 +21,7 @@ for new_path in \
     "$HOME/bin" \
     "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin" ; do
     if [ -d $new_path ] ; then
-        PATH=$new_path:$PATH
+        PATH="$new_path:$PATH"
     fi
 done
 
@@ -34,7 +33,6 @@ eval "`dircolors -b`"
 export EDITOR='emacsclient'
 export ALTERNATE_EDITOR='emacsnw'
 export VISUAL=$EDITOR
-export ALTERNATE_EDITOR='emacs'
 
 export HISTCONTROL=ignoreboth
 shopt -s histappend

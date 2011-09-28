@@ -55,15 +55,15 @@
 (global-auto-revert-mode 1)
 (column-number-mode 1)
 (show-paren-mode t)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
 (menu-bar-mode -1)
-(tooltip-mode -1)
-(set-fringe-mode 2)
 
 (defun window-mode-init ()
   "Set things up for a gui window."
   (set-exec-path-from-shell-PATH)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (tooltip-mode -1)
+  (set-fringe-mode 2)
 
   (require 'midnight)
   (midnight-delay-set 'midnight-delay "4:30am")
@@ -136,8 +136,9 @@
           (python-mode-hook show-ws-highlight-tabs)
           (python-mode-hook
            (lambda () (if (not (null buffer-file-name)) (flymake-mode))))
-          (before-save-hook
-           gofmt-before-save)))
+          ;(before-save-hook
+	  ; gofmt-before-save)))
+	  ))
 
 (autoload 'gofmt "go-mode")
 
