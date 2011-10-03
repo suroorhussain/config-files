@@ -53,8 +53,10 @@ fi
 export LESS='-S -R'
 export GREP_OPTIONS='--color=auto'
 export LS_OPTIONS="-b --color=auto"
-alias ls="ls $LS_OPTIONS"
+export DEBEMAIL="justin.vanwinkle@gmail.com"
+export DEBFULLNAME="Justin Van Winkle"
 
+alias ls="ls $LS_OPTIONS"
 alias gf='find | grep -v \.pyc$ | grep'
 alias fa='find | ack-grep'
 alias ggf='git ls-files | grep'
@@ -64,6 +66,3 @@ alias ack=ack-grep
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
-DEBEMAIL="justin.vanwinkle@gmail.com"
-DEBFULLNAME="Justin Van Winkle"
-export DEBEMAIL DEBFULLNAME
