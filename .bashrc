@@ -66,3 +66,6 @@ alias ack=ack-grep
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
+DEBEMAIL="justin.vanwinkle@gmail.com"
+DEBFULLNAME="Justin Van Winkle"
+export DEBEMAIL DEBFULLNAME
