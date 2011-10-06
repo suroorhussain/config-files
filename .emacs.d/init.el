@@ -86,11 +86,6 @@
 (require 'icicles)
 (icy-mode)
 
-;; autocomplete
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "/Users/jvanwink/.emacs.d/ac-dict")
-(ac-config-default)
-
 (defun condense-whitespace ()
   "Kill the whitespace between two non-whitespace characters"
   (interactive "*")
