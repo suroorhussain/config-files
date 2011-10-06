@@ -5,11 +5,6 @@ if [ -d "/opt/local/bin" ] ; then
     DYLD_LIBRARY_PATH="/opt/local/lib:$DYLD_LIBRARY_PATH"
 fi
 
-if [ -d "/pluto" ] ; then
-    export PYTHONPATH=/pluto:/pluto/pycloud
-    export MAGIC_ENV=development
-fi
-
 if [ -d "/opt/local/lib/postgresql90/bin" ] ; then
     PATH="/opt/local/lib/postgresql90/bin:$PATH"
 fi
@@ -26,14 +21,19 @@ for new_path in \
 done
 
 function act {
-  source $HOME/virt/$1/bin/activate
+    source $HOME/virt/$1/bin/activate
+}
+
+function milomode {
+    export PYTHONPATH=/pluto:/pluto/pycloud
+    export MAGIC_ENV=development
 }
 
 eval "`dircolors -b`"
 export EDITOR='emacsclient'
 export ALTERNATE_EDITOR='emacsnw'
 export VISUAL=$EDITOR
-
+export PAGER=less
 export HISTCONTROL=ignoreboth
 shopt -s histappend
 shopt -s checkwinsize
