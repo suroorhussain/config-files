@@ -71,6 +71,10 @@ function pssh {
     fi
 }
 
+function set_python_pwd {
+    export PYTHONPATH=`pwd`
+}
+
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi

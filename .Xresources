@@ -1,0 +1,22 @@
+Emacs.fontBackend: xft
+Emacs.font: DejaVu Sans Mono-9
+Emacs.verticalScrollBars: off
+Emacs.menuBar: off
+Emacs.toolBar: off
+
+Xft.dpi:        96
+Xft.antialias:  1
+Xft.hinting:    4
+Xft.hintstyle:  hintslight
+Xft.rgba:       rgb
+Xft.lcdfilter:  lcddefault
+
+XTerm*Background: black
+XTerm*Foreground: white
+XTerm*faceName: Monaco
+XTerm*faceSize: 10
+
+XTerm*saveLines: 1000
+XTerm*HiForeColor: white
+XTerm*HiBackColor: black
+XTerm*geometry: +50+100
