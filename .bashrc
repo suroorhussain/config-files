@@ -35,7 +35,8 @@ export ALTERNATE_EDITOR='emacsnw'
 export VISUAL=$EDITOR
 export PAGER=less
 export HISTCONTROL=ignoreboth
-shopt -s histappend
+export HISTSIZE=25000
+alias exit='history -a && exit'
 shopt -s checkwinsize
 
 case "$TERM" in

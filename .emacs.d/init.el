@@ -103,7 +103,7 @@
           (,(kbd "C-\\") condense-whitespace)
           (,(kbd "M-c") kill-ring-save)
           (,(kbd "C-;") auto-complete)
-          (,(kbd "H-n") flymake-goto-next-error)))
+          (,(kbd "C-=") flymake-goto-next-error)))
 
 ;; Auto mode loading
 (mapply 'auto-load-mode
