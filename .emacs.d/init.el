@@ -155,6 +155,20 @@
   (setq js2-buffer-file-name buffer-file-name))
 (ad-activate 'js2-reparse)
 
+
+(add-hook
+ 'c-mode-hook
+ (function
+  (lambda nil
+    (if (string-match "postgresql" buffer-file-name)
+        (progn
+          (c-set-style "bsd")
+          (setq c-basic-offset 4)
+          (setq tab-width 4)
+          (c-set-offset 'case-label '+)
+          (setq fill-column 79)
+          (setq indent-tabs-mode t))))))
+
 (defadvice js2-parse-statement (around json)
   (if (and (= tt js2-LC)
            js2-buffer-file-name

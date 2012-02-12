@@ -6,8 +6,6 @@
     default = matching
 
 [alias]
-    merge = merge --ff-only
-    pull = pull --ff-only
     ci = commit -am
     rb = !sh -c 'git checkout --track -b $1 origin/$1'
     w = diff -M -w --color-words
@@ -30,5 +28,6 @@
 
 [status]
     color = auto
+
 [color]
     ui = true
