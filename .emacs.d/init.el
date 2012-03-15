@@ -49,7 +49,9 @@
       mac-option-modifier 'hyper
       mac-command-key-is-meta t
       mac-command-modifier 'meta
-      ac-auto-start nil)
+      ac-auto-start nil
+      backup-by-copying-when-mismatch t
+      make-backup-files nil)
 
 (setq-default indent-tabs-mode nil)
 (global-auto-revert-mode 1)
@@ -59,6 +61,7 @@
 
 (defun window-mode-init ()
   "Set things up for a gui window."
+  (global-unset-key "\C-z")
   (set-exec-path-from-shell-PATH)
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
@@ -82,6 +85,8 @@
     (window-mode-init)
   (text-mode-init))
 
+(autoload 'find-file-in-project "find-file-in-project" "Find file in project." t)
+
 ;; icicles
 (require 'icicles)
 (icy-mode)
@@ -97,13 +102,16 @@
           (re-search-forward "[ \t\r\n]+" nil t)
           (replace-match " " nil nil))))))
 
+(add-to-list 'completion-ignored-extensions "pyc")
+
 (mapply 'global-set-key
         `((,(kbd "RET") newline-and-indent)
           (,(kbd "M-RET") ns-toggle-fullscreen)
           (,(kbd "C-\\") condense-whitespace)
           (,(kbd "M-c") kill-ring-save)
           (,(kbd "C-;") auto-complete)
-          (,(kbd "C-=") flymake-goto-next-error)))
+          (,(kbd "C-=") flymake-goto-next-error)
+          (,(kbd "C-o") find-file-in-project)))
 
 ;; Auto mode loading
 (mapply 'auto-load-mode
