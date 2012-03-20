@@ -40,4 +40,4 @@ if __name__ == '__main__':
     if args.files:
         for fn in args.files:
             for match in scan_file(pattern, fn):
-                print match.group(1)
+                print match.groups(0)
