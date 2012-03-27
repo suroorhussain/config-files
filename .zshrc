@@ -5,6 +5,30 @@ compinit
 autoload -U colors && colors
 
 setopt completeinword
+
+HISTFILE=~/.zhistory
+HISTSIZE=25000
+SAVEHIST=25000
+
+setopt   appendhistory
+unsetopt banghist
+unsetopt cshjunkiehistory
+setopt   extendedhistory
+unsetopt histallowclobber
+unsetopt histbeep
+setopt   histexpiredupsfirst
+setopt   histfindnodups
+setopt   histignorealldups
+setopt   histignoredups
+unsetopt histignorespace
+unsetopt histnofunctions
+unsetopt histnostore
+setopt   histreduceblanks
+unsetopt histsavenodups
+setopt   histverify
+setopt   incappendhistory
+setopt   sharehistory
+
 PS1="%{$fg[green]%}%n@%m:%{$fg[cyan]%}%~%{$reset_color%}%% "
 
 if [ -d "/opt/local/bin" ] ; then
@@ -66,6 +90,6 @@ function pssh {
 }
 
 function set_python_pwd {
-    export PYTHONPATH=`pwd`
+       export PYTHONPATH=`pwd`
 }
 
