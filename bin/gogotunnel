@@ -1,3 +1,3 @@
 #!/bin/bash
 
-autossh -f deliveryfoo.com -C -p 22 -l jvanwink -nN -D9999 -o NumberOfPasswordPrompts=1
+autossh -f 74.207.252.204 -C -p 22 -l jvanwink -nN -D9999 -o NumberOfPasswordPrompts=1

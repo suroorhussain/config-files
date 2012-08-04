@@ -7,16 +7,12 @@ Emacs.toolBar: off
 Xft.dpi:        96
 Xft.antialias:  1
 Xft.hinting:    4
-Xft.hintstyle:  hintslight
+Xft.hintstyle:  hintfull
 Xft.rgba:       rgb
 Xft.lcdfilter:  lcddefault
 
-XTerm*Background: black
-XTerm*Foreground: white
-XTerm*faceName: Monaco
-XTerm*faceSize: 10
-
-XTerm*saveLines: 1000
-XTerm*HiForeColor: white
-XTerm*HiBackColor: black
-XTerm*geometry: +50+100
+URxvt*font:        xft:ubuntu mono:size=11:style=medium:antialias=true
+URxvt*boldFont:    xft:ubuntu mono:size=11:style=bold:antialias=true
+URxvt.scrollBar: false
+URxvt*foreground: White
+URxvt*background: Black

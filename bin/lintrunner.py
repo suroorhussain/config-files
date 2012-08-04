@@ -53,6 +53,7 @@ class LintRunner(object):
 
     @classmethod
     def process_output(cls, line):
+        print line
         m = cls.output_matcher.match(line)
         if m:
             fixed_data = dict.fromkeys(('level', 'error_type',

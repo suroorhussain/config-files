@@ -73,6 +73,7 @@ export GREP_OPTIONS='--color=auto'
 export LS_OPTIONS="-b --color=auto"
 export DEBEMAIL="justin.vanwinkle@gmail.com"
 export DEBFULLNAME="Justin Van Winkle"
+export TERM=xterm-color
 
 alias ls="ls $LS_OPTIONS"
 alias gf='find | grep -v \.pyc$ | grep'
@@ -93,3 +94,6 @@ function set_python_pwd {
        export PYTHONPATH=`pwd`
 }
 
+function remssh {
+    ssh-keygen -f "/home/jvanwink/.ssh/known_hosts" -R $1
+}
