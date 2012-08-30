@@ -16,3 +16,10 @@ URxvt*boldFont:    xft:ubuntu mono:size=11:style=bold:antialias=true
 URxvt.scrollBar: false
 URxvt*foreground: White
 URxvt*background: Black
+URxvt*saveLines: 100000
+
+Rxvt*font:        xft:ubuntu mono:size=11:style=medium:antialias=true
+Rxvt*boldFont:    xft:ubuntu mono:size=11:style=bold:antialias=true
+Rxvt.scrollBar: false
+Rxvt*foreground: White
+Rxvt*background: Black

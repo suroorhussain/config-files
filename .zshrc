@@ -43,6 +43,7 @@ for new_path in \
     "/opt/local/libexec/gnubin" \
     "$HOME/opt/bin" \
     "$HOME/bin" \
+    "$HOME/faction/toolio/bin" \
     "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin" ; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"

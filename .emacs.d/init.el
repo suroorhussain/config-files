@@ -113,6 +113,7 @@
           (,(kbd "C-=") flymake-goto-next-error)
           (,(kbd "C-o") find-file-in-project)))
 
+(require 'python)
 ;; Auto mode loading
 (mapply 'auto-load-mode
         '((js2-mode ("\\.js" "\\.json") "js2")
@@ -121,7 +122,7 @@
           (coffee-mode "\\.coffee")
           (jinja2-mode "\\.jinja" "jinja2")
           (yaml-mode ("\\.yml" "\\.yaml"))
-          (python-mode "\\.py" "python")
+          ;(python-mode "\\.py" "python")
           (nxml-mode
            ("\\.xml" "\\.wsdl" "\\.svg" "\\.xslt"
             "\\.wsdd" "\\.xsl" "\\.rng" "\\.xhtml"))
