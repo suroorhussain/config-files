@@ -27,9 +27,9 @@
 (require 'sgml-mode)
 
 (if (not (boundp 'jinja2-user-keywords))
-	 (setq jinja2-user-keywords nil))
+    (setq jinja2-user-keywords nil))
 (if (not (boundp 'jinja2-user-functions))
-	 (setq jinja2-user-functions nil))
+    (setq jinja2-user-functions nil))
 
 (defun jinja2-closing-keywords ()
   (append
@@ -61,18 +61,18 @@
   (append
    jinja2-user-functions
    '(
-    "abs" "attr" "batch" "capitalize"
-    "center" "default" "dictsort"
-    "escape" "filesizeformat" "first"
-    "float" "forceescape" "format"
-    "groupby" "indent" "int" "join"
-    "last" "length" "list" "lower"
-    "pprint" "random" "replace"
-    "reverse" "round" "safe" "slice"
-    "sort" "string" "striptags" "sum"
-    "title" "trim" "truncate" "upper"
-    "urlize" "wordcount" "wordwrap" "xmlattr"
-    )))
+     "abs" "attr" "batch" "capitalize"
+     "center" "default" "dictsort"
+     "escape" "filesizeformat" "first"
+     "float" "forceescape" "format"
+     "groupby" "indent" "int" "join"
+     "last" "length" "list" "lower"
+     "pprint" "random" "replace"
+     "reverse" "round" "safe" "slice"
+     "sort" "string" "striptags" "sum"
+     "title" "trim" "truncate" "upper"
+     "urlize" "wordcount" "wordwrap" "xmlattr"
+     )))
 
 
 (defun jinja2-find-open-tag ()
@@ -163,38 +163,38 @@
    jinja2-font-lock-keywords-2
    `(
      (,(rx "{{"
-	  (* whitespace)
-	  (group
-	   (*? anything)
-	   )
-	  (*
-	   "|" (* whitespace) (*? anything))
-	  (* whitespace)
-	  "}}") (1 font-lock-variable-name-face t))
+           (* whitespace)
+           (group
+            (*? anything)
+            )
+           (*
+            "|" (* whitespace) (*? anything))
+           (* whitespace)
+           "}}") (1 font-lock-variable-name-face t))
      (,(rx  (group "|" (* whitespace))
 	    (group (+ word))
 	    )
       (1 font-lock-keyword-face t)
       (2 font-lock-warning-face t))
      (,(rx-to-string `(and (group "|" (* whitespace))
-		       (group
-			,(append '(or)
-				 (jinja2-functions-keywords)
-				 ))))
+                           (group
+                            ,(append '(or)
+                                     (jinja2-functions-keywords)
+                                     ))))
       (1 font-lock-keyword-face t)
       (2 font-lock-function-name-face t)
       )
      (,(rx-to-string `(and word-start
-	   (? "end")
-	   ,(append '(or)
-		    (jinja2-indenting-keywords)
-	    )
-	   word-end)) (0 font-lock-keyword-face))
+                           (? "end")
+                           ,(append '(or)
+                                    (jinja2-indenting-keywords)
+                                    )
+                           word-end)) (0 font-lock-keyword-face))
      (,(rx-to-string `(and word-start
-	   ,(append '(or)
-		    (jinja2-builtin-keywords)
-	    )
-	   word-end)) (0 font-lock-builtin-face))
+                           ,(append '(or)
+                                    (jinja2-builtin-keywords)
+                                    )
+                           word-end)) (0 font-lock-builtin-face))
 
      (,(rx (or "{%" "%}")) (0 font-lock-function-name-face t))
      (,(rx (or "{{" "}}")) (0 font-lock-type-face t))
@@ -207,7 +207,7 @@
 	   "#}")
       (1 font-lock-comment-face t))
      (,(rx (or "{#" "#}")) (0 font-lock-comment-delimiter-face t))
-    )))
+     )))
 
 (defvar jinja2-font-lock-keywords
   jinja2-font-lock-keywords-1)
@@ -228,38 +228,13 @@
 
 (defun jinja2-calculate-indent-backward (default)
   "Return indent column based on previous lines"
-  (forward-line -1)
-  (if (looking-at "^[ \t]*{% *end") ; Don't indent after end
-      (current-indentation)
-    (if (looking-at (concat "^[ \t]*{% *.*?{% *end" (regexp-opt (jinja2-indenting-keywords))))
-	(current-indentation)
-      (if (looking-at (concat "^[ \t]*{% *" (regexp-opt (jinja2-indenting-keywords)))) ; Check start tag
-	  (+ (current-indentation) indent-width)
-	(if (looking-at "^[ \t]*<") ; Assume sgml block trust sgml
-	    default
-	  (if (bobp)
-	      0
-	    (jinja2-calculate-indent-backward default)))))))
+  default)
 
 
 (defun jinja2-calculate-indent ()
   "Return indent column"
-  (if (bobp)  ; Check begining of buffer
-      0
-    (let ((indent-width 2) (default (sgml-indent-line-num)))
-      (if (looking-at "^[ \t]*{% *e\\(nd\\|lse\\|lif\\)") ; Check close tag
-	  (save-excursion
-	    (forward-line -1)
-	    (if
-		(and
-		 (looking-at (concat "^[ \t]*{% *" (regexp-opt (jinja2-indenting-keywords))))
-		 (not (looking-at (concat "^[ \t]*{% *.*?{% *end" (regexp-opt (jinja2-indenting-keywords))))))
-		(current-indentation)
-	      (- (current-indentation) indent-width)))
-	(if (looking-at "^[ \t]*</") ; Assume sgml end block trust sgml
-	    default
-	  (save-excursion
-	    (jinja2-calculate-indent-backward default)))))))
+  (sgml-indent-line-num))
+
 
 (defun jinja2-indent-line ()
   "Indent current line as Jinja code"
