@@ -65,7 +65,7 @@ alias gg='git grep'
 alias ack=ack-grep
 
 function pssh {
-    machines=`~/repos/ops-tools-misc/bin/findpool -s $1`
+    machines=`~/milo/ops-tools-misc/bin/findpool -s $1`
     RETVAL=$?
     if [ $RETVAL -eq 0 ]; then
         cssh -ljvanwinkle $machines

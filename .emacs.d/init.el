@@ -118,6 +118,8 @@
 (mapply 'auto-load-mode
         '((js2-mode ("\\.js" "\\.json") "js2")
           (html-mode "\\.html")
+          (markdown-mode "\\.md")
+          (sass-mode "\\.sass")
           (css-mode "\\.css")
           (coffee-mode "\\.coffee")
           (jinja2-mode "\\.jinja" "jinja2")
