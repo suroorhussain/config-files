@@ -1,6 +1,7 @@
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/color-theme")
 (add-to-list 'load-path "~/.emacs.d/icicles")
+(add-to-list 'load-path "~/.emacs.d/slime")
 
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell
@@ -194,3 +195,16 @@
       (setq ad-return-value (js2-parse-assign-expr))
     ad-do-it))
 (ad-activate 'js2-parse-statement)
+
+(require 'slime)
+(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+;; Optionally, specify the lisp program you are using. Default is "lisp"
+(setq inferior-lisp-program "sbcl")
+
+(eval-after-load "slime"
+  '(progn
+    (slime-setup '(slime-fancy slime-asdf slime-banner))
+    (setq slime-complete-symbol*-fancy t)
+    (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)))
+(slime-setup)
