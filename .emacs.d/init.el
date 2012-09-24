@@ -10,28 +10,28 @@
           ""
           (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
     (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
+    (setf exec-path (split-string path-from-shell path-separator))))
 
 (defmacro try-this (&rest body)
   `(unwind-protect
        (let (retval (gensym))
          (condition-case ex
-             (setq retval (progn ,@body))
+             (setf retval (progn ,@body))
            ('error
             (message (format "Caught exception: [%s]" ex))
-            (setq retval (cons 'exception (list ex)))))
+            (setf retval (cons 'exception (list ex)))))
          retval)))
 
 (defmacro try-independently (&rest body)
   (let (retval (gensym))
     (dolist (x body retval) ()
             (push `(try-this ,x) retval))
-    (setq retval (reverse retval))
+    (setf retval (reverse retval))
     (push 'progn retval)))
 
 (defun auto-load-mode (mode extensions &optional mode-fn)
   ; If not already a list, wrap it in one.
-  (setq extensions (if (listp extensions) extensions (list extensions))
+  (setf extensions (if (listp extensions) extensions (list extensions))
         extension-fn (if mode-fn mode-fn (symbol-name mode))
         regex (concat "\\(" (mapconcat 'identity extensions "\\|") "\\)\\'"))
   (autoload mode extension-fn nil t)
@@ -42,7 +42,7 @@
     (apply func someargs)))
 
 ; Setup menu's etc.
-(setq inhibit-startup-message t
+(setf inhibit-startup-message t
       require-final-newline t
       ring-bell-function 'ignore
       mac-pass-command-to-system nil
@@ -54,7 +54,7 @@
       backup-by-copying-when-mismatch t
       make-backup-files nil)
 
-(setq-default indent-tabs-mode nil)
+(setf-default indent-tabs-mode nil)
 (global-auto-revert-mode 1)
 (column-number-mode 1)
 (show-paren-mode t)
@@ -136,9 +136,9 @@
         '((coffee-mode-hook
            (lambda () (set (make-local-variable 'tab-width) 2)))
           (go-mode-hook
-           (lambda () (setq tab-width 4)))
+           (lambda () (setf tab-width 4)))
           (nxml-mode-hook
-           (lambda () (setq nxml-slash-auto-complete-flag t)))
+           (lambda () (setf nxml-slash-auto-complete-flag t)))
           (before-save-hook delete-trailing-whitespace)
           (python-mode-hook show-ws-highlight-tabs)
           (python-mode-hook
@@ -164,7 +164,7 @@
     (byte-recompile-directory path 0)))
 
 (defadvice js2-reparse (before json)
-  (setq js2-buffer-file-name buffer-file-name))
+  (setf js2-buffer-file-name buffer-file-name))
 (ad-activate 'js2-reparse)
 
 
@@ -175,11 +175,11 @@
     (if (string-match "postgresql" buffer-file-name)
         (progn
           (c-set-style "bsd")
-          (setq c-basic-offset 4)
-          (setq tab-width 4)
+          (setf c-basic-offset 4)
+          (setf tab-width 4)
           (c-set-offset 'case-label '+)
-          (setq fill-column 79)
-          (setq indent-tabs-mode t))))))
+          (setf fill-column 79)
+          (setf indent-tabs-mode t))))))
 
 (defadvice js2-parse-statement (around json)
   (if (and (= tt js2-LC)
@@ -192,7 +192,7 @@
                       (next-line)
                       (back-to-indentation))
                     (point)) 1) js2-ts-cursor))
-      (setq ad-return-value (js2-parse-assign-expr))
+      (setf ad-return-value (js2-parse-assign-expr))
     ad-do-it))
 (ad-activate 'js2-parse-statement)
 
@@ -200,11 +200,14 @@
 (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
 (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
 ;; Optionally, specify the lisp program you are using. Default is "lisp"
-(setq inferior-lisp-program "sbcl")
+(setf inferior-lisp-program "sbcl")
+(setf common-lisp-hyperspec-root
+      "file:/home/jvanwink/.config_files/HyperSpec/")
+
 
 (eval-after-load "slime"
   '(progn
     (slime-setup '(slime-fancy slime-asdf slime-banner))
-    (setq slime-complete-symbol*-fancy t)
-    (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)))
+    (setf slime-complete-symbol*-fancy t)
+    (setf slime-complete-symbol-function 'slime-fuzzy-complete-symbol)))
 (slime-setup)
