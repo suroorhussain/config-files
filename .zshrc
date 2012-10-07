@@ -98,3 +98,6 @@ function set_python_pwd {
 function remssh {
     ssh-keygen -f "/home/jvanwink/.ssh/known_hosts" -R $1
 }
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
