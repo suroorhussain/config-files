@@ -34,19 +34,16 @@
 (defun jinja2-closing-keywords ()
   (append
    jinja2-user-keywords
-   '(
-     "if" "for" "block" "filter" "with"
-     "raw" "macro" "autoescape" "trans" "call"
-     )))
+   '("if" "for" "block" "filter" "with"
+     "raw" "macro" "autoescape" "trans" "call")))
 
 (defun jinja2-indenting-keywords ()
   (append
    (jinja2-closing-keywords)
-   '("else" "elif" )))
+   '("else" "elif")))
 
 (defun jinja2-builtin-keywords ()
-  '(
-    "as" "autoescape" "debug" "extends"
+  '("as" "autoescape" "debug" "extends"
     "firstof" "in" "include" "load"
     "now" "regroup" "ssi" "templatetag"
     "url" "widthratio" "elif" "true"
@@ -60,8 +57,7 @@
 (defun jinja2-functions-keywords ()
   (append
    jinja2-user-functions
-   '(
-     "abs" "attr" "batch" "capitalize"
+   '("abs" "attr" "batch" "capitalize"
      "center" "default" "dictsort"
      "escape" "filesizeformat" "first"
      "float" "forceescape" "format"
@@ -71,8 +67,7 @@
      "reverse" "round" "safe" "slice"
      "sort" "string" "striptags" "sum"
      "title" "trim" "truncate" "upper"
-     "urlize" "wordcount" "wordwrap" "xmlattr"
-     )))
+     "urlize" "wordcount" "wordwrap" "xmlattr")))
 
 
 (defun jinja2-find-open-tag ()
@@ -84,10 +79,8 @@
 		  "end"))
 	      (group
 	       ,(append '(or)
-			(jinja2-closing-keywords)
-			))
-	      (group
-	       (*? anything))
+			(jinja2-closing-keywords)))
+	      (group (*? anything))
 	      (* whitespace)
 	      "%}")) nil t)
       (if (match-string 1) ;; End tag, going on

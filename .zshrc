@@ -40,11 +40,9 @@ fi
 
 for new_path in \
     "/opt/local/sbin" \
-    "/opt/local/libexec/gnubin" \
     "$HOME/opt/bin" \
     "$HOME/bin" \
-    "$HOME/faction/toolio/bin" \
-    "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin" ; do
+    "$HOME/faction/toolio/bin" ; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"
     fi
@@ -52,11 +50,6 @@ done
 
 function act {
     source $HOME/virt/$1/bin/activate
-}
-
-function milomode {
-    export PYTHONPATH=/pluto:/pluto/pycloud
-    export MAGIC_ENV=development
 }
 
 eval "`dircolors -b`"
@@ -98,6 +91,3 @@ function set_python_pwd {
 function remssh {
     ssh-keygen -f "/home/jvanwink/.ssh/known_hosts" -R $1
 }
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"

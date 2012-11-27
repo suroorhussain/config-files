@@ -52,7 +52,8 @@
       mac-command-modifier 'meta
       ac-auto-start nil
       backup-by-copying-when-mismatch t
-      make-backup-files nil)
+      make-backup-files nil
+      icicle-image-files-in-Completions nil)
 
 (setq-default indent-tabs-mode nil)
 (global-auto-revert-mode 1)
@@ -89,8 +90,8 @@
 (autoload 'find-file-in-project "find-file-in-project" "Find file in project." t)
 
 ;; icicles
-;(require 'icicles)
-;(icy-mode)
+(require 'icicles)
+(icy-mode)
 
 (defun condense-whitespace ()
   "Kill the whitespace between two non-whitespace characters"
