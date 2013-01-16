@@ -4,45 +4,38 @@ autoload -Uz compinit
 compinit
 autoload -U colors && colors
 
-setopt completeinword
-
 HISTFILE=~/.zhistory
 HISTSIZE=25000
 SAVEHIST=25000
 
-setopt   appendhistory
+setopt appendhistory
+setopt completeinword
+setopt extendedhistory
+setopt histexpiredupsfirst
+setopt histfindnodups
+setopt histignorealldups
+setopt histignoredups
+setopt histreduceblanks
+setopt histverify
+setopt incappendhistory
+setopt sharehistory
 unsetopt banghist
 unsetopt cshjunkiehistory
-setopt   extendedhistory
 unsetopt histallowclobber
 unsetopt histbeep
-setopt   histexpiredupsfirst
-setopt   histfindnodups
-setopt   histignorealldups
-setopt   histignoredups
 unsetopt histignorespace
 unsetopt histnofunctions
 unsetopt histnostore
-setopt   histreduceblanks
 unsetopt histsavenodups
-setopt   histverify
-setopt   incappendhistory
-setopt   sharehistory
 
 PS1="%{$fg[green]%}%n@%m:%{$fg[cyan]%}%~%{$reset_color%}%% "
 
-if [ -d "/opt/local/bin" ] ; then
-    PATH="/opt/local/bin:$PATH"
-    LIBRARY_PATH="/opt/local/include:/opt/include:$LIBRARY_PATH"
-    LD_LIBRARY_PATH="/opt/local/lib:/opt/lib:$LD_LIBRARY_PATH"
-    DYLD_LIBRARY_PATH="/opt/local/lib:$DYLD_LIBRARY_PATH"
-fi
-
 for new_path in \
-    "/opt/local/sbin" \
+    "/usr/local/bin" \
+    "/usr/local/opt/coreutils/libexec/gnubin" \
     "$HOME/opt/bin" \
     "$HOME/bin" \
-    "$HOME/faction/toolio/bin" ; do
+    "/opt/local/lib/postgresql92/bin" ; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"
     fi
@@ -74,7 +67,9 @@ alias gf='find | grep -v \.pyc$ | grep'
 alias fa='find | ack-grep'
 alias ggf='git ls-files | grep'
 alias gg='git grep'
+alias loc='mdfind -name'
 alias ack=ack-grep
+alias pi="port info"
 
 function pssh {
     machines=`~/repos/ops-tools-misc/bin/findpool -s $1`
@@ -89,5 +84,5 @@ function set_python_pwd {
 }
 
 function remssh {
-    ssh-keygen -f "/home/jvanwink/.ssh/known_hosts" -R $1
+    ssh-keygen -f ~/.ssh/known_hosts -R $1
 }
