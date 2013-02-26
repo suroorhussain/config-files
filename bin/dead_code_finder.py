@@ -25,7 +25,7 @@ class TokenCollector(object):
     def __call__(self, *args):
         token_type = args[0]
         token = args[1]
-        if token.startswith('__') and token.endswith('__'):
+        if token.startswith(b'__') and token.endswith(b'__'):
             return
         if token_type == 1:
             if self.last_token in ('def', 'class'):

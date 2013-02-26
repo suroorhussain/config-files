@@ -3,6 +3,24 @@
 (add-to-list 'load-path "~/.emacs.d/icicles")
 (add-to-list 'load-path "~/.emacs.d/slime")
 
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+
+(defun find-first-non-ascii-char ()
+  "Find the first non-ascii character from point onwards."
+  (interactive)
+  (let (point)
+    (save-excursion
+      (setq point
+            (catch 'non-ascii
+              (while (not (eobp))
+                (or (eq (char-charset (following-char))
+                        'ascii)
+                    (throw 'non-ascii (point)))
+                (forward-char 1)))))
+    (if point
+        (goto-char point)
+        (message "No non-ascii characters."))))
+
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell
          (replace-regexp-in-string
@@ -131,6 +149,7 @@
            ("\\.xml" "\\.wsdl" "\\.svg" "\\.xslt"
             "\\.wsdd" "\\.xsl" "\\.rng" "\\.xhtml"))
           (cython-mode ("\\.pyx" "\\.pxd"))
+          (peg-mode ("\\.peg"))
           (go-mode "\\.go")))
 
 (mapply 'add-hook
@@ -203,7 +222,7 @@
 ;; Optionally, specify the lisp program you are using. Default is "lisp"
 (setq inferior-lisp-program "sbcl")
 (setq common-lisp-hyperspec-root
-      "file:/home/jvanwink/.config_files/HyperSpec/")
+      "file:/Users/jvanwink/.config_files/HyperSpec/")
 
 (eval-after-load "slime"
   '(progn

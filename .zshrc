@@ -10,6 +10,7 @@ SAVEHIST=25000
 
 setopt appendhistory
 setopt completeinword
+setopt extendedglob
 setopt extendedhistory
 setopt histexpiredupsfirst
 setopt histfindnodups
@@ -85,4 +86,13 @@ function set_python_pwd {
 
 function remssh {
     ssh-keygen -f ~/.ssh/known_hosts -R $1
+}
+
+function fetch-all {
+    for repodir in ./*(/); do
+        echo "fetching $repodir"
+        cd $repodir;
+        git fetch;
+        cd ..;
+    done
 }
