@@ -21,7 +21,7 @@ class LintRunner(object):
     output_matcher = None
     #flymake: ("\\(.*\\) at \\([^ \n]+\\) line \\([0-9]+\\)[,.\n]" 2 3 nil 1)
     #or in non-retardate: r'(.*) at ([^ \n]) line ([0-9])[,.\n]'
-    output_format = "%(level)s %(error_type)s%(error_number)s:" \
+    output_format = "%(level)s %(error_type)s%(error_number)s: " \
                     "%(description)s at %(filename)s line %(line_number)s."
 
     def __init__(self, virtualenv=None, ignore_codes=(),
@@ -95,7 +95,7 @@ class CompilerRunner(LintRunner):
         fixed_data['level'] = 'ERROR'
         fixed_data['line_number'] = args[1][1]
         fixed_data['filename'] = filename
-        fixed_data['description'] = args[0]
+        fixed_data['description'] = 'CompilerRunner ' + args[0]
 
         print cls.output_format % fixed_data
 
@@ -127,7 +127,7 @@ class PylintRunner(LintRunner):
         "R0903",  # Too few public methods
         "R0201",  # Method could be a function
         "W0141",  # Used built in function map
-        ])
+    ])
 
     @staticmethod
     def fixup_data(_line, data):

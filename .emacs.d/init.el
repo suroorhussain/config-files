@@ -78,6 +78,7 @@
 (column-number-mode 1)
 (show-paren-mode t)
 (menu-bar-mode -1)
+(setq uniquify-buffer-name-style 'reverse)
 
 (defun window-mode-init ()
   "Set things up for a gui window."
@@ -130,6 +131,7 @@
           (,(kbd "C-\\") condense-whitespace)
           (,(kbd "M-c") kill-ring-save)
           (,(kbd "C-;") auto-complete)
+          (,(kbd "C-i") sort-lines)
           (,(kbd "C-=") flymake-goto-next-error)
           (,(kbd "C-o") find-file-in-project)))
 
