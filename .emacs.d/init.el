@@ -78,7 +78,6 @@
 (column-number-mode 1)
 (show-paren-mode t)
 (menu-bar-mode -1)
-(setq uniquify-buffer-name-style 'reverse)
 
 (defun window-mode-init ()
   "Set things up for a gui window."
@@ -88,6 +87,9 @@
   (tool-bar-mode -1)
   (tooltip-mode -1)
   (set-fringe-mode 2)
+  (require 'uniquify)
+  (setq uniquify-buffer-name-style 'reverse)
+
 
   (require 'midnight)
   (midnight-delay-set 'midnight-delay "4:30am")
@@ -131,7 +133,6 @@
           (,(kbd "C-\\") condense-whitespace)
           (,(kbd "M-c") kill-ring-save)
           (,(kbd "C-;") auto-complete)
-          (,(kbd "C-i") sort-lines)
           (,(kbd "C-=") flymake-goto-next-error)
           (,(kbd "C-o") find-file-in-project)))
 
