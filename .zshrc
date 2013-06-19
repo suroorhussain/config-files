@@ -1,4 +1,5 @@
 zstyle :compinstall filename '/home/jvanwink/.zshrc'
+fpath=(/usr/local/share/zsh-completions $fpath)
 
 autoload -Uz compinit
 compinit

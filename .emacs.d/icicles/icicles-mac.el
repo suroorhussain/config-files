@@ -4,14 +4,14 @@
 ;; Description: Macros for Icicles
 ;; Author: Drew Adams
 ;; Maintainer: Drew Adams
-;; Copyright (C) 1996-2012, Drew Adams, all rights reserved.
+;; Copyright (C) 1996-2013, Drew Adams, all rights reserved.
 ;; Created: Mon Feb 27 09:24:28 2006
 ;; Version: 22.0
-;; Last-Updated: Mon Oct  8 13:55:31 2012 (-0700)
+;; Last-Updated: Thu Apr 18 14:17:33 2013 (-0700)
 ;;           By: dradams
-;;     Update #: 1047
-;; URL: http://www.emacswiki.org/cgi-bin/wiki/icicles-mac.el
-;; Doc URL: http://www.emacswiki.org/cgi-bin/wiki/Icicles
+;;     Update #: 1124
+;; URL: http://www.emacswiki.org/icicles-mac.el
+;; Doc URL: http://www.emacswiki.org/Icicles
 ;; Keywords: internal, extensions, help, abbrev, local, minibuffer,
 ;;           keys, apropos, completion, matching, regexp, command
 ;; Compatibility: GNU Emacs: 20.x, 21.x, 22.x, 23.x, 24.x
@@ -38,16 +38,11 @@
 ;;    `icicle-define-command', `icicle-define-file-command',
 ;;    `icicle-define-search-bookmark-command',
 ;;    `icicle-define-sort-command', `icicle-file-bindings',
-;;    `icicle-kbd', `icicle-with-selected-window'
-;;    `minibuffer-with-setup-hook' (Emacs <22).
-;;
-;;  Commands defined here:
-;;
-;;    `icicle-read-kbd-macro'.
+;;    `icicle-user-error', `icicle-with-selected-window'.
 ;;
 ;;  Non-interactive functions defined here:
 ;;
-;;    `icicle-edmacro-parse-keys'.
+;;    `icicle-assoc-delete-all', `icicle-remove-if'.
 ;;
 ;;  You might also be interested in my library `imenu+.el', which
 ;;  teaches the macros defined here to Imenu, so the functions defined
@@ -84,7 +79,6 @@
 ;;  headings throughout this file.  You can get `linkd.el' here:
 ;;  http://dto.freeshell.org/notebook/Linkd.html.
 ;;
-;;  (@> "User Options")
 ;;  (@> "Macros")
  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -149,194 +143,27 @@
 ;;             (funcall ,bodysym)
 ;;           ,@handlers)))))
 
-;; Provide macro for code byte-compiled using Emacs < 22.
-(eval-when-compile
- (when (< emacs-major-version 22)
-   (defmacro minibuffer-with-setup-hook (fun &rest body)
-     "Temporarily add FUN to `minibuffer-setup-hook' while executing BODY.
-BODY should use the minibuffer at most once.
-Recursive uses of the minibuffer are unaffected (FUN is not
-called additional times).
-
-This macro actually adds an auxiliary function that calls FUN,
-rather than FUN itself, to `minibuffer-setup-hook'."
-     ;; (declare (indent 1) (debug t))
-     (let ((hook  (make-symbol "setup-hook")))
-       `(let (,hook)
-         (setq ,hook  (lambda ()
-                        ;; Clear out this hook so it does not interfere
-                        ;; with any recursive minibuffer usage.
-                        (remove-hook 'minibuffer-setup-hook ,hook)
-                        (funcall ,fun)))
-         (unwind-protect
-              (progn (add-hook 'minibuffer-setup-hook ,hook) ,@body)
-           (remove-hook 'minibuffer-setup-hook ,hook)))))))
-
-;; Same as `naked-edmacro-parse-keys' in `naked.el'.
-;; Based on `edmacro-parse-keys' in standard library `edmacro.el'
-;; Differences are:
-;;
-;; 1. Addition of optional arg ANGLES.
-;; 2. Ensure same behavior as `edmacro-parse-keys', if ANGLES is non-nil.
-;; 2. Handle angle brackets, whether ANGLES is nil or non-nil.
-;; 3. Handle `TAB' correctly, if ANGLES is nil.
-;; 4. Handle names without angle brackets, if ANGLES is nil.
-;; 5. Works for all Emacs versions.
-;;
-(defun icicle-edmacro-parse-keys (string &optional need-vector angles)
-  "Like `edmacro-parse-keys', but does not use angle brackets, by default.
-Non-nil optional arg ANGLES means to use angle brackets, exactly like
-`edmacro-parse-keys'.  See `icicle-read-kbd-macro' for more about
-ANGLES."
-  (let ((case-fold-search  nil)
-	(len               (length string)) ; We won't alter string in the loop below.
-        (pos               0)
-        (res               []))
-    (while (and (< pos len)  (string-match "[^ \t\n\f]+" string pos))
-      (let* ((word-beg  (match-beginning 0))
-	     (word-end  (match-end 0))
-	     (word      (substring string word-beg len))
-	     (times     1)
-             (key       nil))
-	;; Try to catch events of the form "<as df>".
-        (if (string-match "\\`<[^ <>\t\n\f][^>\t\n\f]*>" word)
-            (setq word  (match-string 0 word)
-                  pos   (+ word-beg (match-end 0)))
-          (setq word  (substring string word-beg word-end)
-                pos   word-end))
-        (when (string-match "\\([0-9]+\\)\\*." word)
-          (setq times  (string-to-number (substring word 0 (match-end 1)))
-                word   (substring word (1+ (match-end 1)))))
-        (cond ((string-match "^<<.+>>$" word)
-               (setq key  (vconcat (if (eq (key-binding [?\M-x])
-                                           'execute-extended-command)
-                                       [?\M-x]
-                                     (or (car (where-is-internal
-                                               'execute-extended-command))
-                                         [?\M-x]))
-                                   (substring word 2 -2) "\r")))
-
-              ;; Must test this before [ACHMsS]- etc., to prevent match.
-              ((or (equal word "REM") (string-match "^;;" word))
-               (setq pos  (string-match "$" string pos)))
-
-              ;; Straight `edmacro-parse-keys' case - ensure same behavior.
-              ;; Includes same bugged handling of `TAB'.  That is Emacs bug #12535.
-              ;; The bug fix is to add `TAB' to the list in this clause.
-	      ((and angles  (string-match "^\\(\\([ACHMsS]-\\)*\\)<\\(.+\\)>$" word)
-		    (progn
-		      (setq word  (concat (substring word (match-beginning 1)
-                                                     (match-end 1))
-                                          (substring word (match-beginning 3)
-                                                     (match-end 3))))
-		      (not (string-match "\\<\\(NUL\\|RET\\|LFD\\|ESC\\|SPC\\|DEL\\)$" word))))
-	       (setq key  (list (intern word))))
-
-              ;; NaKeD handling of <...>.  Recognize it anyway, even without non-nil ANGLES.
-              ;; But unlike `edmacro-parse-keys', include <TAB>, to handle it correctly.
-              ((and (string-match "^\\(\\([ACHMsS]-\\)*\\)<\\(..+\\)>$" word)
-                    (progn
-                      (setq word  (concat (substring word (match-beginning 1) (match-end 1))
-                                          (substring word (match-beginning 3) (match-end 3))))
-                      (not (string-match "\\<\\(NUL\\|RET\\|LFD\\|ESC\\|SPC\\|DEL\\|TAB\\)$"
-                                         word))))
-               (setq key  (list (intern word))))
-
-              ;; NaKeD handling of names without <...>.
-              ((and (not angles)
-                    (string-match "^\\(\\([ACHMsS]-\\)*\\)\\([^ \t\f\n][^ \t\f\n]+\\)$" word)
-                    ;; Do not count `C-' etc. when at end of string.
-                    (save-match-data (not (string-match "\\([ACHMsS]-.\\)+$" word)))
-                    (progn
-                      (setq word  (concat (substring word (match-beginning 1) (match-end 1))
-                                          (substring word (match-beginning 3) (match-end 3))))
-                      (not (string-match "\\<\\(NUL\\|RET\\|LFD\\|ESC\\|SPC\\|DEL\\|TAB\\)$"
-                                         word))))
-               (setq key  (list (intern word))))
-              
-              (t
-               (let ((orig-word  word)
-                     (prefix     0)
-                     (bits       0))
-                 (while (string-match "^[ACHMsS]-." word)
-                   (incf bits (cdr (assq (aref word 0) '((?A . ?\A-\^@) (?C . ?\C-\^@)
-                                                         (?H . ?\H-\^@) (?M . ?\M-\^@)
-                                                         (?s . ?\s-\^@) (?S . ?\S-\^@)))))
-                   (incf prefix 2)
-                   (callf substring word 2))
-                 (when (string-match "^\\^.$" word)
-                   (incf bits ?\C-\^@)
-                   (incf prefix)
-                   (callf substring word 1))
-                 (let ((found  (assoc word '(("NUL" . "\0") ("RET" . "\r") ("LFD" . "\n")
-                                             ("ESC" . "\e") ("SPC" . " ") ("DEL" . "\177")
-                                             ("TAB" . "\t")))))
-                   (when found (setq word  (cdr found))))
-                 (when (string-match "^\\\\[0-7]+$" word)
-                   (loop for ch across word
-                         for n = 0 then (+ (* n 8) ch -48)
-                         finally do (setq word  (vector n))))
-                 (cond ((= bits 0) (setq key  word))
-                       ((and (= bits ?\M-\^@) (stringp word)  (string-match "^-?[0-9]+$" word))
-                        (setq key  (loop for x across word collect (+ x bits))))
-                       ((/= (length word) 1)
-                        (error "%s must prefix a single character, not %s"
-                               (substring orig-word 0 prefix) word))
-                       ((and (/= (logand bits ?\C-\^@) 0) (stringp word)
-                             ;; Used to accept `.' and `?' here, but `.' is simply wrong,
-                             ;; and `C-?' is not used (so use `DEL' instead).
-                             (string-match "[@-_a-z]" word))
-                        (setq key  (list (+ bits (- ?\C-\^@) (logand (aref word 0) 31)))))
-                       (t (setq key  (list (+ bits (aref word 0)))))))))
-        (when key (loop repeat times do (callf vconcat res key)))))
-    (when (and (>= (length res) 4)  (eq (aref res 0) ?\C-x)  (eq (aref res 1) ?\()
-               (eq (aref res (- (length res) 2)) ?\C-x)  (eq (aref res (- (length res) 1)) ?\)))
-      (setq res  (edmacro-subseq res 2 -2)))
-    (if (and (not need-vector)
-	     (loop for ch across res
-		   always (and (if (fboundp 'characterp)  (characterp ch)  (char-valid-p ch))
-			       (let ((ch2  (logand ch (lognot ?\M-\^@))))
-				 (and (>= ch2 0)  (<= ch2 127))))))
-	(concat (loop for ch across res collect (if (= (logand ch ?\M-\^@) 0)  ch  (+ ch 128))))
-      res)))
-
-;; Same as `naked-read-kbd-macro' in `naked.el'.
-(defun icicle-read-kbd-macro (start &optional end angles)
-  "Read the region as a keyboard macro definition.
-Like `read-kbd-macro', but does not use angle brackets, by default.
-
-With a prefix arg use angle brackets, exactly like `read-kbd-macro'.
-That is, with non-nil arg ANGLES, expect key descriptions to use angle
-brackets (<...>).  Otherwise, expect key descriptions not to use angle
-brackets.  For example:
-
- (icicle-read-kbd-macro  \"mode-line\"  t) returns [mode-line]
- (icicle-read-kbd-macro \"<mode-line>\" t t)   returns [mode-line]"
-  (interactive "r\P")
-  (if (stringp start)
-      (icicle-edmacro-parse-keys start end angles)
-    (setq last-kbd-macro  (icicle-edmacro-parse-keys (buffer-substring start end) nil angles))))
-
-;; Same as `naked' in `naked.el'.
-(defmacro icicle-kbd (keys &optional angles)
-  "Like `kbd', but does not use angle brackets, by default.
-With non-nil optional arg ANGLES, expect key descriptions to use angle
-brackets (<...>), exactly like `kbd'.  Otherwise, expect key
-descriptions not to use angle brackets.  For example:
-
- (icicle-kbd \"mode-line\")     returns [mode-line]
- (icicle-kbd \"<mode-line>\" t) returns [mode-line]
-
-The default behavior lets you use, e.g., \"C-x delete\" and \"C-delete\"
-instead of \"C-x <delete>\" and \"C-<delete>\"."
-  (icicle-read-kbd-macro keys nil angles))
-
 ;; Same definition as in `icicles-fn.el'.
 (defun icicle-remove-if (pred xs)
   "A copy of list XS with no elements that satisfy predicate PRED."
   (let ((result  ()))
     (dolist (x xs) (unless (funcall pred x) (push x result)))
     (nreverse result)))
+
+;; Same definition as in `icicles-fn.el'.
+(defun icicle-assoc-delete-all (key alist)
+  "Delete from ALIST all elements whose car is `equal' to KEY.
+Return the modified alist.
+Elements of ALIST that are not conses are ignored."
+  (while (and (consp (car alist))  (equal (car (car alist)) key))
+    (setq alist  (cdr alist)))
+  (let ((tail  alist)
+        tail-cdr)
+    (while (setq tail-cdr  (cdr tail))
+      (if (and (consp (car tail-cdr))  (equal (car (car tail-cdr)) key))
+          (setcdr tail (cdr tail-cdr))
+        (setq tail  tail-cdr))))
+  alist)
 
 (defmacro icicle-condition-case-no-debug (var bodyform &rest handlers)
   "Like `condition-case', but do not catch per `debug-on-(error|quit)'.
@@ -363,7 +190,7 @@ NOTE:
    `debug-on-error' is non-nil."
   (let ((bodysym  (make-symbol "body")))
     `(let ((,bodysym  (lambda () ,bodyform)))
-      (cond ((and debug-on-error debug-on-quit)
+      (cond ((and debug-on-error  debug-on-quit)
              (condition-case ,var
                  (funcall ,bodysym)
                ,@(icicle-remove-if
@@ -429,6 +256,10 @@ the buffer list ordering."
                 (select-window save-selected-window-window 'norecord) ; Emacs 22+
               (select-window save-selected-window-window))))))))
 
+(defmacro icicle-user-error (&rest args)
+  "`user-error' if defined, otherwise `error'."
+  `(if (fboundp 'user-error) (user-error ,@args) (error ,@args)))
+
 (defmacro icicle-define-add-to-alist-command (command doc-string construct-item-fn alist-var
                                               &optional dont-save)
   "Define COMMAND that adds an item to an alist user option.
@@ -453,7 +284,7 @@ Optional arg DONT-SAVE non-nil means do not call
 PRE-BINDINGS is a list of additional bindings, which are created
 before the others.  POST-BINDINGS is similar, but the bindings are
 created after the others."
-  ;; We use `append' rather than backquote syntax (with ,@post-bindings in particular) because of a bug
+  ;; Use `append' rather than backquote syntax (with ,@post-bindings in particular) because of a bug
   ;; in Emacs 20.  This ensures that you can byte-compile in, say, Emacs 20 and still use the result
   ;; in later Emacs releases.
   `,(append
@@ -481,7 +312,7 @@ created after the others."
        (icicle-transform-function                   'icicle-remove-dups-if-extras)
        (icicle--temp-orders
         (append (list
-                 '("by last access")    ; Renamed from "turned OFF'.
+                 '("by last display time") ; Renamed from "turned OFF'.
                  '("*...* last" . icicle-buffer-sort-*...*-last)
                  '("by buffer size" . icicle-buffer-smaller-p)
                  '("by major mode name" . icicle-major-mode-name-less-p)
@@ -491,7 +322,7 @@ created after the others."
          (delete '("turned OFF") (copy-sequence icicle-sort-orders-alist))))
        ;; Put `icicle-buffer-sort' first.  If already in the list, move it, else add it, to beginning.
        (icicle-sort-orders-alist
-        (progn (when (and icicle-buffer-sort-first-time-p icicle-buffer-sort)
+        (progn (when (and icicle-buffer-sort-first-time-p  icicle-buffer-sort)
                  (setq icicle-sort-comparer             icicle-buffer-sort
                        icicle-buffer-sort-first-time-p  nil))
                (if icicle-buffer-sort
@@ -502,30 +333,43 @@ created after the others."
                        (cons `("by `icicle-buffer-sort'" . ,icicle-buffer-sort) icicle--temp-orders)))
                  icicle--temp-orders)))
        (icicle-candidate-alt-action-fn
-        (or icicle-candidate-alt-action-fn (icicle-alt-act-fn-for-type "buffer")))
+        (or icicle-candidate-alt-action-fn  (icicle-alt-act-fn-for-type "buffer")))
        (icicle-all-candidates-list-alt-action-fn
-        (or icicle-all-candidates-list-alt-action-fn (icicle-alt-act-fn-for-type "buffer")))
+        (or icicle-all-candidates-list-alt-action-fn  (icicle-alt-act-fn-for-type "buffer")))
        (icicle-bufflist
-        (if current-prefix-arg
-            (cond ((and (consp current-prefix-arg)  (fboundp 'derived-mode-p)) ; `C-u'
-                   (icicle-remove-if-not (lambda (bf)
-                                           (derived-mode-p (with-current-buffer bf major-mode)))
-                                         (buffer-list)))
-                  ((zerop (prefix-numeric-value current-prefix-arg)) ; `C-0'
-                   (let ((this-mode  major-mode))
-                     (icicle-remove-if-not `(lambda (bf)
-                                             (with-current-buffer bf (eq major-mode ',this-mode)))
-                                           (buffer-list))))
-                  ((< (prefix-numeric-value current-prefix-arg) 0) ; `C--'
-                   (cdr (assq 'buffer-list (frame-parameters))))
-                  (t                    ; `C-1'
-                   (icicle-remove-if-not (lambda (bf)
-                                           (or (buffer-file-name bf)
-                                               (with-current-buffer bf (eq major-mode 'dired-mode))))
-                                         (buffer-list))))
-          (buffer-list)))
+        (if (eq 'use-default icicle-buffer-prefix-arg-filtering)
+            (if (not current-prefix-arg)
+                (buffer-list)
+              (cond ((and (consp current-prefix-arg)
+                          (> (prefix-numeric-value current-prefix-arg) 16)) ; `C-u C-u C-u'
+                     (icicle-remove-if (lambda (bf) (get-buffer-window bf 0)) (buffer-list)))
+                    ((and (consp current-prefix-arg)
+                          (> (prefix-numeric-value current-prefix-arg) 4)) ; `C-u C-u'
+                     (icicle-remove-if-not (lambda (bf) (get-buffer-window bf 0)) (buffer-list)))
+                    ((and (consp current-prefix-arg)  (fboundp 'derived-mode-p)) ; `C-u'
+                     (icicle-remove-if-not (lambda (bf)
+                                             (derived-mode-p (with-current-buffer bf major-mode)))
+                                           (buffer-list)))
+                    ((zerop (prefix-numeric-value current-prefix-arg)) ; `C-0'
+                     (let ((this-mode  major-mode))
+                       (icicle-remove-if-not `(lambda (bf)
+                                               (with-current-buffer bf (eq major-mode ',this-mode)))
+                                             (buffer-list))))
+                    ((< (prefix-numeric-value current-prefix-arg) 0) ; `C--'
+                     (cdr (assq 'buffer-list (frame-parameters))))
+                    (t                  ; `C-1'
+                     (icicle-remove-if-not (lambda (bf)
+                                             (or (buffer-file-name bf)
+                                                 (with-current-buffer bf (eq major-mode 'dired-mode))))
+                                           (buffer-list)))))
+          (catch 'icicle-buffer-bindings
+            (dolist (entry  icicle-buffer-prefix-arg-filtering)
+              (when (funcall (car entry) current-prefix-arg)
+                (throw 'icicle-buffer-bindings
+                  (if (cdr entry) (icicle-remove-if (cdr entry) (buffer-list)) (buffer-list)))))
+            (buffer-list))))
        (icicle-bufflist
-        (icicle-remove-if                           
+        (icicle-remove-if
          (lambda (bf) (icicle-string-match-p "^ [*]Minibuf-[0-9]" (buffer-name bf)))
          icicle-bufflist)))
      post-bindings))
@@ -541,7 +385,7 @@ created after the others."
   `,(append
      pre-bindings
      `((completion-ignore-case
-        (or (and (boundp 'read-file-name-completion-ignore-case) read-file-name-completion-ignore-case)
+        (or (and (boundp 'read-file-name-completion-ignore-case)  read-file-name-completion-ignore-case)
          completion-ignore-case))
        (icicle-show-Completions-initially-flag      (or icicle-show-Completions-initially-flag
                                                      icicle-files-ido-like-flag))
@@ -562,7 +406,7 @@ created after the others."
        ;; Put `icicle-file-sort' first.  If already in the list, move it, else add it, to beginning.
        (icicle--temp-orders                         (copy-sequence icicle-sort-orders-alist))
        (icicle-sort-orders-alist
-        (progn (when (and icicle-file-sort-first-time-p icicle-file-sort)
+        (progn (when (and icicle-file-sort-first-time-p  icicle-file-sort)
                  (setq icicle-sort-comparer           icicle-file-sort
                        icicle-file-sort-first-time-p  nil))
                (if icicle-file-sort
@@ -575,9 +419,9 @@ created after the others."
        (icicle-candidate-help-fn                    (lambda (cand)
                                                       (icicle-describe-file cand current-prefix-arg t)))
        (icicle-candidate-alt-action-fn
-        (or icicle-candidate-alt-action-fn (icicle-alt-act-fn-for-type "file")))
+        (or icicle-candidate-alt-action-fn  (icicle-alt-act-fn-for-type "file")))
        (icicle-all-candidates-list-alt-action-fn
-        (or icicle-all-candidates-list-alt-action-fn (icicle-alt-act-fn-for-type "file")))
+        (or icicle-all-candidates-list-alt-action-fn  (icicle-alt-act-fn-for-type "file")))
        (icicle-delete-candidate-object              'icicle-delete-file-or-directory))
      post-bindings))
 
@@ -639,7 +483,7 @@ Note that the BINDINGS are of course not in effect within
 `icicle-candidate-action-fn'."
   `(defun ,command ()
     ,(concat doc-string "\n\nRead input, then "
-             (and (symbolp function) (concat "call `" (symbol-name function) "'\nto "))
+             (and (symbolp function)  (concat "call `" (symbol-name function) "'\nto "))
              "act on it.
 
 Input-candidate completion and cycling are available.  While cycling,
@@ -665,7 +509,7 @@ Use `mouse-2', `RET', or `S-RET' to finally choose a candidate, or
 `C-g' to quit.
 
 This is an Icicles command - see command `icicle-mode'.")
-    ,(and (not not-interactive-p) '(interactive))
+    ,(and (not not-interactive-p)  '(interactive))
     (let* ((icicle-orig-buff    (current-buffer))
            (icicle-orig-window  (selected-window))
            ,@(macroexpand bindings)
@@ -692,7 +536,7 @@ This is an Icicles command - see command `icicle-mode'.")
                 (icicle-condition-case-no-debug in-action-fn
                     ;; Treat 3 cases, because previous use of `icicle-candidate-action-fn'
                     ;; might have killed the buffer or deleted the window.
-                    (cond ((and (buffer-live-p icicle-orig-buff) (window-live-p icicle-orig-window))
+                    (cond ((and (buffer-live-p icicle-orig-buff)  (window-live-p icicle-orig-window))
                            (with-current-buffer icicle-orig-buff
                              (save-selected-window (select-window icicle-orig-window)
                                                    (funcall #',function candidate))))
@@ -783,7 +627,7 @@ Note that the BINDINGS are of course not in effect within
 `icicle-candidate-action-fn'."
   `(defun ,command ()
     ,(concat doc-string "\n\nRead input, then "
-             (and (symbolp function) (concat "call `" (symbol-name function) "'\nto "))
+             (and (symbolp function)  (concat "call `" (symbol-name function) "'\nto "))
              "act on it.
 
 Input-candidate completion and cycling are available.  While cycling,
@@ -809,7 +653,7 @@ Use `mouse-2', `RET', or `S-RET' to finally choose a candidate, or
 `C-g' to quit.
 
 This is an Icicles command - see command `icicle-mode'.")
-    ,(and (not not-interactive-p) '(interactive))
+    ,(and (not not-interactive-p)  '(interactive))
     (let* ((icicle-orig-buff    (current-buffer))
            (icicle-orig-window  (selected-window))
            ,@(macroexpand bindings)
@@ -833,12 +677,14 @@ This is an Icicles command - see command `icicle-mode'.")
                                                            minibuffer-prompt-properties))
                     (minibuffer-setup-hook            minibuffer-setup-hook)
                     (minibuffer-text-before-history   minibuffer-text-before-history))
-                (setq candidate  (expand-file-name candidate (icicle-file-name-directory
-                                                              (directory-file-name icicle-last-input))))
+                (setq candidate  (expand-file-name candidate
+                                                   (and icicle-last-input
+                                                        (icicle-file-name-directory
+                                                         (directory-file-name icicle-last-input)))))
                 (icicle-condition-case-no-debug in-action-fn
                     ;; Treat 3 cases, because previous use of `icicle-candidate-action-fn'
                     ;; might have deleted the file or the window.
-                    (cond ((and (buffer-live-p icicle-orig-buff) (window-live-p icicle-orig-window))
+                    (cond ((and (buffer-live-p icicle-orig-buff)  (window-live-p icicle-orig-window))
                            (with-current-buffer icicle-orig-buff
                              (save-selected-window (select-window icicle-orig-window)
                                                    (funcall #',function candidate))))
@@ -872,21 +718,6 @@ This is an Icicles command - see command `icicle-mode'.")
                (error "%s" (error-message-string act-on-choice))))
       ,last-sexp)))
 
-;; Same definition as in `icicles-fn.el'.
-(defun icicle-assoc-delete-all (key alist)
-  "Delete from ALIST all elements whose car is `equal' to KEY.
-Return the modified alist.
-Elements of ALIST that are not conses are ignored."
-  (while (and (consp (car alist)) (equal (car (car alist)) key))
-    (setq alist  (cdr alist)))
-  (let ((tail  alist)
-        tail-cdr)
-    (while (setq tail-cdr  (cdr tail))
-      (if (and (consp (car tail-cdr))  (equal (car (car tail-cdr)) key))
-          (setcdr tail (cdr tail-cdr))
-        (setq tail  tail-cdr))))
-  alist)
-
 (defmacro icicle-define-sort-command (sort-order comparison-fn doc-string)
   "Define a command to sort completions by SORT-ORDER.
 SORT-ORDER is a short string (or symbol) describing the sort order.
@@ -910,7 +741,7 @@ DOC-STRING is the doc string of the new command."
         (interactive)
         (setq icicle-sort-comparer  #',comparison-fn)
         (message "Sorting is now %s%s" ,(icicle-propertize
-                                         (concat sort-order (and icicle-reverse-sort-p ", REVERSED"))
+                                         (concat sort-order (and icicle-reverse-sort-p  ", REVERSED"))
                                                            'face 'icicle-msg-emphasis))
         (icicle-complete-again-update)))))
 
@@ -961,17 +792,17 @@ to update the list of tags available for completion." "")) ; Doc string
     nil (if (boundp 'bookmark-history) 'bookmark-history 'icicle-bookmark-history)
     nil nil
     ((IGNORED1                               (unless (require 'bookmark+ nil t) ; Additional bindings
-                                               (error "You need library `Bookmark+' for this command")))
+                                               (icicle-user-error
+                                                "You need library `Bookmark+' for this command")))
      (IGNORED2                               (bookmark-maybe-load-default-file)) ; `bookmark-alist'.
      (enable-recursive-minibuffers           t) ; In case we read input, e.g. File changed on disk...
      (bmk-alist                              (bmkp-sort-omit
                                               (funcall ',(intern (format "bmkp-%s-alist-only" type))
                                                ,@args)))
      (completion-ignore-case                 bookmark-completion-ignore-case)
-     (prompt1                                ,(or prompt
-                                                  (format "%s%s bookmark: "
-                                                          (capitalize (substring type 0 1))
-                                                          (substring type 1 (length type)))))
+     (prompt1                                ,(or prompt  (format "%s%s bookmark: "
+                                                                  (capitalize (substring type 0 1))
+                                                                  (substring type 1 (length type)))))
      (icicle-list-use-nth-parts              '(1))
      (icicle-candidate-properties-alist      (if (not icicle-show-multi-completion-flag)
                                                  nil
@@ -1056,12 +887,12 @@ You need library `Bookmark+' for this command." type type) ; Doc string
     nil (if (boundp 'bookmark-history) 'bookmark-history 'icicle-bookmark-history)
     nil nil
     ((IGNORED1                                 (unless (require 'bookmark+ nil t) ; Bindings
-                                                 (error "You need library `Bookmark+' for this \
-command")))
+                                                 (icicle-user-error
+                                                  "You need library `Bookmark+' for this command")))
      (IGNORED2                                 (bookmark-maybe-load-default-file)) ; `bookmark-alist'.
      (enable-recursive-minibuffers             t) ; In case we read input, e.g. File changed on...
      (completion-ignore-case                   bookmark-completion-ignore-case)
-     (prompt1                                  ,(or prompt (format "Search %s bookmark: " type)))
+     (prompt1                                  ,(or prompt  (format "Search %s bookmark: " type)))
      (icicle-list-use-nth-parts                '(1))
      (icicle-candidate-properties-alist        (if (not icicle-show-multi-completion-flag)
                                                    nil
