@@ -3,7 +3,7 @@
 (add-to-list 'load-path "~/.emacs.d/icicles")
 (add-to-list 'load-path "~/.emacs.d/slime")
 
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
+;(load (expand-file-name "~/quicklisp/slime-helper.el"))
 
 (defun find-first-non-ascii-char ()
   "Find the first non-ascii character from point onwards."
