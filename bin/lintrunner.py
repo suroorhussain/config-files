@@ -194,7 +194,7 @@ class Pep8Runner(LintRunner):
 
     @property
     def run_flags(self):
-        return '--repeat', '--ignore=' + ','.join(self.ignore_codes)
+        return '--repeat', '--ignore=' + ','.join(self.operative_ignore_codes)
 
 
 class PyflakesRunner(LintRunner):

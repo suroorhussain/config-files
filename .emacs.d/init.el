@@ -87,6 +87,7 @@
   (tool-bar-mode -1)
   (tooltip-mode -1)
   (set-fringe-mode 2)
+  (auto-insert-mode 1)
   (require 'uniquify)
   (setq uniquify-buffer-name-style 'reverse)
 
@@ -170,6 +171,15 @@
 	  ; gofmt-before-save)))
 	  ))
 
+(define-skeleton new-py-file
+  "Python skeleton"
+  ""
+  "# -*- coding: utf-8 -*-\n"
+  "from __future__ import unicode_literals\n"
+  "\n")
+
+(define-auto-insert "\\.py" 'new-py-file)
+
 (autoload 'gofmt "go-mode")
 
 ;code checking via flymake
@@ -232,3 +242,4 @@
     (slime-setup '(slime-fancy slime-asdf slime-banner slime-autodoc))
     (setq slime-complete-symbol*-fancy t)
     (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)))
+(put 'downcase-region 'disabled nil)
