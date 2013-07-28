@@ -37,6 +37,7 @@ for new_path in \
     "/usr/local/opt/coreutils/libexec/gnubin" \
     "$HOME/opt/bin" \
     "$HOME/bin" \
+    "/usr/local/sbin" \
     "/opt/local/lib/postgresql92/bin" ; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"
