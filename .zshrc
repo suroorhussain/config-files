@@ -33,6 +33,7 @@ unsetopt histsavenodups
 PS1="%{$fg[green]%}%n@%m:%{$fg[cyan]%}%~%{$reset_color%}%% "
 
 for new_path in \
+    "/opt/local/bin" \
     "/usr/local/bin" \
     "/usr/local/opt/coreutils/libexec/gnubin" \
     "$HOME/opt/bin" \

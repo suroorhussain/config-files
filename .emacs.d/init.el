@@ -2,6 +2,7 @@
 (add-to-list 'load-path "~/.emacs.d/color-theme")
 (add-to-list 'load-path "~/.emacs.d/icicles")
 (add-to-list 'load-path "~/.emacs.d/slime")
+(add-to-list 'load-path "~/.emacs.d/mmm")
 
 ;(load (expand-file-name "~/quicklisp/slime-helper.el"))
 
@@ -84,13 +85,14 @@
   (global-unset-key "\C-z")
   (set-exec-path-from-shell-PATH)
   (scroll-bar-mode -1)
+  (menu-bar-mode -1)
   (tool-bar-mode -1)
   (tooltip-mode -1)
   (set-fringe-mode 2)
   (auto-insert-mode 1)
   (require 'uniquify)
   (setq uniquify-buffer-name-style 'reverse)
-
+  (require 'mmm-auto)
 
   (require 'midnight)
   (midnight-delay-set 'midnight-delay "4:30am")
@@ -130,7 +132,7 @@
 
 (mapply 'global-set-key
         `((,(kbd "RET") newline-and-indent)
-          (,(kbd "M-RET") ns-toggle-fullscreen)
+          (,(kbd "M-RET") toggle-frame-fullscreen)
           (,(kbd "C-\\") condense-whitespace)
           (,(kbd "M-c") kill-ring-save)
           (,(kbd "C-;") auto-complete)
@@ -138,10 +140,22 @@
           (,(kbd "C-o") find-file-in-project)))
 
 (require 'python)
+(require 'nimrod-mode)
+
+(mmm-add-group
+     'fancy-mule
+     '((common-lisp-block
+        :submode lisp-mode
+        :face mmm-code-submode-face
+        :front "\\~"
+        :front-offset (end-of-line 1)
+        :back "\\~\\~")))
+(add-to-list 'mmm-mode-ext-classes-alist '(python-mode nil fancy-mule))
 ;; Auto mode loading
 (mapply 'auto-load-mode
         '((js2-mode ("\\.js" "\\.json") "js2")
           (html-mode "\\.html")
+          (nimrod-mode "\\.nim")
           (markdown-mode "\\.md")
           (sass-mode "\\.sass")
           (css-mode "\\.css")
@@ -153,6 +167,7 @@
            ("\\.xml" "\\.wsdl" "\\.svg" "\\.xslt"
             "\\.wsdd" "\\.xsl" "\\.rng" "\\.xhtml"))
           (cython-mode ("\\.pyx" "\\.pxd"))
+          (ruby-mode "Rakefile")
           (peg-mode ("\\.peg"))
           (go-mode "\\.go")))
 
@@ -244,3 +259,18 @@
     (setq slime-complete-symbol*-fancy t)
     (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)))
 (put 'downcase-region 'disabled nil)
+
+
+;; (defun term-execute (s)
+;;   (let ((term-buffer (get-buffer "*terminal*")))
+;;     (term-send-string term-buffer (concat s "\n"))
+;;     (save-current-buffer
+;;       (set-buffer "*terminal*")
+;;       (goto-char (point-max)))))
+
+;; (defun run-on-this (command)
+;;   (interactive "F")
+;;   (let ((full-command (concat command " " buffer-file-truename)))
+;;     (term-execute full-command)))
+
+;; (term-exec (get-buffer "*terminal*") "ls" "ls" (current-buffer) nil)
