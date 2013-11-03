@@ -46,7 +46,7 @@ for new_path in \
 done
 
 function act {
-    source $HOME/virt/$1/bin/activate
+    source $HOME/.venv/$1/bin/activate
 }
 
 eval "`dircolors -b`"
