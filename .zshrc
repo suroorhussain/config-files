@@ -4,6 +4,7 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -Uz compinit
 compinit
 autoload -U colors && colors
+autoload -U zmv
 
 HISTFILE=~/.zhistory
 HISTSIZE=25000
