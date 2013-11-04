@@ -189,7 +189,7 @@
 (define-skeleton new-py-file
   "Python skeleton"
   ""
-  "#!/usr/bin/env python"
+  "#!/usr/bin/env python\n"
   "# -*- coding: utf-8 -*-\n"
   "from __future__ import unicode_literals\n"
   "\n")
