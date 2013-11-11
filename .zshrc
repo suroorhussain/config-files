@@ -4,6 +4,7 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -Uz compinit
 compinit
 autoload -U colors && colors
+autoload -U zmv
 
 HISTFILE=~/.zhistory
 HISTSIZE=25000
@@ -46,7 +47,7 @@ for new_path in \
 done
 
 function act {
-    source $HOME/virt/$1/bin/activate
+    source $HOME/.venv/$1/bin/activate
 }
 
 eval "`dircolors -b`"

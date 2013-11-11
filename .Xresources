@@ -11,14 +11,16 @@ Xft.hintstyle:  hintfull
 Xft.rgba:       rgb
 Xft.lcdfilter:  lcddefault
 
-URxvt*font: xft:ubuntu mono:size=11:style=medium:antialias=true
-URxvt*boldFont: xft:ubuntu mono:size=11:style=bold:antialias=true
+URxvt*font: xft:DejaVu Sans Mono:style=Book:size=10:antialias=true
+URxvt*boldFont: xft:DejaVu Sans Mono:style=Bold:size=10
 URxvt.scrollBar: false
 URxvt*foreground: White
 URxvt*background: Black
 URxvt*saveLines: 100000
 URxvt*scrollTtyOutput: false
 URxvt*scrollWithBuffer: false
+URxvt*letterSpace: -1.5
+URxvt*depth: 32
 
 Rxvt*font: xft:ubuntu mono:size=11:style=medium:antialias=true
 Rxvt*boldFont: xft:ubuntu mono:size=11:style=bold:antialias=true

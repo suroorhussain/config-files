@@ -12,8 +12,8 @@ import Data.Bits
 import qualified Data.Map as M
 import Data.Monoid
 
-main = xmonad $ gnomeConfig
-       { terminal = "urxvt -letsp -2"
+main = xmonad $ defaultConfig
+       { terminal = "urxvt"
        , modMask = mod4Mask -- set the mod key to the windows key
        , startupHook = setWMName "LG3D"
        , layoutHook  = smartBorders (layoutHook gnomeConfig)
@@ -28,8 +28,7 @@ main = xmonad $ gnomeConfig
        , borderWidth = 1
        }
        `additionalKeysP`
-       [ ("M-m", spawn "echo")
-       , ("M-S-q", spawn "gnome-session-save --gui --logout-dialog")
+       [ ("M-S-q", spawn "mate-session-save --gui --logout-dialog")
        , ("M-f", fullFloatFocused)
        ]
 

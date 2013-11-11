@@ -22,7 +22,10 @@
 [diff]
     color = auto
     rename = copy
-
+    ignore-space-at-eol = true
+    b = true
+    w = true
+    ignore-blank-lines = true
 [pager]
     color = true
 
