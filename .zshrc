@@ -56,16 +56,16 @@ export ALTERNATE_EDITOR='emacsnw'
 export VISUAL=$EDITOR
 export PAGER=less
 
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-esac
+# case "$TERM" in
+#     xterm-color) color_prompt=yes;;
+# esac
 
-export LESS='-S -R'
+export LESS='-S -R -X'
 export GREP_OPTIONS='--color=auto'
 export LS_OPTIONS="-b --color=auto"
 export DEBEMAIL="justin.vanwinkle@gmail.com"
 export DEBFULLNAME="Justin Van Winkle"
-export TERM=xterm-color
+#export TERM=xterm-color
 
 alias ls="ls $LS_OPTIONS"
 alias gf='find | grep -v \.pyc$ | grep'
@@ -75,6 +75,7 @@ alias gg='git grep'
 alias loc='mdfind -name'
 alias ack=ack-grep
 alias pi="port info"
+alias as="apt-cache search"
 
 function pssh {
     machines=`~/repos/ops-tools-misc/bin/findpool -s $1`
@@ -100,3 +101,52 @@ function fetch-all {
         cd ..;
     done
 }
+
+function aa_256 ()
+{
+    local o= i= x=`tput op` cols=`tput cols` y= oo= yy=;
+    y=`printf %$(($cols-6))s`;
+    yy=${y// /=};
+    for i in {0..256};
+    do
+        o=00${i};
+        oo=`echo -en "setaf ${i}\nsetab ${i}\n"|tput -S`;
+        echo -e "${o:${#o}-3:3} ${oo}${yy}${x}";
+    done
+}
+
+function aa_c666 ()
+{
+    local r= g= b= c= CR="`tput sgr0;tput init`" C="`tput op`" n="\n\n\n" t="  " s="    ";
+    echo -e "${CR}${n}";
+    function c666 ()
+    {
+        local b= g=$1 r=$2;
+        for ((b=0; b<6; b++))
+        do
+            c=$(( 16 + ($r*36) + ($g*6) + $b ));
+            echo -en "setaf ${c}\nsetab ${c}\n" | tput -S;
+            echo -en "${s}";
+        done
+    };
+    function c666b ()
+    {
+        local g=$1 r=;
+        for ((r=0; r<6; r++))
+        do
+            echo -en " `c666 $g $r`${C} ";
+        done
+    };
+    for ((g=0; g<6; g++))
+    do
+        c666b=`c666b $g`;
+        echo -e " ${c666b}";
+        echo -e " ${c666b}";
+        echo -e " ${c666b}";
+        echo -e " ${c666b}";
+        echo -e " ${c666b}";
+    done;
+    #echo -e "${CR}${n}${n}"
+}
+
+export CRAM_VENV=~/.venv/cram

@@ -5,22 +5,29 @@ Emacs.menuBar: off
 Emacs.toolBar: off
 
 Xft.dpi:        96
-Xft.antialias:  1
-Xft.hinting:    4
+Xft.antialias:  True
+Xft.hinting:    Full
 Xft.hintstyle:  hintfull
 Xft.rgba:       rgb
 Xft.lcdfilter:  lcddefault
 
-URxvt*font: xft:DejaVu Sans Mono:style=Book:size=10:antialias=true
-URxvt*boldFont: xft:DejaVu Sans Mono:style=Bold:size=10
-URxvt.scrollBar: false
-URxvt*foreground: White
 URxvt*background: Black
-URxvt*saveLines: 100000
-URxvt*scrollTtyOutput: false
-URxvt*scrollWithBuffer: false
+URxvt*boldFont: xft:DejaVu Sans Mono:style=Bold:size=10
+urxvt*secondaryScreen: false
+URxvt*fading:  20
+URxvt*font: xft:DejaVu Sans Mono:style=Book:size=10:antialias=true
+URxvt*foreground: White
+URxvt*jumpScroll: true
 URxvt*letterSpace: -1.5
-URxvt*depth: 32
+URxvt.saveLines: 100000
+URxvt*scrollTtyOutput: false
+URxvt.scrollWithBuffer: false
+URxvt*skipScroll:  true
+URxvt.colorUL: #4682B4
+URxvt.matcher.button: 1
+URxvt.perl-ext-common: default,matcher
+URxvt.scrollBar: false
+URxvt.url-launcher: gnome-open
 
 Rxvt*font: xft:ubuntu mono:size=11:style=medium:antialias=true
 Rxvt*boldFont: xft:ubuntu mono:size=11:style=bold:antialias=true

@@ -28,8 +28,7 @@ main = xmonad $ defaultConfig
        , borderWidth = 1
        }
        `additionalKeysP`
-       [ ("M-S-q", spawn "mate-session-save --gui --logout-dialog")
-       , ("M-f", fullFloatFocused)
+       [("M-f", fullFloatFocused)
        ]
 
 fullFloatFocused =
