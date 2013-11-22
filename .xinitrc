@@ -6,7 +6,7 @@ xrdb -merge ~/.Xresources
 ~/bin/gogosocks
 
 
-trayer --edge left --align right --widthtype pixel --width 100 --SetDockType true --SetPartialStrut true --transparent true --alpha 0 --tint 0x000000 --expand true --heighttype pixel --height 10 &
+trayer --edge left --align right --SetDockType true --SetPartialStrut true --transparent true --tint 0x000000 --expand true --heighttype pixel --height 18 &
 
 nm-applet &
 konversation &

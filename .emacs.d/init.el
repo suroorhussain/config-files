@@ -2,7 +2,6 @@
 (add-to-list 'load-path "~/.emacs.d/color-theme")
 (add-to-list 'load-path "~/.emacs.d/icicles")
 (add-to-list 'load-path "~/.emacs.d/slime")
-(add-to-list 'load-path "~/.emacs.d/mmm")
 
 ;(load (expand-file-name "~/quicklisp/slime-helper.el"))
 
@@ -92,7 +91,6 @@
   (auto-insert-mode 1)
   (require 'uniquify)
   (setq uniquify-buffer-name-style 'reverse)
-  (require 'mmm-auto)
 
   (require 'midnight)
   (midnight-delay-set 'midnight-delay "4:30am")
@@ -140,17 +138,6 @@
           (,(kbd "C-o") find-file-in-project)))
 
 (require 'python)
-(require 'nimrod-mode)
-
-(mmm-add-group
-     'fancy-mule
-     '((common-lisp-block
-        :submode lisp-mode
-        :face mmm-code-submode-face
-        :front "\\~"
-        :front-offset (end-of-line 1)
-        :back "\\~\\~")))
-(add-to-list 'mmm-mode-ext-classes-alist '(python-mode nil fancy-mule))
 ;; Auto mode loading
 (mapply 'auto-load-mode
         '((js2-mode ("\\.js" "\\.json") "js2")
@@ -250,8 +237,6 @@
 (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
 ;; Optionally, specify the lisp program you are using. Default is "lisp"
 (setq inferior-lisp-program "sbcl")
-(setq common-lisp-hyperspec-root
-      "file:/Users/jvanwink/.config_files/HyperSpec/")
 
 (eval-after-load "slime"
   '(progn

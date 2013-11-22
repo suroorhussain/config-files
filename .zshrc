@@ -56,16 +56,16 @@ export ALTERNATE_EDITOR='emacsnw'
 export VISUAL=$EDITOR
 export PAGER=less
 
-# case "$TERM" in
-#     xterm-color) color_prompt=yes;;
-# esac
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
 
-export LESS='-S -R -X'
+export LESS='-S -R'
 export GREP_OPTIONS='--color=auto'
 export LS_OPTIONS="-b --color=auto"
 export DEBEMAIL="justin.vanwinkle@gmail.com"
 export DEBFULLNAME="Justin Van Winkle"
-#export TERM=xterm-color
+export TERM=xterm-color
 
 alias ls="ls $LS_OPTIONS"
 alias gf='find | grep -v \.pyc$ | grep'
