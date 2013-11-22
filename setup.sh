@@ -18,7 +18,7 @@ for f in \
     .Xmodmap \
     .xmonad \
     .Xresources \
-    .zshrc \; do
-    rm $f;
+    .zshrc ; do
+    rm -f $f ;
     ln -s .config-files/$f ;
 done
