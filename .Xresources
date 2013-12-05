@@ -5,11 +5,10 @@ Emacs.menuBar: off
 Emacs.toolBar: off
 
 Xft.dpi:        96
-Xft.antialias:  True
-Xft.hinting:    Full
-Xft.hintstyle:  hintfull
+Xft.antialias:  true
 Xft.rgba:       rgb
-Xft.lcdfilter:  lcddefault
+Xft.hinting:    true
+Xft.hintstyle:  hintfull
 
 URxvt*background: Black
 URxvt*boldFont: xft:DejaVu Sans Mono:style=Bold:size=10

@@ -85,8 +85,9 @@ function pssh {
     fi
 }
 
-function set_python_pwd {
-       export PYTHONPATH=`pwd`
+function cramit {
+    cd ~/repos/cram
+    source bin/activate.sh
 }
 
 function remssh {
