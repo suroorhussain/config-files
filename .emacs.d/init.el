@@ -1,6 +1,4 @@
 (add-to-list 'load-path "~/.emacs.d/libs")
-(add-to-list 'load-path "~/.emacs.d/color-theme")
-(add-to-list 'load-path "~/.emacs.d/slime")
 
 ;(load (expand-file-name "~/quicklisp/slime-helper.el"))
 (require 'package)

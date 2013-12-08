@@ -1,29 +1,10 @@
-;;; -*-emacs-lisp-*-
-
-;; Copyright (C) 2002 Free Software Foundation, Inc.
-
-(defvar generated-autoload-file)
-(defvar command-line-args-left)
-(defun color-theme-generate-autoloads ()
-  (interactive)
-  (require 'autoload)
-  (setq generated-autoload-file (car command-line-args-left))
-  (setq command-line-args-left (cdr command-line-args-left))
-  (batch-update-autoloads))
-
-(provide 'color-theme-autoloads)
-;;; Generated autoloads follow (made by autoload.el).
+;;; color-theme-autoloads.el --- automatically extracted autoloads
+;;
+;;; Code:
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil nil ("themes/color-theme-example.el" "themes/color-theme-library.el")
-;;;;;;  (19146 8496 805689))
-
-;;;***
-
-;;;### (autoloads (color-theme-initialize color-theme-submit color-theme-install
-;;;;;;  color-theme-compare color-theme-make-snapshot color-theme-analyze-defun
-;;;;;;  color-theme-print color-theme-install-at-point-for-current-frame
-;;;;;;  color-theme-install-at-mouse color-theme-describe color-theme-select)
-;;;;;;  "color-theme" "color-theme.el" (17529 41105))
+;;;### (autoloads nil "color-theme" "color-theme.el" (21155 61625
+;;;;;;  898066 586000))
 ;;; Generated autoloads from color-theme.el
 
 (autoload 'color-theme-select "color-theme" "\
@@ -157,3 +138,15 @@ Initialize the color theme package by loading color-theme-libraries.
 \(fn)" t nil)
 
 ;;;***
+
+;;;### (autoloads nil nil ("color-theme-pkg.el") (21155 61625 903112
+;;;;;;  886000))
+
+;;;***
+
+;; Local Variables:
+;; version-control: never
+;; no-byte-compile: t
+;; no-update-autoloads: t
+;; End:
+;;; color-theme-autoloads.el ends here
