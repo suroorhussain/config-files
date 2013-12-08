@@ -1,9 +1,12 @@
 (add-to-list 'load-path "~/.emacs.d/libs")
 (add-to-list 'load-path "~/.emacs.d/color-theme")
-(add-to-list 'load-path "~/.emacs.d/icicles")
 (add-to-list 'load-path "~/.emacs.d/slime")
 
 ;(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives
+  '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (defun find-first-non-ascii-char ()
   "Find the first non-ascii character from point onwards."
@@ -231,10 +234,6 @@
       (setq ad-return-value (js2-parse-assign-expr))
     ad-do-it))
 (ad-activate 'js2-parse-statement)
-
-(require 'package)
-(add-to-list 'package-archives
-  '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (require 'slime)
 (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
