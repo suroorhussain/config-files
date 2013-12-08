@@ -6,10 +6,9 @@
 ;; Maintainer: Drew Adams
 ;; Copyright (C) 1996-2013, Drew Adams, all rights reserved.
 ;; Created: Mon Feb 27 09:23:26 2006
-;; Version: 22.0
-;; Last-Updated: Thu Apr  4 09:11:50 2013 (-0700)
+;; Last-Updated: Tue Dec  3 12:23:38 2013 (-0800)
 ;;           By: dradams
-;;     Update #: 1710
+;;     Update #: 1732
 ;; URL: http://www.emacswiki.org/icicles-var.el
 ;; Doc URL: http://www.emacswiki.org/Icicles
 ;; Keywords: internal, extensions, help, abbrev, local, minibuffer,
@@ -18,10 +17,11 @@
 ;;
 ;; Features that might be required by this library:
 ;;
-;;   `apropos', `apropos-fn+var', `cl', `el-swank-fuzzy', `ffap',
-;;   `ffap-', `fuzzy', `fuzzy-match', `hexrgb', `icicles-opt',
-;;   `kmacro', `levenshtein', `naked', `regexp-opt', `thingatpt',
-;;   `thingatpt+', `wid-edit', `wid-edit+', `widget'.
+;;   `apropos', `apropos-fn+var', `cl', `cus-theme',
+;;   `el-swank-fuzzy', `ffap', `ffap-', `fuzzy', `fuzzy-match',
+;;   `hexrgb', `icicles-opt', `kmacro', `levenshtein', `naked',
+;;   `regexp-opt', `thingatpt', `thingatpt+', `wid-edit',
+;;   `wid-edit+', `widget'.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -124,7 +124,6 @@
 ;;    `icicle-progressive-completing-p', `icicle-prompt',
 ;;    `icicle-proxy-candidate-regexp', `icicle-proxy-candidates',
 ;;    `icicle-read-char-history', `icicle-read-expression-map',
-;;    `icicle-read-file-name-internal-fn' (Emacs 24+),
 ;;    `icicle-remove-icicles-props-p', `icicle-re-no-dot',
 ;;    `icicle-require-match-p', `icicle-reverse-multi-sort-p',
 ;;    `icicle-reverse-sort-p', `icicle-saved-candidate-overlays',
@@ -355,7 +354,7 @@ same car.  Icicles search is one such example.")
 (defvar icicle-cands-to-narrow ()
   "Saved `icicle-completion-candidates' for reference during narrowing.")
 
-(defvar icicle-char-property-value-history nil "History for character property values.")
+(defvar icicle-char-property-value-history nil "History for text and overlay property values.")
 
 (defvar icicle-cmd-calling-for-completion 'ignore
   "Last command causing display of list of possible completions.")
@@ -584,7 +583,7 @@ noted in parentheses.
 * `icicle-buffer-*'                      - `icicle-buffer' options
 * `icicle-candidate-width-factor'        - Width %%, candidate columns
 * `icicle-change-region-background-flag' - Change region color?
-* `icicle-change-sort-order-completion-flag' - Control `C-,' behavior
+* `icicle-change-sort-order-completion'  - Control `C-,' behavior
 * `icicle-C-l-uses-completion-flag'      - `C-l' uses completion?
 * `icicle-color-themes'                  - For `icicle-color-theme'
 * `icicle-comint-dynamic-complete-replacements' - Comint complete fns
@@ -1076,22 +1075,14 @@ Augmented by `icicle-read-char-maybe-completing' and
 Several Emacs-Lisp mode key bindings are used.")
 (unless icicle-read-expression-map
   (let ((map  (make-sparse-keymap)))
-    (define-key map (icicle-kbd "C-M-i")   'lisp-complete-symbol) ; `ESC TAB', `C-M-i'
-    (define-key map (icicle-kbd "C-i")     'lisp-indent-line) ; `C-i', `TAB'
-    (define-key map (icicle-kbd "ESC tab") 'lisp-complete-symbol) ; `ESC tab'
+    (define-key map (icicle-kbd "C-M-i")   'indent-lisp-line) ; `ESC TAB', `C-M-i'
+    (define-key map (icicle-kbd "C-i")     'lisp-complete-symbol) ; `C-i', `TAB'
+    (define-key map (icicle-kbd "ESC tab") 'indent-lisp-line) ; `ESC tab'
     (define-key map (icicle-kbd "C-M-x")   'eval-defun) ; `ESC C-x', `C-M-x'
     (define-key map (icicle-kbd "C-M-q")   'indent-pp-sexp) ; `ESC C-q', `C-M-q'
     ;;(define-key map (icicle-kbd "DEL") 'backward-delete-char-untabify)
     (set-keymap-parent map minibuffer-local-map)
     (setq icicle-read-expression-map  map)))
-
-(when (fboundp 'read-file-name-default) ; Emacs 24+
-  (defvar icicle-read-file-name-internal-fn 'read-file-name-internal
-    "Function replacing `read-file-name-internal' in `read-file-name-default'.
-Function `icicle-read-file-name-default' is the same as
-`read-file-name-default', except that instead of hard-coding the use
-of `read-file-name-internal' it uses the value of this variable.
-Lisp code can thus bind this var to replace `read-file-name-internal'."))
 
 (defvar icicle-remove-icicles-props-p t
   "Non-nil means to remove Icicles text properties from completion result.
@@ -1395,12 +1386,24 @@ by binding it to `icicle-remove-duplicates' or
   "Local copy of `icicle-transform-function', so we can restore it.")
 
 (defvar icicle-universal-argument-map
-  (let ((map  (make-sparse-keymap)))
-    (define-key map [t]                         'icicle-universal-argument-other-key)
-    (define-key map (vector meta-prefix-char t) 'icicle-universal-argument-other-key)
-    (define-key map [switch-frame]              nil)
+  (let ((map                       (make-sparse-keymap))
+        (universal-argument-minus
+         (and (fboundp 'universal-argument--mode) ; Emacs 24.4+
+              `(menu-item "" icicle-negative-argument
+                :filter ,(lambda (cmd) (if (integerp prefix-arg) nil cmd))))))
+    (cond ((fboundp 'universal-argument-other-key) ; Emacs < 24.4
+           (define-key map [t]                         'icicle-universal-argument-other-key)
+           (define-key map (vector meta-prefix-char t) 'icicle-universal-argument-other-key)
+           (define-key map [switch-frame]              nil))
+          (t                            ; Emacs 24.4+
+           (define-key map [switch-frame]       (lambda (evt)
+                                                  (interactive "e")
+                                                  (handle-switch-frame evt)
+                                                  (universal-argument--mode)))))
     (define-key map (icicle-kbd "C-u")          'icicle-universal-argument-more)
-    (define-key map (icicle-kbd "-")            'icicle-universal-argument-minus)
+    (define-key map (icicle-kbd "-")            (if (fboundp 'universal-argument--mode)
+                                                    universal-argument-minus ; Emacs 24.4+
+                                                  'icicle-universal-argument-minus))
     (define-key map (icicle-kbd "0")            'icicle-digit-argument)
     (define-key map (icicle-kbd "1")            'icicle-digit-argument)
     (define-key map (icicle-kbd "2")            'icicle-digit-argument)
@@ -1421,7 +1424,9 @@ by binding it to `icicle-remove-duplicates' or
     (define-key map (icicle-kbd "kp-7")         'icicle-digit-argument)
     (define-key map (icicle-kbd "kp-8")         'icicle-digit-argument)
     (define-key map (icicle-kbd "kp-9")         'icicle-digit-argument)
-    (define-key map (icicle-kbd "kp-subtract")  'icicle-universal-argument-minus)
+    (define-key map (icicle-kbd "kp-subtract")  (if (fboundp 'universal-argument--mode)
+                                                    universal-argument-minus ; Emacs 24.4+
+                                                  'icicle-universal-argument-minus))
     map)
   "Keymap used while processing `C-u' during Icicles completion.")
 

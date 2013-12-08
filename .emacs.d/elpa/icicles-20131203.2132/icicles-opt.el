@@ -6,10 +6,9 @@
 ;; Maintainer: Drew Adams
 ;; Copyright (C) 1996-2013, Drew Adams, all rights reserved.
 ;; Created: Mon Feb 27 09:22:14 2006
-;; Version: 22.0
-;; Last-Updated: Mon Apr 22 20:04:03 2013 (-0700)
+;; Last-Updated: Sun Dec  1 08:13:54 2013 (-0800)
 ;;           By: dradams
-;;     Update #: 5622
+;;     Update #: 5775
 ;; URL: http://www.emacswiki.org/icicles-opt.el
 ;; Doc URL: http://www.emacswiki.org/Icicles
 ;; Keywords: internal, extensions, help, abbrev, local, minibuffer,
@@ -18,9 +17,9 @@
 ;;
 ;; Features that might be required by this library:
 ;;
-;;   `cl', `el-swank-fuzzy', `ffap', `ffap-', `fuzzy', `fuzzy-match',
-;;   `hexrgb', `kmacro', `levenshtein', `regexp-opt', `thingatpt',
-;;   `thingatpt+', `wid-edit', `wid-edit+', `widget'.
+;;   `cl', `cus-theme', `el-swank-fuzzy', `ffap', `ffap-', `fuzzy',
+;;   `fuzzy-match', `hexrgb', `kmacro', `levenshtein', `regexp-opt',
+;;   `thingatpt', `thingatpt+', `wid-edit', `wid-edit+', `widget'.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -78,7 +77,7 @@
 ;;    `icicle-candidate-action-keys', `icicle-candidate-help-keys',
 ;;    `icicle-candidate-width-factor',
 ;;    `icicle-change-region-background-flag',
-;;    `icicle-change-sort-order-completion-flag',
+;;    `icicle-change-sort-order-completion',
 ;;    `icicle-C-l-uses-completion-flag', `icicle-color-themes',
 ;;    `icicle-comint-dynamic-complete-replacements',
 ;;    `icicle-command-abbrev-alist',
@@ -97,6 +96,8 @@
 ;;    `icicle-Completions-window-max-height',
 ;;    `icicle-customize-save-flag',
 ;;    `icicle-customize-save-variable-function',
+;;    `icicle-custom-themes', `icicle-custom-themes-accumulate-flag',
+;;    `icicle-custom-themes-update-flag',
 ;;    `icicle-default-in-prompt-format-function',
 ;;    `icicle-default-cycling-mode', `icicle-default-thing-insertion',
 ;;    `icicle-default-value', `icicle-define-alias-commands-flag',
@@ -107,6 +108,7 @@
 ;;    `icicle-file-predicate', `icicle-file-require-match-flag',
 ;;    `icicle-file-sort', `icicle-files-ido-like-flag',
 ;;    `icicle-filesets-as-saved-completion-sets-flag',
+;;    `icicle-find-file-expand-directory-flag',
 ;;    `icicle-find-file-of-content-skip-hook',
 ;;    `icicle-functions-to-redefine', `icicle-guess-commands-in-path',
 ;;    `icicle-help-in-mode-line-delay',
@@ -129,6 +131,7 @@
 ;;    `icicle-input-string', `icicle-inter-candidates-min-spaces',
 ;;    `icicle-isearch-complete-keys',
 ;;    `icicle-isearch-history-insert-keys',
+;;    `icicle-keep-Completions-for-sole-dir-flag',
 ;;    `icicle-key-complete-keys',
 ;;    `icicle-key-complete-keys-for-minibuffer',
 ;;    `icicle-key-descriptions-use-<>-flag',
@@ -211,8 +214,9 @@
 ;;    `icicle-bind-top-level-commands',
 ;;    `icicle-buffer-sort-*...*-last',
 ;;    `icicle-compute-shell-command-candidates',
-;;    `icicle-edmacro-parse-keys', `icicle-kbd', `icicle-remap',
-;;    `icicle-thing-at-point', `icicle-widgetp'.
+;;    `icicle-edmacro-parse-keys', `icicle-image-file-p',
+;;    `icicle-kbd', `icicle-remap', `icicle-thing-at-point',
+;;    `icicle-widgetp'.
 ;;
 ;;  For descriptions of changes to this file, see `icicles-chg.el'.
 ;;
@@ -372,19 +376,35 @@
       "Sorting"
       (keymap
        (change-sort-order menu-item "Change Sort Order  (`C-,')" icicle-change-sort-order
-        :visible (or (and icicle-change-sort-order-completion-flag (not current-prefix-arg))
-                  (and (not icicle-change-sort-order-completion-flag) current-prefix-arg)))
-       (next-sort-order menu-item "Next Sort Order" icicle-change-sort-order
-        :visible (not (or (and icicle-change-sort-order-completion-flag (not current-prefix-arg))
-                       (and (not icicle-change-sort-order-completion-flag) current-prefix-arg))))
+        :visible (let ((use-completion-p  (if (integerp icicle-change-sort-order-completion)
+                                              (> (length (icicle-current-sort-functions))
+                                                 icicle-change-sort-order-completion)
+                                            icicle-change-sort-order-completion)))
+                   (or (and (not current-prefix-arg)  use-completion-p)
+                       (and current-prefix-arg        (not use-completion-p)))))
+       (next-sort-order menu-item "Next Sort Order  (`C-,')" icicle-change-sort-order
+        :visible (not (let ((use-completion-p  (if (integerp icicle-change-sort-order-completion)
+                                                   (> (length (icicle-current-sort-functions))
+                                                      icicle-change-sort-order-completion)
+                                                 icicle-change-sort-order-completion)))
+                        (or (and (not current-prefix-arg)  use-completion-p)
+                            (and current-prefix-arg        (not use-completion-p))))))
        (change-alt-sort menu-item "Change Alternative Sort Order  (`M-,')"
         icicle-change-alternative-sort-order
-        :visible (or (and icicle-change-sort-order-completion-flag (not current-prefix-arg))
-                  (and (not icicle-change-sort-order-completion-flag) current-prefix-arg)))
+        :visible (let ((use-completion-p  (if (integerp icicle-change-sort-order-completion)
+                                              (> (length (icicle-current-sort-functions))
+                                                 icicle-change-sort-order-completion)
+                                            icicle-change-sort-order-completion)))
+                   (or (and (not current-prefix-arg)  use-completion-p)
+                       (and current-prefix-arg        (not use-completion-p)))))
        (next-alt-sort menu-item "Next Alternative Sort Order  (`M-,')"
         icicle-change-alternative-sort-order
-        :visible (not (or (and icicle-change-sort-order-completion-flag (not current-prefix-arg))
-                       (and (not icicle-change-sort-order-completion-flag) current-prefix-arg))))
+        :visible (not (let ((use-completion-p  (if (integerp icicle-change-sort-order-completion)
+                                                   (> (length (icicle-current-sort-functions))
+                                                      icicle-change-sort-order-completion)
+                                                 icicle-change-sort-order-completion)))
+                        (or (and (not current-prefix-arg)  use-completion-p)
+                            (and current-prefix-arg        (not use-completion-p))))))
        (swap-sort menu-item "Swap Alternative/Normal Sort"
         icicle-toggle-alternative-sorting)))
   "Submenu for sorting completion candidates.")
@@ -440,7 +460,6 @@
        (next-TAB menu-item "Next TAB Completion Method"
         icicle-next-TAB-completion-method
         :visible (not current-prefix-arg))
-       (WYSIWYG menu-item "Toggle WYSIWYG for `*Completions*'" icicle-toggle-WYSIWYG-Completions)
        (using-~-for-home menu-item "Toggle Using `~' for $HOME"
         icicle-toggle-~-for-home-dir)
        (using-C-for-actions menu-item "Toggle Using `C-' for Actions"
@@ -454,9 +473,12 @@
         icicle-toggle-highlight-historical-candidates)
        (highlighting-saved menu-item "Toggle Highlighting Saved Candidates"
         icicle-toggle-highlight-saved-candidates)
+       (WYSIWYG menu-item "Toggle WYSIWYG for `*Completions*'" icicle-toggle-WYSIWYG-Completions)
        (angle-brackets menu-item "Toggle Using Angle Brackets" icicle-toggle-angle-brackets)
        (remote-file-testing menu-item "Toggle Remote File Handling  (`C-^')"
         icicle-toggle-remote-file-testing)
+       (expanding-directories menu-item "Toggle Expanding Directories  (`C-x /')"
+        icicle-toggle-expand-directory)
        (ignored-files menu-item "Toggle Ignored File Extensions  (`C-.')"
         icicle-toggle-ignored-extensions)
        (ignoring-space-prefix menu-item "Toggle Ignoring Space Prefix"
@@ -660,10 +682,10 @@ ANGLES."
       (setq res  (edmacro-subseq res 2 -2)))
     (if (and (not need-vector)
 	     (loop for ch across res
-		   always (and (if (fboundp 'characterp)  (characterp ch)  (char-valid-p ch))
+		   always (and (if (fboundp 'characterp) (characterp ch) (char-valid-p ch))
 			       (let ((ch2  (logand ch (lognot ?\M-\^@))))
 				 (and (>= ch2 0)  (<= ch2 127))))))
-	(concat (loop for ch across res collect (if (= (logand ch ?\M-\^@) 0)  ch  (+ ch 128))))
+	(concat (loop for ch across res collect (if (= (logand ch ?\M-\^@) 0) ch (+ ch 128))))
       res)))
 
 ;; Same as `naked-read-kbd-macro' in `naked.el'.
@@ -743,13 +765,12 @@ to toggle the option."
 
 (defcustom icicle-add-proxy-candidates-flag nil ; Toggle with `C-M-_'.
   "*Non-nil means to include proxy candidates whenever possible.
-A proxy candidate is a special candidate (shown in `*Completions*'
-using face `icicle-special-candidate') whose name is a placeholder for
-the real candidate.  The proxy candidate typically stands for some
-value obtained from the cursor position or by some action such as
-clicking the mouse.  Example candidates include a color or file name,
-named by proxy candidates such as `*copied foreground*' or `*file at
-point*'.
+A proxy candidate is a candidate (shown in `*Completions*' using face
+`icicle-proxy-candidate') whose name is a placeholder for the real
+candidate.  The proxy candidate typically stands for some value
+obtained from the cursor position or by some action such as clicking
+the mouse.  Example candidates include a color or file name, named by
+proxy candidates such as `*copied foreground*' or `*file at point*'.
 
 You can toggle this option at any time from the minibuffer using
 `\\<minibuffer-local-completion-map>\\[icicle-toggle-proxy-candidates]'.  However, for \
@@ -779,13 +800,20 @@ that is, `M-|', but it does affect `C-|'."
           :value-type (function :tag "Alternative action (function)"))
   :group 'Icicles-Miscellaneous)
 
-(defcustom icicle-alternative-sort-comparer ; Toggle with `C-M-,'.
-  'icicle-historical-alphabetic-p
+(defcustom icicle-alternative-sort-comparer 'icicle-historical-alphabetic-p ; Toggle with `C-M-,'.
   "*An alternative sort function, in place of `icicle-sort-comparer'.
 You can swap this with `icicle-sort-comparer' at any time by using
 `icicle-toggle-alternative-sorting' (\\<minibuffer-local-completion-map>\
 `\\[icicle-toggle-alternative-sorting]' in the minibuffer)."
-  :type '(choice (const :tag "None" nil) function) :group 'Icicles-Completions-Display)
+  :type '(choice
+          (const    :tag "None (do not sort)" nil)
+          (function :tag "Sorting Predicate" :value icicle-case-string-less-p)
+          (list     :tag "Sorting Multi-Predicate"
+           (repeat (function :tag "Component Predicate"))
+           (choice
+            (const    :tag "None" nil)
+            (function :tag "Final Predicate" :value icicle-case-string-less-p))))
+  :group 'Icicles-Completions-Display)
 
 ;; Must be before `icicle-dot-string'.
 (defconst icicle-anychar-regexp (let ((strg  (copy-sequence "\\(.\\|[\n]\\)")))
@@ -983,14 +1011,6 @@ List elements are strings."
 
 (defcustom icicle-buffer-ignore-space-prefix-flag t
   "*Non-nil means ignore buffer-name completions that start with a space.
-However, apart from minibuffer names such as \" *Minibuf-0*\", such
-candidates are not ignored when your input also starts with a space or
-when there are no buffers whose names do not start with a space.
-
-Note: This option is provided mainly for use (binding) in
-`icicle-define-command' and `icicle-define-file-command'.
-You probably do not want to set this globally, but you can.
-
 You can toggle this option from the minibuffer using
 `\\<minibuffer-local-completion-map>\\[icicle-dispatch-M-_]' (except during Icicles searching).  \
 You can also use
@@ -1036,7 +1056,9 @@ This option has no effect prior to Emacs 21 (no library `recentf.el')."
 If nil, then this does nothing.  If a regexp, then show only
 candidates that match it (and match the user input).
 See also `icicle-buffer-no-match-regexp'."
-  :type '(choice (const :tag "None" nil) regexp)
+  :type '(choice
+          (const :tag "None" nil)
+          (regexp :value "^[^ ]"))
   :group 'Icicles-Buffers :group 'Icicles-Matching)
 
 (defcustom icicle-buffer-no-match-regexp nil
@@ -1044,7 +1066,8 @@ See also `icicle-buffer-no-match-regexp'."
 If nil, then this does nothing.  If a regexp, then show only
 candidates that do not match it.
 See also `icicle-buffer-match-regexp'."
-  :type '(choice (const :tag "None" nil) regexp)
+  :type '(choice (const :tag "None" nil)
+          (regexp :value "^[ ]"))
   :group 'Icicles-Buffers :group 'Icicles-Matching)
 
 (defcustom icicle-buffer-predicate nil
@@ -1059,7 +1082,9 @@ are associated with files:
 This predicate is applied after matching against user input.  It thus
 corresponds to `icicle-must-pass-after-match-predicate', not to
 `icicle-must-pass-predicate'."
-  :type '(choice (const :tag "None" nil) function)
+  :type '(choice
+          (const :tag "None" nil)
+          (function :value (lambda (bufname) (buffer-file-name (get-buffer bufname)))))
   :group 'Icicles-Buffers :group 'Icicles-Matching)
 
 (defcustom icicle-buffer-prefix-arg-filtering 'use-default
@@ -1069,9 +1094,9 @@ This filtering is in addition to removing the names of minibuffers.
 If the value is `use-default' then use the default Icicles behavior
 \(see the doc).
 
-Otherwise, it is a list of conditions that are applied, in order until
-one matches, to filter out buffers.  If none match then no filtering
-is done.
+Otherwise, it is a list of conditions that are applied, in order,
+until one matches, to filter out buffers.  If none match then no
+filtering is done.
 
 Each condition is a list of two items: (PREF-ARG-TEST BUF-TEST).
 
@@ -1122,13 +1147,15 @@ provides the same behavior as value `use-default' (but it is slower):
           (with-current-buffer bf
             (not (eq major-mode 'dired-mode)))))))"
   :type '(choice
-          (const :tag "Use the default Icicles behavior" 'use-default)
+          (const  :tag "Use the default Icicles behavior" use-default)
           (repeat :tag "Conditions tested in order, to filter buffer-name candidates"
            (list
-            (function :tag "Predicate to test raw prefix arg")
+            (function  :tag "Predicate to test raw prefix arg"
+             :value (lambda (cpa) (and (consp cpa) (> (prefix-numeric-value cpa) 16)))) ; C-u C-u C-u
             (choice
-             (const :tag "No filtering - include all buffer names" nil)
-             (function :tag "Predicate to filter out a buffer name")))))
+             (const    :tag "No filtering - include all buffer names" nil)
+             (function :tag "Predicate to filter out a buffer name"
+              :value (lambda (bf) (get-buffer-window bf 0))))))) ; Visible
   :group 'Icicles-Buffers)
 
 (defcustom icicle-buffer-require-match-flag nil
@@ -1166,7 +1193,9 @@ candidate buffers."
   "*A sort function for buffer names, or nil.
 Examples of sort functions are `icicle-buffer-sort-*...*-last' and
 `string<'.  If nil, then buffer names are not sorted."
-  :type '(choice (const :tag "None" nil) function)
+  :type '(choice
+          (const :tag "None" nil)
+          (function :value icicle-buffer-sort-*...*-last))
   :group 'Icicles-Buffers :group 'Icicles-Completions-Display)
 
 (defcustom icicle-buffers-ido-like-flag nil
@@ -1275,14 +1304,23 @@ Remember that you can use multi-command `icicle-toggle-option' anytime
 to toggle the option."
   :type 'boolean :group 'Icicles-Minibuffer-Display)
 
-(defcustom icicle-change-sort-order-completion-flag nil
-  "*Non-nil means `icicle-change-sort-order' uses completion, by default.
-Otherwise, it cycles among the possible sort orders.  You can override
-the behavior by using `C-u' with `icicle-change-sort-order'.
+(defcustom icicle-change-sort-order-completion 7
+  "*Whether `icicle-change-sort-order' uses completion, by default.
+The behavior of `icicle-change-sort-order' with no prefix arg depends
+on the option value as follows:
 
-Remember that you can use multi-command `icicle-toggle-option' anytime
-to toggle the option."
-  :type 'boolean :group 'Icicles-Completions-Display :group 'Icicles-Matching)
+ - nil means cycle to the next order; do not use completion to choose
+   the new order.
+
+ - An integer means use completion if there are currently more than
+   that number of sort orders to choose from.  Otherwise, cycle next.
+
+ - Any other non-nil value means use completion."
+  :type '(choice
+          (integer :tag "Complete if more than this number of sort orders" :value 7)
+          (const   :tag "Complete always"                                  :value t)
+          (const   :tag "Cycle always"                                     :value nil))
+  :group 'Icicles-Completions-Display :group 'Icicles-Matching)
 
 (defcustom icicle-C-l-uses-completion-flag nil
   "*Non-nil means \\<minibuffer-local-completion-map>\
@@ -1348,9 +1386,11 @@ For example, this list element says to replace completion function
 `foo' by completion function `my-foo': (foo 'my-foo).  And this one
 says to try completing with function `mine' before `foo' or `bar':
 \((foo bar) 'mine)."
-  :type '(repeat (list (choice
-                        (symbol :tag "OLD to replace")
-                        (repeat :tag "OLD to insert before" sexp))
+  :type '(repeat (list
+                  (choice
+                   (symbol :tag "OLD to replace")
+                   (repeat :tag "OLD to insert before"
+                    (sexp :value pcomplete-completions-at-point)))
                   (sexp :tag "NEW (must eval to completion function)")))
   :group 'Icicles-Miscellaneous)
 
@@ -1473,11 +1513,11 @@ value incrementally."
     (,(icicle-kbd "C-|")       icicle-all-candidates-alt-action t)                    ; `C-|'
     (,(icicle-kbd "M-!")       icicle-all-candidates-list-action t)                   ; `M-!'
     (,(icicle-kbd "M-|")       icicle-all-candidates-list-alt-action t)               ; `M-|'
-    (,(icicle-kbd "C-M-/")     icicle-prefix-complete t)          ; (for `dabbrev.el')  `C-M-/'
     (,(icicle-kbd "M-h")       icicle-history t)                                      ; `M-h'
     (,(icicle-kbd "M-pause")   icicle-keep-only-past-inputs t) ; `M-pause'
-    (,(icicle-kbd "C-pause")   icicle-toggle-highlight-historical-candidates t)       ;`C-pause'
+    (,(icicle-kbd "C-pause")   icicle-toggle-highlight-historical-candidates t)       ; `C-pause'
     (,(icicle-kbd "S-pause")   icicle-toggle-highlight-saved-candidates t)            ; `S-pause'
+    (,(icicle-kbd "C-S-pause") icicle-toggle-WYSIWYG-Completions t)                   ; `C-S-pause'
     ;;$$$$$$  (,(icicle-kbd "C-M-pause") 'icicle-other-history) ; `C-M-pause'
     (,(icicle-kbd "C-insert")  icicle-switch-to-Completions-buf t)                    ; `C-insert'
     (,(icicle-kbd "insert")    icicle-save/unsave-candidate t)                        ; `insert'
@@ -1587,6 +1627,7 @@ value incrementally."
     (,(icicle-kbd "M-r")       icicle-roundup t)                                      ; `M-r'
     (,(icicle-kbd "C-x .")     icicle-dispatch-C-x. t)                                ; `C-x .'
     (,(icicle-kbd "C-x :")     icicle-toggle-network-drives-as-remote t)              ; `C-x :'
+    (,(icicle-kbd "C-x /")     icicle-toggle-expand-directory t)                      ; `C-x /'
     (,(icicle-kbd "C-x C-a")   icicle-toggle-annotation t)                            ; `C-x C-a'
     (,(icicle-kbd "C-x t")   icicle-cycle-image-file-thumbnail
      (fboundp 'icicle-cycle-image-file-thumbnail))                                    ; `C-x t'
@@ -1632,8 +1673,7 @@ before you enter Icicle mode."
             (list
              (choice
               (restricted-sexp :tag "Key"
-               :match-alternatives ((lambda (x) (or (stringp x)  (vectorp x))))
-               :value [ignore])
+               :match-alternatives ((lambda (x) (or (stringp x)  (vectorp x)))) :value [ignore])
               (restricted-sexp :tag "Command to remap"
                ;; Use `symbolp' instead of `commandp', in case the library defining the
                ;; command is not loaded.
@@ -1715,8 +1755,7 @@ before you enter Icicle mode."
             (list
              (choice
               (restricted-sexp :tag "Key"
-               :match-alternatives ((lambda (x) (or (stringp x)  (vectorp x))))
-               :value [ignore])
+               :match-alternatives ((lambda (x) (or (stringp x)  (vectorp x)))) :value [ignore])
               (restricted-sexp :tag "Command to remap"
                ;; Use `symbolp' instead of `commandp', in case the library defining the
                ;; command is not loaded.
@@ -1845,6 +1884,7 @@ Example selectable menu-item element:
  (foo menu-item \"Foo\"   foo-command
        :visible (not buffer-read-only))"
   :type  '(repeat
+           ;; $$$$$$ Perhaps should provide default :value for each choice.
            (choice
             ;; These could be combined, but it's better for users to see separate choices.
             (restricted-sexp
@@ -1934,6 +1974,33 @@ options to be saved automatically, you can set this to the function
 \(symbol) `ignore'.  If you want to use your own function to somehow
 save the current value, you can set this to your function."
   :type 'function :group 'Icicles-Miscellaneous)
+
+
+;; Emacs 22-23 `cus-themes.el' has no `provide', and only Emacs 24 version
+;; has `custom-available-themes'.
+(when (condition-case nil (require 'cus-theme nil t) (error nil)) ; Emacs 24+
+
+  (defcustom icicle-custom-themes ()
+    "*List of custom themes to cycle through using `icicle-custom-theme'."
+    :type '(repeat (restricted-sexp
+                    :match-alternatives
+                    ((lambda (symb) (memq symb (custom-available-themes))))))
+    :group 'Icicles-Miscellaneous)
+
+  (defcustom icicle-custom-themes-accumulate-flag nil
+    "*Non-nil does not disable other custom themes when cycling to a theme.
+Note: Setting this to non-nil can considerably slow down cycling.  The
+more themes you cycle through, the slower it gets."
+    :type 'boolean :group 'Icicles-Miscellaneous)
+
+  (defcustom icicle-custom-themes-update-flag nil
+    "*Non-nil means choosing a custom theme saves the updated list of themes.
+This applies to commands `icicle-custom-theme' and
+`icicle-color-theme' and their respective options
+`icicle-custom-themes' and `icicle-color-themes'.
+
+A prefix argument to `icicle-custom-theme' flips the option value for
+the current invocation of the command."))
 
 (defcustom icicle-default-in-prompt-format-function (lambda (default) (format " (%s)" default))
   "*Function that formats the default value to include in the prompt.
@@ -2083,10 +2150,8 @@ default value is `t', which is closest to what vanilla Emacs does."
           (const :tag "Add default value to prompt (do not insert in minibuffer)"  t)
           (const :tag "Insert default value.  Leave cursor at beginning"           insert-start)
           (const :tag "Insert default value.  Leave cursor at end"                 insert-end)
-          (const :tag "Insert default value, select it, leave cursor at beginning"
-           preselect-start)
-          (const :tag "Insert default value, select it, leave cursor at end"
-           preselect-end))
+          (const :tag "Insert default value, select it, leave cursor at beginning" preselect-start)
+          (const :tag "Insert default value, select it, leave cursor at end"       preselect-end))
   :group 'Icicles-Miscellaneous)
 
 (defcustom icicle-define-alias-commands-flag t
@@ -2203,23 +2268,14 @@ are the same.  You can use \\<minibuffer-local-completion-map>\
 List elements are strings."
   :type '(repeat string) :group 'Icicles-Files :group 'Icicles-Matching)
 
-(defcustom icicle-find-file-of-content-skip-hook nil
-  "*Hook run by `icicle-find-file-of-content' on each matching file name.
-Also run by `icicle-buffer' on the names of files that are included
-from the set of recent files or from the Emacs file cache.
-
-If any function returns non-nil then the file content is not searched.
-Use this to skip visiting and trying to search non-text files, such as
-PDFs and images, or files that might be time-consuming to access, such
-as compressed files."
-  :type 'hook :group 'Icicles-Files :group 'Icicles-Matching)
-
 (defcustom icicle-file-match-regexp nil
   "*nil or a regexp that file-name completion candidates must match.
 If nil, then this does nothing.  If a regexp, then show only
 candidates that match it (and match the user input).
 See also `icicle-file-no-match-regexp'."
-  :type '(choice (const :tag "None" nil) regexp)
+  :type '(choice
+          (const :tag "None" nil)
+          (regexp :value "^[^.]"))
   :group 'Icicles-Files :group 'Icicles-Matching)
 
 (defcustom icicle-file-no-match-regexp nil
@@ -2227,7 +2283,9 @@ See also `icicle-file-no-match-regexp'."
 If nil, then this does nothing.  If a regexp, then show only
 candidates that do not match it.
 See also `icicle-file-match-regexp'."
-  :type '(choice (const :tag "None" nil) regexp)
+  :type '(choice
+          (const :tag "None" nil)
+          (regexp :value "^[.]"))
   :group 'Icicles-Files :group 'Icicles-Matching)
 
 (defcustom icicle-file-predicate nil
@@ -2243,7 +2301,9 @@ with more than 5000 bytes:
 This predicate is applied after matching against user input.  It thus
 corresponds to `icicle-must-pass-after-match-predicate', not to
 `icicle-must-pass-predicate'."
-  :type '(choice (const :tag "None" nil) function)
+  :type '(choice
+          (const :tag "None" nil)
+          (function :value file-readable-p))
   :group 'Icicles-Files :group 'Icicles-Matching)
 
 (defcustom icicle-file-require-match-flag nil
@@ -2268,11 +2328,12 @@ You probably do not want to set this globally, but you can."
 
 (defcustom icicle-file-sort nil
   "*A sort function for file names, or nil.
-
-Examples of sort functions are `icicle-dirs-last-p',
-`icicle-last-accessed-first-p', and `icicle-last-modified-first-p'.
+Examples of sort functions are `icicle-dirs-first-p',
+`icicle-latest-access-first-p', and `icicle-latest-modification-first-p'.
 If nil, then file names are not sorted."
-  :type '(choice (const :tag "None" nil) function)
+  :type '(choice
+          (const :tag "None" nil)
+          (function :value icicle-dirs-first-p))
   :group 'Icicles-Files :group 'Icicles-Completions-Display)
 
 (defcustom icicle-files-ido-like-flag nil
@@ -2300,6 +2361,43 @@ and you must load library `filesets.el'.
 Remember that you can use multi-command `icicle-toggle-option' anytime
 to toggle the option."
   :type 'boolean :group 'Icicles-Matching)
+
+(defcustom icicle-find-file-expand-directory-flag nil
+  "*Non-nil means that acting on a directory candidate descends into it.
+That is, instead of opening Dired on the directory, the current set of
+completion candidates are replaced by the contents of the directory.
+
+You can toggle this option at any time from the minibuffer using
+`\\<minibuffer-local-completion-map>\\[icicle-toggle-expand-directory]'."
+  :type 'boolean :group 'Icicles-Files :group 'Icicles-Miscellaneous)
+
+(defun icicle-image-file-p (filename)
+  "Return non-nil if FILENAME names an image file.
+The regexp value of `image-file-name-regexp' is used for the test.
+Returns nil if library `image-file.el' cannot be loaded, so use this
+only for Emacs 23 and later."
+  (and (if (fboundp 'display-graphic-p) (display-graphic-p) window-system)
+       (fboundp 'image-file-name-regexp)
+       (require 'image-file nil t)
+       (icicle-string-match-p (image-file-name-regexp) filename)))
+
+(defcustom icicle-find-file-of-content-skip-hook #'icicle-image-file-p
+  "*Hook run by `icicle-file' on each matching file name.
+The function is applied to the file-name candidate (after transforming
+it, if it is a multi-completion).
+
+Also run by `icicle-buffer' on the names of files that are included
+from the set of recent files or from the Emacs file cache.
+
+If any function returns non-nil then the file content is not searched.
+Use this to skip visiting and trying to search non-text files, such as
+PDFs and images, or files that might be time-consuming to access, such
+as compressed files.
+
+This option has no effect for Emacs versions prior to Emacs 23.
+
+See also option `icicle-buffer-skip-hook'."
+  :type 'hook :group 'Icicles-Files :group 'Icicles-Matching)
 
 (defcustom icicle-functions-to-redefine
   `(bbdb-complete-name                  ; For older BBDB versions such as 2.35
@@ -2811,7 +2909,10 @@ will not work."
 This applies to commands such as `icicle-find-file-of-content', which
 search files that match your completion input.  If non-nil then any
 such buffers for files that you do not actually choose are killed when
-the command is finished.  If nil then they are not killed."
+the command is finished.  If nil then they are not killed.
+
+However, note that for some commands a prefix argument can reverse the
+sense of this flag."
   :type 'boolean :group 'Icicles-Buffers :group 'Icicles-Files :group 'Icicles-Matching)
 
 (when (boundp 'kmacro-ring)             ; Emacs 22+
@@ -2921,7 +3022,9 @@ resets `icicle-max-candidates' to nil, meaning no truncation.
 If the value is an integer and you use Do Re Mi (library `doremi.el')
 then you can use multi-command `icicle-increment-option' anytime to
 change the option value incrementally."
-  :type '(choice (const :tag "None" nil) integer)
+  :type '(choice
+          (const :tag "None" nil)
+          (integer :value 200))
   :group 'Icicles-Completions-Display :group 'Icicles-Matching
   :group 'Icicles-Buffers :group 'Icicles-Files)
 
@@ -2994,8 +3097,7 @@ before you enter Icicle mode."
             (list
              (choice
               (restricted-sexp :tag "Key"
-               :match-alternatives ((lambda (x) (or (stringp x)  (vectorp x))))
-               :value [ignore])
+               :match-alternatives ((lambda (x) (or (stringp x)  (vectorp x)))) :value [ignore])
               (restricted-sexp :tag "Command to remap"
                ;; Use `symbolp' instead of `commandp', in case the library defining the
                ;; command is not loaded.
@@ -3176,7 +3278,10 @@ A value of nil means no limit.
 If the value is an integer and you use Do Re Mi (library `doremi.el')
 then you can use multi-command `icicle-increment-option' anytime to
 change the option value incrementally."
-  :type '(choice (const :tag "No Limit" nil) integer) :group 'Icicles-Miscellaneous)
+  :type '(choice
+          (const :tag "No Limit" nil)
+          (integer :value 5000))
+  :group 'Icicles-Miscellaneous)
 
 (defcustom icicle-pp-eval-expression-print-level nil
   "*Value for `print-level' while printing value in `pp-eval-expression'.
@@ -3185,7 +3290,10 @@ A value of nil means no limit.
 If the value is an integer and you use Do Re Mi (library `doremi.el')
 then you can use multi-command `icicle-increment-option' anytime to
 change the option value incrementally."
-  :type '(choice (const :tag "No Limit" nil) integer) :group 'Icicles-Miscellaneous)
+  :type '(choice
+          (const :tag "No Limit" nil)
+          (integer :value 8))
+  :group 'Icicles-Miscellaneous)
 
 (defcustom icicle-prefix-complete-keys '([?\t]  [tab]  [(control ?i)]) ; `C-i' is `TAB'.
   "*Key sequences to use for `icicle-prefix-complete'.
@@ -3351,6 +3459,17 @@ easily read your minibuffer input."
   :type (if (and (require 'wid-edit nil t)  (get 'color 'widget-type)) 'color 'string)
   :group 'Icicles-Minibuffer-Display)
 
+(defcustom icicle-keep-Completions-for-sole-dir-flag t
+  "*What to do when the only match for your input is a directory name.
+This applies only to non-absolute file-name completion.
+If non-`nil' then just update `*Completions*' to show the sole
+candidate.  If `nil' then remove the `*Completions*' window instead.
+The default value is `t'.
+
+Remember that you can use multi-command `icicle-toggle-option' anytime
+to toggle the option."
+  :type 'boolean :group 'Icicles-Completions-Display :group 'Icicles-Files)
+
 (defcustom icicle-require-match-flag nil
   "*Control REQUIRE-MATCH arg to `completing-read' and `read-file-name'.
 The possible values are as follows:
@@ -3444,7 +3563,7 @@ then you can use multi-command `icicle-increment-option' anytime to
 change the option value incrementally."
   :type '(choice
           (const    :tag "Highlight all search hits (no limit)" t)
-          (integer  :tag "Max number of search hits to highlight"))
+          (integer  :tag "Max number of search hits to highlight" :value 100000))
   :group 'Icicles-Searching)
 
 (defcustom icicle-search-hook nil
@@ -3476,12 +3595,12 @@ Remember that you can also use multi-command `icicle-toggle-option'
 anytime to toggle the option."
   :type 'boolean :group 'Icicles-Searching)
 
-(defcustom icicle-search-replace-literally-flag nil ; Toggle with `M-`'.
+(defcustom icicle-search-replace-literally-flag nil ; Toggle with `C-M-`'.
   "*Non-nil means to treat replacement text literally.
 Otherwise (nil), interpret `\\' specially in replacement text, as in
 the LITERAL argument to `replace-match'.
 
-You can use `M-`' to toggle this at any time during Icicles search.
+You can use `C-M-`' to toggle this at any time during Icicles search.
 You can also use multi-command `icicle-toggle-option' anytime to
 toggle the option."
   :type 'boolean :group 'Icicles-Searching)
@@ -3497,8 +3616,8 @@ toggle the option."
   :type 'boolean :group 'Icicles-Searching)
 
 (defcustom icicle-search-ring-max (if (boundp 'most-positive-fixnum)
-                                             (/ most-positive-fixnum 10)
-                                           13421772) ; 1/10 of `most-positive-fixnum' on Windows.
+                                      (/ most-positive-fixnum 10)
+                                    13421772) ; 1/10 of `most-positive-fixnum' on Windows.
   "*Icicles version of `search-ring-max'.
 If you use Do Re Mi (library `doremi.el') then you can use
 multi-command `icicle-increment-option' anytime to change the option
@@ -3715,12 +3834,12 @@ have the suffix `-cp' (for \"component predicate\") instead of `-p'."
   ;; `bmkp-sort-comparer' says about `bmkp-reverse-multi-sort-order'.
   :type '(choice
           (const    :tag "None (do not sort)" nil)
-          (function :tag "Sorting Predicate")
+          (function :tag "Sorting Predicate" :value icicle-case-string-less-p)
           (list     :tag "Sorting Multi-Predicate"
            (repeat (function :tag "Component Predicate"))
            (choice
             (const    :tag "None" nil)
-            (function :tag "Final Predicate"))))
+            (function :tag "Final Predicate" :value icicle-case-string-less-p))))
   :group 'Icicles-Matching :group 'Icicles-Completions-Display)
 
 (defcustom icicle-buffer-configs
@@ -3743,12 +3862,19 @@ The form is (CONFIG...), where CONFIG is a list of these items:
 A configuration describes which buffer names are displayed during
 completion and their order."
   :type '(repeat (list
-                  string                ; Configuration name
-                  (choice (const :tag "None" nil) (string :tag "Match regexp"))
-                  (choice (const :tag "None" nil) (string :tag "No-match regexp"))
-                  (choice (const :tag "None" nil) (function :tag "Predicate")) ; Predicate
-                  (choice (const :tag "None" nil) (repeat (string :tag "Extra buffer")))
-                  (choice (const :tag "None" nil) (function :tag "Sort function"))))
+                  (string :tag "Configuration name") ; Configuration name
+                  (choice (const :tag "None" nil) (regexp :tag "Match regexp" :value "^[^ ]"))
+                  (choice (const :tag "None" nil) (regexp :tag "No-match regexp" :value "^[ ]"))
+                  (choice
+                   (const :tag "None" nil)
+                   (function :tag "Predicate"
+                    :value (lambda (bufname) (buffer-file-name (get-buffer bufname)))))
+                  (choice
+                   (const :tag "None" nil)
+                   (repeat :tag "Extra buffers" (string :tag "Extra buffer" :value "*scratch*")))
+                  (choice
+                   (const :tag "None" nil)
+                   (function :tag "Sort function" :value icicle-buffer-sort-*...*-last))))
   :group 'Icicles-Buffers)
 
 (defun icicle-buffer-sort-*...*-last (buf1 buf2)
@@ -3773,6 +3899,7 @@ Each alist element has the form (SORT-ORDER . COMPARER):
 
  COMPARER compares two items.  It must be acceptable as a value of
  `icicle-sort-comparer'."
+    ;; $$$$$$ Provide default :value for choices?
     :type '(alist
             :key-type (choice :tag "Sort order" string symbol)
             :value-type (choice
@@ -3799,6 +3926,7 @@ Each alist element has the form (SORT-ORDER . COMPARER):
 
  COMPARER compares two items.  It must be acceptable as a value of
  `icicle-sort-comparer'."
+    ;; $$$$$$ Provide default :value for choices?
     :type '(repeat
             (cons
              (choice :tag "Sort order" string symbol)
@@ -3816,7 +3944,8 @@ Each alist element has the form (SORT-ORDER . COMPARER):
   "*Regexp to match special completion candidates, or nil to do nothing.
 The candidates are highlighted in buffer `*Completions*' using face
 `icicle-special-candidate'."
-  :type '(choice (const :tag "None" nil) regexp) :group 'Icicles-Completions-Display)
+  :type '(choice (const :tag "None" nil) regexp) ; $$$$$$ Default :value?
+  :group 'Icicles-Completions-Display)
 
 (defcustom icicle-S-TAB-completion-methods-alist ; Cycle with `M-('.
   `(("apropos" . string-match)
@@ -4065,7 +4194,7 @@ then you can use multi-command `icicle-increment-option' anytime to
 change the option value incrementally."
   :type '(choice
 	  (const   :tag "To mid-window" nil)
-	  (integer :tag "On this line number (negative: from bottom)" -4))
+	  (integer :tag "On this line number (negative: from bottom)" :value -4))
   :group 'Icicles-Miscellaneous)
 
 (defcustom icicle-test-for-remote-files-flag t ; Toggle with `C-^'.
@@ -4149,11 +4278,13 @@ reverses the meaning of `icicle-default-thing-insertion'."
   :type
   '(cons
     (choice
-     (repeat (function :tag "Function to grab some text at point and insert it in minibuffer"))
+     (repeat
+      (function :tag "Function to grab some text at point and insert it in minibuffer"
+       :value word-at-point))
      (const :tag "No alternative text-grabbing functions" nil))
     (choice
      (const :tag "No function to successively grab more text" nil)
-     (function :tag "Function to advance point one text thing")))
+     (function :tag "Function to advance point one text thing" :value forward-word)))
   :group 'Icicles-Miscellaneous)
 
 ;; Must be before `icicle-top-level-key-bindings'.
@@ -4232,6 +4363,8 @@ toggle Icicle mode off and then back on."
      t)                                 ; `C-x j j', `C-x p b', `C-x r b'
     (bookmark-jump-other-window    icicle-bookmark-other-window
      t)                                 ; `C-x 4 j j', `C-x p j', `C-x p o', `C-x p q'
+    (bmkp-bookmark-set-confirm-overwrite  icicle-bookmark-cmd
+     (fboundp 'bmkp-bookmark-set-confirm-overwrite))                      ; `C-x r m'
     (bookmark-set                  icicle-bookmark-cmd                 t) ; `C-x r m'
     (customize-apropos             icicle-customize-apropos            t)
     (customize-apropos-faces       icicle-customize-apropos-faces      t)
@@ -4239,7 +4372,9 @@ toggle Icicle mode off and then back on."
     (customize-apropos-options     icicle-customize-apropos-options    t)
     (customize-face                icicle-customize-face               t)
     (customize-face-other-window   icicle-customize-face-other-window  t)
-    (dabbrev-completion            icicle-dabbrev-completion           (< emacs-major-version 24))
+    (dabbrev-completion            icicle-dabbrev-completion           t)
+    ;; Overrides previous for `C-M-/', but not for any other keys.
+    ([?\C-\M-/]                    icicle-dispatch-C-M-/               t) ; `C-M-/'
     (delete-window                 icicle-delete-window                t) ; `C-x 0'
     (delete-windows-for            icicle-delete-window                t) ; `C-x 0' (`frame-cmds.el')
     (dired                         icicle-dired                        t) ; `C-x d'
@@ -4471,6 +4606,7 @@ toggle Icicle mode off and then back on."
     (pop-tag-mark        icicle-pop-tag-mark          (fboundp 'command-remapping)) ; `M-*'
     (eval-expression     icicle-pp-eval-expression    (fboundp 'command-remapping)) ; `M-:'
     (pp-eval-expression  icicle-pp-eval-expression    (fboundp 'command-remapping)) ;`M-:' (`pp+.el')
+    ([S-f10]             icicle-complete-menu-bar     (fboundp 'icicle-complete-menu-bar)) ; `S-f10'
     ;; For La Carte (`lacarte.el'), not Icicles, but it's convenient to do this here.
     ("\e\M-x"            lacarte-execute-command ; `ESC M-x'
      (fboundp 'lacarte-execute-command))
@@ -4490,7 +4626,7 @@ evaluating CONDITION is nil.
 
 In Customize, to specify a key sequence, choose `Key' in the `Value
 Menu', then enter a key description such as that returned by `C-h k'.
-For convenience, you can use insert each key in the key description by
+For convenience, you can insert each key in the key description by
 hitting `C-q' then the key.  For example, to enter the key description
 `C-c M-k' you can use `C-q C-c C-q M-k'.
 
@@ -4512,8 +4648,7 @@ See also option `icicle-functions-to-redefine'."
             (list
              (choice
               (restricted-sexp :tag "Key"
-               :match-alternatives ((lambda (x) (or (stringp x)  (vectorp x))))
-               :value [ignore])
+               :match-alternatives ((lambda (x) (or (stringp x)  (vectorp x)))) :value [ignore])
               (restricted-sexp :tag "Command to remap"
                ;; Use `symbolp' instead of `commandp', in case the library defining the
                ;; command is not loaded.
@@ -4885,10 +5020,13 @@ this to `M-SPC', for instance, in `minibuffer-local-completion-map',
 
 (defcustom icicle-WYSIWYG-Completions-flag "MMMM"
   "*Non-nil means show candidates in `*Completions*' using WYSIWYG.
-This has an effect only for completion of faces and colors.
+This has an effect only for completion of things like faces, fonts,
+and colors.
 
-The particular non-nil value determines the appearance:
-* If t, the candidate is shown with its text properties.
+For face and color candidates, the particular non-nil value determines
+the appearance:
+
+* If t, the candidate displays its meaning: WYSIWYG.
 * If a string, the string is propertized and then appended to the
   candidate,  to serve as a color swatch.
 
@@ -4913,7 +5051,7 @@ or nil, which means the Unicode chars that have been read previously."
     :type '(choice
             (const    :tag "All Unicode chars"      icicle-ucs-names)
             (const    :tag "Previously used chars"  nil)
-            (function :tag "Invoke function"        icicle-ucs-names))
+            (function :tag "Invoke function" :value icicle-ucs-names))
     :group 'Icicles-Matching))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

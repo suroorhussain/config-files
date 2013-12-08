@@ -113,7 +113,7 @@
 
 ;; icicles
 (require 'icicles)
-(icy-mode)
+(icy-mode 1)
 
 (defun condense-whitespace ()
   "Kill the whitespace between two non-whitespace characters"
@@ -231,6 +231,10 @@
       (setq ad-return-value (js2-parse-assign-expr))
     ad-do-it))
 (ad-activate 'js2-parse-statement)
+
+(require 'package)
+(add-to-list 'package-archives
+  '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (require 'slime)
 (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))

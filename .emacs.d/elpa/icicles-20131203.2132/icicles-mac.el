@@ -6,10 +6,9 @@
 ;; Maintainer: Drew Adams
 ;; Copyright (C) 1996-2013, Drew Adams, all rights reserved.
 ;; Created: Mon Feb 27 09:24:28 2006
-;; Version: 22.0
-;; Last-Updated: Thu Apr 18 14:17:33 2013 (-0700)
+;; Last-Updated: Sun Dec  1 10:30:29 2013 (-0800)
 ;;           By: dradams
-;;     Update #: 1124
+;;     Update #: 1138
 ;; URL: http://www.emacswiki.org/icicles-mac.el
 ;; Doc URL: http://www.emacswiki.org/Icicles
 ;; Keywords: internal, extensions, help, abbrev, local, minibuffer,
@@ -512,7 +511,7 @@ This is an Icicles command - see command `icicle-mode'.")
     ,(and (not not-interactive-p)  '(interactive))
     (let* ((icicle-orig-buff    (current-buffer))
            (icicle-orig-window  (selected-window))
-           ,@(macroexpand bindings)
+           ,@(macroexpand bindings)     ; User-provided bindings.
            (icicle-candidate-action-fn
             (lambda (candidate)
               (let ((minibuffer-completion-table      minibuffer-completion-table)
@@ -555,20 +554,24 @@ This is an Icicles command - see command `icicle-mode'.")
                 (select-window (minibuffer-window))
                 (select-frame-set-input-focus (selected-frame))
                 nil))))                 ; Return nil for success.
-      ,first-sexp
-      (icicle-condition-case-no-debug act-on-choice
-          (let ((cmd-choice
-                 (if icicle-buffer-name-input-p
-                     (icicle-read-buffer ,prompt ,def ,require-match)
-                   (completing-read ,prompt ,collection ,predicate ,require-match
-                                    ,initial-input ,hist ,def ,inherit-input-method))))
-            ;; Reset after reading input, so that commands can tell whether input has been read.
-            (setq icicle-candidate-action-fn  nil)
-            (funcall #',function cmd-choice))
-        (quit  (icicle-try-switch-buffer icicle-orig-buff) ,undo-sexp)
-        (error (icicle-try-switch-buffer icicle-orig-buff) ,undo-sexp
-               (error "%s" (error-message-string act-on-choice))))
-      ,last-sexp)))
+      (when (catch 'icicle-top-level
+              (progn
+                ,first-sexp
+                (icicle-condition-case-no-debug act-on-choice
+                    (let ((cmd-choice
+                           (if icicle-buffer-name-input-p
+                               (icicle-read-buffer ,prompt ,def ,require-match)
+                             (completing-read ,prompt ,collection ,predicate ,require-match
+                                              ,initial-input ,hist ,def ,inherit-input-method))))
+                      ;; Reset after reading input, so that commands can tell whether input has been read.
+                      (setq icicle-candidate-action-fn  nil)
+                      (funcall #',function cmd-choice))
+                  (quit  (icicle-try-switch-buffer icicle-orig-buff) ,undo-sexp)
+                  (error (icicle-try-switch-buffer icicle-orig-buff) ,undo-sexp
+                         (error "%s" (error-message-string act-on-choice))))
+                ,last-sexp)
+              nil)
+        ,last-sexp))))
 
 (defmacro icicle-define-file-command
     (command doc-string function prompt &optional
@@ -656,7 +659,7 @@ This is an Icicles command - see command `icicle-mode'.")
     ,(and (not not-interactive-p)  '(interactive))
     (let* ((icicle-orig-buff    (current-buffer))
            (icicle-orig-window  (selected-window))
-           ,@(macroexpand bindings)
+           ,@(macroexpand bindings)     ; User-provided bindings.
            (icicle-candidate-action-fn
             (lambda (candidate)
               (let ((minibuffer-completion-table      minibuffer-completion-table)
@@ -703,20 +706,25 @@ This is an Icicles command - see command `icicle-mode'.")
                 (select-window (minibuffer-window))
                 (select-frame-set-input-focus (selected-frame))
                 nil))))                 ; Return nil for success.
-      ,first-sexp
-      (icicle-condition-case-no-debug act-on-choice
-          (let ((file-choice
-                 (if (< emacs-major-version 21) ; No predicate arg for Emacs 20.
-                     (read-file-name ,prompt ,dir ,default-filename ,require-match ,initial-input)
-                   (read-file-name ,prompt ,dir ,default-filename ,require-match
-                                   ,initial-input ,predicate))))
-            ;; Reset after reading input, so that commands can tell whether input has been read.
-            (setq icicle-candidate-action-fn  nil) ; Reset after completion.
-            (funcall #',function file-choice))
-        (quit  (icicle-try-switch-buffer icicle-orig-buff) ,undo-sexp)
-        (error (icicle-try-switch-buffer icicle-orig-buff) ,undo-sexp
-               (error "%s" (error-message-string act-on-choice))))
-      ,last-sexp)))
+      (when (catch 'icicle-top-level
+              (progn
+                ,first-sexp
+                (icicle-condition-case-no-debug act-on-choice
+                    (let ((file-choice
+                           (if (< emacs-major-version 21) ; No predicate arg for Emacs 20.
+                               (read-file-name ,prompt ,dir ,default-filename ,require-match
+                                               ,initial-input)
+                             (read-file-name ,prompt ,dir ,default-filename ,require-match
+                                             ,initial-input ,predicate))))
+                      ;; Reset after reading input, so that commands can tell whether input has been read.
+                      (setq icicle-candidate-action-fn  nil) ; Reset after completion.
+                      (funcall #',function file-choice))
+                  (quit  (icicle-try-switch-buffer icicle-orig-buff) ,undo-sexp)
+                  (error (icicle-try-switch-buffer icicle-orig-buff) ,undo-sexp
+                         (error "%s" (error-message-string act-on-choice))))
+                ,last-sexp)
+              nil)
+        ,last-sexp))))
 
 (defmacro icicle-define-sort-command (sort-order comparison-fn doc-string)
   "Define a command to sort completions by SORT-ORDER.
@@ -805,12 +813,12 @@ to update the list of tags available for completion." "")) ; Doc string
                                                                   (substring type 1 (length type)))))
      (icicle-list-use-nth-parts              '(1))
      (icicle-candidate-properties-alist      (if (not icicle-show-multi-completion-flag)
-                                                 nil
+                                                 ()
                                                (if (facep 'file-name-shadow)
                                                    '((2 (face file-name-shadow))
                                                      (3 (face bookmark-menu-heading)))
                                                  '((3 (face bookmark-menu-heading))))))
-     (icicle-transform-function              (if (interactive-p) nil icicle-transform-function))
+     (icicle-transform-function              (and (not (interactive-p))  icicle-transform-function))
      (icicle-whole-candidate-as-text-prop-p  t)
      (icicle-transform-before-sort-p         t)
      (icicle-delete-candidate-object         'icicle-bookmark-delete-action)
@@ -895,12 +903,12 @@ You need library `Bookmark+' for this command." type type) ; Doc string
      (prompt1                                  ,(or prompt  (format "Search %s bookmark: " type)))
      (icicle-list-use-nth-parts                '(1))
      (icicle-candidate-properties-alist        (if (not icicle-show-multi-completion-flag)
-                                                   nil
+                                                   ()
                                                  (if (facep 'file-name-shadow)
                                                      '((2 (face file-name-shadow))
                                                        (3 (face bookmark-menu-heading)))
                                                    '((3 (face bookmark-menu-heading))))))
-     (icicle-transform-function                (if (interactive-p) nil icicle-transform-function))
+     (icicle-transform-function                (and (not (interactive-p))  icicle-transform-function))
      (icicle-whole-candidate-as-text-prop-p    t)
      (icicle-transform-before-sort-p           t)
      (icicle-delete-candidate-object           'icicle-bookmark-delete-action)
@@ -954,7 +962,7 @@ You need library `Bookmark+' for this command." type type) ; Doc string
           (setq cand  (cons (caar cand) (cdr cand))))
         (if current-prefix-arg
             (bmkp-describe-bookmark-internals cand)
-            (bmkp-describe-bookmark cand)))))
+          (bmkp-describe-bookmark cand)))))
     (when (equal ,type "autofile") (icicle-bind-file-candidate-keys)) ; First code
     (icicle-bookmark-cleanup-on-quit)   ; Undo code
     (progn (when (equal ,type "autofile") (icicle-unbind-file-candidate-keys))

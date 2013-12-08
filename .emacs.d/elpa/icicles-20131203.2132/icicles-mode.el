@@ -6,10 +6,9 @@
 ;; Maintainer: Drew Adams
 ;; Copyright (C) 1996-2013, Drew Adams, all rights reserved.
 ;; Created: Mon Feb 27 10:21:10 2006
-;; Version: 22.0
-;; Last-Updated: Wed Apr 24 09:20:03 2013 (-0700)
+;; Last-Updated: Tue Nov 19 09:26:53 2013 (-0800)
 ;;           By: dradams
-;;     Update #: 9733
+;;     Update #: 9803
 ;; URL: http://www.emacswiki.org/icicles-mode.el
 ;; Doc URL: http://www.emacswiki.org/Icicles
 ;; Keywords: internal, extensions, help, abbrev, local, minibuffer,
@@ -19,17 +18,17 @@
 ;; Features that might be required by this library:
 ;;
 ;;   `advice', `advice-preload', `apropos', `apropos+',
-;;   `apropos-fn+var', `avoid', `bookmark', `bookmark+',
-;;   `bookmark+-1', `bookmark+-bmu', `bookmark+-key',
-;;   `bookmark+-lit', `cl', `cus-edit', `cus-face', `cus-load',
-;;   `cus-start', `dired', `dired+', `dired-aux', `dired-x',
-;;   `doremi', `easymenu', `el-swank-fuzzy', `ffap', `ffap-',
-;;   `fit-frame', `frame-cmds', `frame-fns', `fuzzy', `fuzzy-match',
-;;   `help+20', `hexrgb', `icicles-cmd1', `icicles-cmd2',
-;;   `icicles-fn', `icicles-mcmd', `icicles-opt', `icicles-var',
-;;   `image-dired', `info', `info+', `kmacro', `levenshtein',
-;;   `menu-bar', `menu-bar+', `misc-cmds', `misc-fns', `mouse3',
-;;   `mwheel', `naked', `pp', `pp+', `regexp-opt', `ring', `ring+',
+;;   `apropos-fn+var', `autofit-frame', `avoid', `bookmark',
+;;   `bookmark+', `bookmark+-1', `bookmark+-bmu', `bookmark+-key',
+;;   `bookmark+-lit', `cl', `cmds-menu', `cus-edit', `cus-face',
+;;   `cus-load', `cus-start', `cus-theme', `dired', `dired+',
+;;   `dired-aux', `dired-x', `doremi', `easymenu', `el-swank-fuzzy',
+;;   `ffap', `ffap-', `fit-frame', `frame-cmds', `frame-fns',
+;;   `fuzzy', `fuzzy-match', `help+20', `hexrgb', `icicles-cmd1',
+;;   `icicles-cmd2', `icicles-fn', `icicles-mcmd', `icicles-opt',
+;;   `icicles-var', `image-dired', `info', `info+', `kmacro',
+;;   `levenshtein', `menu-bar', `menu-bar+', `misc-cmds', `misc-fns',
+;;   `mouse3', `mwheel', `naked', `pp', `pp+', `regexp-opt', `ring',
 ;;   `second-sel', `strings', `subr-21', `thingatpt', `thingatpt+',
 ;;   `unaccent', `w32-browser', `w32browser-dlgopen', `wid-edit',
 ;;   `wid-edit+', `widget'.
@@ -174,22 +173,24 @@
   ;; icicle-imenu-key-implicit-map-full, icicle-imenu-macro, icicle-imenu-macro-full,
   ;; icicle-imenu-non-interactive-function, icicle-imenu-non-interactive-function-full,
   ;; icicle-imenu-user-option, icicle-imenu-user-option-full, icicle-imenu-variable,
-  ;; icicle-imenu-variable-full, icicle-occur, icicle-search, icicle-search-all-tags-bookmark,
+  ;; icicle-imenu-variable-full, icicle-occur, icicle-occur-dired-marked,
+  ;; icicle-occur-dired-marked-recursive, icicle-search, icicle-search-all-tags-bookmark,
   ;; icicle-search-all-tags-regexp-bookmark, icicle-search-autofile-bookmark,
   ;; icicle-search-autonamed-bookmark, icicle-search-bookmark, icicle-search-bookmark-list-bookmark,
   ;; icicle-search-bookmark-list-marked, icicle-search-bookmarks-together, icicle-search-buffer,
   ;; icicle-search-buff-menu-marked, icicle-search-char-property, icicle-search-dired-bookmark,
-  ;; icicle-search-dired-marked-recursive, icicle-search-file, icicle-search-file-bookmark,
-  ;; icicle-search-gnus-bookmark, icicle-search-highlight-cleanup, icicle-search-ibuffer-marked,
-  ;; icicle-search-info-bookmark, icicle-search-keywords, icicle-search-local-file-bookmark,
-  ;; icicle-search-man-bookmark, icicle-search-non-file-bookmark, icicle-search-overlay-property,
-  ;; icicle-search-pages, icicle-search-paragraphs, icicle-search-region-bookmark,
-  ;; icicle-search-remote-file-bookmark, icicle-search-sentences, icicle-search-some-tags-bookmark,
-  ;; icicle-search-some-tags-regexp-bookmark, icicle-search-specific-buffers-bookmark,
-  ;; icicle-search-specific-files-bookmark, icicle-search-temporary-bookmark,
-  ;; icicle-search-text-property, icicle-search-thing, icicle-search-this-buffer-bookmark,
-  ;; icicle-search-url-bookmark, icicle-search-w3m-bookmark, icicle-search-w-isearch-string,
-  ;; icicle-search-word, icicle-search-xml-element, icicle-search-xml-element-text-node
+  ;; icicle-search-dired-marked, icicle-search-dired-marked-recursive, icicle-search-file,
+  ;; icicle-search-file-bookmark, icicle-search-gnus-bookmark, icicle-search-highlight-cleanup,
+  ;; icicle-search-ibuffer-marked, icicle-search-info-bookmark, icicle-search-keywords,
+  ;; icicle-search-local-file-bookmark, icicle-search-man-bookmark, icicle-search-non-file-bookmark,
+  ;; icicle-search-overlay-property, icicle-search-pages, icicle-search-paragraphs,
+  ;; icicle-search-region-bookmark, icicle-search-remote-file-bookmark, icicle-search-sentences,
+  ;; icicle-search-some-tags-bookmark, icicle-search-some-tags-regexp-bookmark,
+  ;; icicle-search-specific-buffers-bookmark, icicle-search-specific-files-bookmark,
+  ;; icicle-search-temporary-bookmark, icicle-search-text-property, icicle-search-thing,
+  ;; icicle-search-this-buffer-bookmark, icicle-search-url-bookmark, icicle-search-w3m-bookmark,
+  ;; icicle-search-w-isearch-string, icicle-search-word, icicle-search-xml-element,
+  ;; icicle-search-xml-element-text-node
 
 ;; Use `condition-case' because if `mb-depth.el' can't be found, `mb-depth+.el' is not provided.
 (when (>= emacs-major-version 22) (condition-case nil (require 'mb-depth+ nil t) (error nil)))
@@ -867,9 +868,6 @@ Used on `pre-command-hook'."
     (define-key icicle-options-menu-map [icicle-toggle-~-for-home-dir]
       '(menu-item "Toggle Using `~' for $HOME" icicle-toggle-~-for-home-dir :keys "M-~"
         :help "Toggle option `icicle-use-~-for-home-dir-flag'"))
-    (define-key icicle-options-menu-map [icicle-toggle-WYSIWYG-Completions]
-      '(menu-item "Toggle WYSIWYG For `*Completions*'" icicle-toggle-WYSIWYG-Completions
-        :help "Toggle option `icicle-WYSIWYG-Completions-flag'"))
     (define-key icicle-options-menu-map [icicle-next-TAB-completion-method]
       '(menu-item "Next `TAB' Completion Method" icicle-next-TAB-completion-method
         :keys "C-(" :help "Cycle to the next `TAB' completion method (C-u: ONE-OFF)"))
@@ -942,6 +940,9 @@ Used on `pre-command-hook'."
       '(menu-item "Toggle Candidate Annotation"
         icicle-toggle-annotation :keys "C-x C-a"
         :help "Toggle option `icicle-show-annotations-flag': hide/show annotations"))
+    (define-key icicle-options-menu-map [icicle-toggle-WYSIWYG-Completions]
+      '(menu-item "Toggle WYSIWYG for `*Completions*'" icicle-toggle-WYSIWYG-Completions
+        :keys "C-S-pause" :help "Toggle option `icicle-WYSIWYG-Completions-flag'"))
     (define-key icicle-options-menu-map [icicle-toggle-highlight-saved-candidates]
       '(menu-item "Toggle Highlighting Saved Candidates"
         icicle-toggle-highlight-saved-candidates :keys "S-pause"
@@ -2007,6 +2008,18 @@ Used on `pre-command-hook'."
       '(menu-item "Save Names as Completion Candidates" icicle-dired-save-marked
         :help "Save the marked names as a set of completion candidates"))
     (define-key icicle-dired-multiple-menu-map [separator-dired-multiple-1] '(menu-item "--" nil))
+    (define-key icicle-dired-multiple-menu-map [icicle-search-dired-marked]
+      '(menu-item "Icicles Search (and Replace)..." icicle-search-dired-marked
+        :help "Search the marked files"
+        :enable (condition-case nil     ; Avoid an Emacs 22 error with cursor on ./ or ../
+                    (dired-get-marked-files nil nil (lambda (file) (not (file-directory-p file))))
+                  (error nil))))
+    (define-key icicle-dired-multiple-menu-map [icicle-occur-dired-marked]
+      '(menu-item "Icicles Occur..." icicle-occur-dired-marked
+        :help "Search lines of the marked files"
+        :enable (condition-case nil     ; Avoid an Emacs 22 error with cursor on ./ or ../
+                    (dired-get-marked-files nil nil (lambda (file) (not (file-directory-p file))))
+                  (error nil))))
     (define-key icicle-dired-multiple-menu-map [icicle-visit-marked-file-of-content-other-window]
       '(menu-item "Open File of Content (Other Window)"
         icicle-visit-marked-file-of-content-other-window
@@ -2022,9 +2035,6 @@ Used on `pre-command-hook'."
                   (error nil))))
 
     (when (boundp 'diredp-menu-bar-recursive-marked-menu) ; Defined in `dired+.el'
-      (define-key icicle-dired-recursive-marked-menu-map [icicle-search-dired-marked-recursive]
-        '(menu-item "Icicles Search (and Replace)..." icicle-search-dired-marked-recursive
-          :help "Search the marked files, including those in marked subdirs"))
       (define-key icicle-dired-recursive-marked-menu-map
           [icicle-dired-save-marked-to-fileset-recursive]
         '(menu-item "Save Names to Fileset" icicle-dired-save-marked-to-fileset-recursive
@@ -2042,7 +2052,42 @@ Used on `pre-command-hook'."
           :help "Add marked files, including those in marked subdirs, to saved candidates"))
       (define-key icicle-dired-recursive-marked-menu-map [icicle-dired-save-marked-recursive]
         '(menu-item "Save Names as Completion Candidates" icicle-dired-save-marked-recursive
-          :help "Save the marked file names in Dired, including those in marked subdirs")))
+          :help "Save the marked file names in Dired, including those in marked subdirs"))
+      (define-key icicle-dired-recursive-marked-menu-map [separator-dired-recursive-1]
+        '(menu-item "--" nil))
+      (define-key icicle-dired-recursive-marked-menu-map [icicle-search-dired-marked-recursive]
+        '(menu-item "Icicles Search (and Replace)..." icicle-search-dired-marked-recursive
+          :help "Search the marked files, including those in marked subdirs"
+          :enable (condition-case nil   ; Avoid an Emacs 22 error with cursor on ./ or ../
+                      (let ((files   (dired-get-marked-files nil nil nil 'DISTINGUISH-ONE-MARKED)))
+                        (and files  (cdr files))) ; Must have at least one actual mark.
+                    (error nil))))
+      (define-key icicle-dired-recursive-marked-menu-map [icicle-occur-dired-marked-recursive]
+        '(menu-item "Icicles Occur..." icicle-occur-dired-marked-recursive
+          :help "Search lines of the marked files, including those in marked subdirs"
+          :enable (condition-case nil   ; Avoid an Emacs 22 error with cursor on ./ or ../
+                      (let ((files   (dired-get-marked-files nil nil nil 'DISTINGUISH-ONE-MARKED)))
+                        (and files  (cdr files))) ; Must have at least one actual mark.
+                    (error nil))))
+      (define-key icicle-dired-recursive-marked-menu-map
+          [icicle-visit-marked-file-of-content-recursive-other-window]
+        '(menu-item "Open File of Content (Other Window)"
+          icicle-visit-marked-file-of-content-recursive-other-window
+          :help "Visit marked file, including in marked subdir, whose content matches, in other window"
+          ;; Do not test with `diredp-get-files' - no need to, and too slow
+          :enable (condition-case nil   ; Avoid an Emacs 22 error with cursor on ./ or ../
+                      (let ((files   (dired-get-marked-files nil nil nil 'DISTINGUISH-ONE-MARKED)))
+                        (and files  (cdr files))) ; Must have at least one actual mark.
+                    (error nil))))
+      (define-key icicle-dired-recursive-marked-menu-map
+          [icicle-visit-marked-file-of-content-recursive]
+        '(menu-item "Open File of Content" icicle-visit-marked-file-of-content-recursive
+          :help "Visit marked file, including in a marked subdir, whose content matches"
+          ;; Do not test with `diredp-get-files' - no need to, and too slow
+          :enable (condition-case nil   ; Avoid an Emacs 22 error with cursor on ./ or ../
+                      (let ((files   (dired-get-marked-files nil nil nil 'DISTINGUISH-ONE-MARKED)))
+                        (and files  (cdr files))) ; Must have at least one actual mark.
+                    (error nil)))))
 
     ;; `Dired Dirs' ------------------------------------------------
     (cond ((not icicle-touche-pas-aux-menus-flag)
@@ -2217,20 +2262,39 @@ Used on `pre-command-hook'."
       (define-key dired-mode-map (icicle-kbd "C-}") 'icicle-dired-save-marked-as-project))
     (unless (lookup-key dired-mode-map (icicle-kbd "C-S-f")) ; Dired `C-S-f', aka `C-F'
       (define-key dired-mode-map (icicle-kbd "C-S-f") 'icicle-visit-marked-file-of-content))
+    (unless (lookup-key dired-mode-map (icicle-kbd "C-M-S-f")) ; Dired `C-M-S-f', aka `C-M-F'
+      (define-key dired-mode-map (icicle-kbd "C-M-S-f")
+        'icicle-visit-marked-file-of-content-other-window))
     (unless (lookup-key dired-mode-map (icicle-kbd "C-S-o")) ; Dired `C-S-o', aka `C-O'
-      (define-key dired-mode-map (icicle-kbd "C-S-o")
-        'icicle-visit-marked-file-of-content-other-window)))
+      (define-key dired-mode-map (icicle-kbd "C-S-o") 'icicle-occur-dired-marked))
+    (unless (lookup-key dired-mode-map (icicle-kbd "C-S-s")) ; Dired `C-S-s', aka `C-S'
+      (define-key dired-mode-map (icicle-kbd "C-S-s") 'icicle-search-dired-marked))
+
+
+    )
 
   ;; More Dired keys, but these require `dired+.el'.
   (when (boundp 'diredp-recursive-map)
-    (let* ((key  (apply 'vector         ; `M-s M-s m'
+
+    ;; `dired-mode-map'.
+    (let* ((key  (apply 'vector
                         (append (listify-key-sequence icicle-search-key-prefix)
                                 (listify-key-sequence (icicle-kbd "m")))))
            (def  (lookup-key dired-mode-map key)))
       (unless (and def  (not (integerp def)))
-        (define-key dired-mode-map key 'icicle-search-dired-marked-recursive)))
-    (define-key diredp-recursive-map (icicle-kbd "M-s M-s") ; `M-+ M-s M-s'
-      'icicle-search-dired-marked-recursive)
+        (define-key dired-mode-map key 'icicle-search-dired-marked-recursive))) ; `M-s M-s m'
+    (let* ((key  (apply 'vector
+                        (append (listify-key-sequence icicle-search-key-prefix)
+                                (listify-key-sequence (icicle-kbd "M")))))
+           (def  (lookup-key dired-mode-map key)))
+      (unless (and def  (not (integerp def)))
+        (define-key dired-mode-map key 'icicle-occur-dired-marked-recursive)))  ; `M-s M-s M'
+
+    ;; `diredp-recursive-map'.
+    (define-key diredp-recursive-map (icicle-kbd "C-S-s") ; `M-+ C-S-s', aka `M-+ C-S'
+      'icicle-search-dired-marked-recursive)              ;     and `C-0 M-s M-s M-s' and `C-0 C-`'
+    (define-key diredp-recursive-map (icicle-kbd "C-S-o") ; `M-+ C-S-o', aka `M-+ C-O'
+      'icicle-occur-dired-marked-recursive)
     (define-key diredp-recursive-map (icicle-kbd "C-{") ; `M-+ C-{'
       'icicle-dired-project-other-window)
     (define-key diredp-recursive-map (icicle-kbd "C-M->") ; `M-+ C-M->'
@@ -2240,7 +2304,11 @@ Used on `pre-command-hook'."
     (define-key diredp-recursive-map (icicle-kbd "C-M-}") ; `M-+ C-M-}'
       'icicle-dired-save-marked-to-variable-recursive)
     (define-key diredp-recursive-map (icicle-kbd "C-}") ; `M-+ C-}'
-      'icicle-dired-save-marked-to-cache-file-recursive))
+      'icicle-dired-save-marked-to-cache-file-recursive)
+    (define-key diredp-recursive-map (icicle-kbd "C-S-f") ; `M-+ C-S-f', aka `M-+ C-F'
+      'icicle-visit-marked-file-of-content-recursive)
+    (define-key diredp-recursive-map (icicle-kbd "C-M-S-f") ; `M-+ C-M-S-f', aka `M-+ C-M-F'
+      'icicle-visit-marked-file-of-content-recursive-other-window))
 
   ;; Bind keys in Ibuffer mode.
   (when (boundp 'ibuffer-mode-map)
@@ -2334,8 +2402,8 @@ is bound in all keymaps accessible from keymap MAP."
   (when (and (boundp 'shell-mode-map)  (memq 'icicle-comint-dynamic-complete
                                              icicle-functions-to-redefine))
     (define-key shell-mode-map (icicle-kbd "C-i") (if (> emacs-major-version 23)
-                                                        'completion-at-point
-                                                      'comint-dynamic-complete)))
+                                                      'completion-at-point
+                                                    'comint-dynamic-complete)))
 
   ;; Unbind keys in Shell Script mode.
   (when (and (boundp 'sh-mode-map)  (memq 'icicle-comint-dynamic-complete
@@ -3452,8 +3520,6 @@ if `icicle-change-region-background-flag' is non-nil."
                                                (setq read-file-name-function
                                                      'icicle-read-file-name)))
       (fset 'read-file-name             'icicle-read-file-name)) ; Emacs 20, 21
-    (when (fboundp 'read-file-name-default) ; Emacs 24+
-      (fset 'read-file-name-default       'icicle-read-file-name-default))
     (when (fboundp 'icicle-read-number)
       (fset 'read-number                'icicle-read-number))
     (unless (> emacs-major-version 22)
@@ -3494,8 +3560,6 @@ if `icicle-change-region-background-flag' is non-nil."
                                                      'icicle-read-file-name))
                                             icicle-orig-read-file-name-fn))
       (fset 'read-file-name             'icicle-ORIG-read-file-name)) ; Emacs 20, 21
-    (when (fboundp 'icicle-ORIG-read-file-name-default) ; Emacs 24+
-      (fset 'read-file-name-default       'icicle-ORIG-read-file-name-default))
     (when (fboundp 'icicle-ORIG-read-number)
       (fset 'read-number                'icicle-ORIG-read-number))
     (when (fboundp 'icicle-ORIG-shell-command) ; Emacs < 23
