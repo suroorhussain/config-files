@@ -1,6 +1,5 @@
 (add-to-list 'load-path "~/.emacs.d/libs")
 
-;(load (expand-file-name "~/quicklisp/slime-helper.el"))
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives
@@ -234,17 +233,17 @@
 (ad-activate 'js2-parse-statement)
 
 (require 'slime)
-(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-;; Optionally, specify the lisp program you are using. Default is "lisp"
-(setq inferior-lisp-program "sbcl")
+;; (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+;; (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+;; ;; Optionally, specify the lisp program you are using. Default is "lisp"
+;; (setq inferior-lisp-program "sbcl")
 
-(eval-after-load "slime"
-  '(progn
-    (slime-setup '(slime-fancy slime-asdf slime-banner slime-autodoc))
-    (setq slime-complete-symbol*-fancy t)
-    (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)))
-(put 'downcase-region 'disabled nil)
+;; (eval-after-load "slime"
+;;   '(progn
+;;     (slime-setup '(slime-fancy slime-asdf slime-banner slime-autodoc))
+;;     (setq slime-complete-symbol*-fancy t)
+;;     (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)))
+;; (put 'downcase-region 'disabled nil)
 
 
 ;; (defun term-execute (s)
