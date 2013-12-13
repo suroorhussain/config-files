@@ -120,7 +120,6 @@
 (mapply 'auto-load-mode
         '((js2-mode ("\\.js" "\\.json") "js2")
           (html-mode "\\.html")
-          (nimrod-mode "\\.nim")
           (markdown-mode "\\.md")
           (sass-mode "\\.sass")
           (css-mode "\\.css")
