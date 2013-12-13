@@ -1,6 +1,8 @@
 zstyle :compinstall filename '/home/jvanwink/.zshrc'
 fpath=(/usr/local/share/zsh-completions $fpath)
 
+source ~/.private_profile
+
 autoload -Uz compinit
 compinit
 autoload -U colors && colors
@@ -48,6 +50,7 @@ for new_path in \
     fi
 done
 
+
 function act {
     source $HOME/.venv/$1/bin/activate
 }
@@ -78,6 +81,8 @@ alias loc='mdfind -name'
 alias ack=ack-grep
 alias pi="port info"
 alias as="apt-cache search"
+alias c-indent="gindent -nbad -bap -nbc -bbo -hnl -br -brs -c33 -cd33 -ncdb -ce -ci4 -cli0 -d0 -di1 -nfc1 -i4 -ip0 -l80 -lp -npcs -npsl -ncs -nsc -sob -nfca -cp33 -ss -ts8 -il1 -ppi 3 -brf"
+
 
 function pssh {
     machines=`~/repos/ops-tools-misc/bin/findpool -s $1`

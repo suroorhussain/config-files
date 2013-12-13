@@ -5,21 +5,8 @@
 (add-to-list 'package-archives
   '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
-(defun find-first-non-ascii-char ()
-  "Find the first non-ascii character from point onwards."
-  (interactive)
-  (let (point)
-    (save-excursion
-      (setq point
-            (catch 'non-ascii
-              (while (not (eobp))
-                (or (eq (char-charset (following-char))
-                        'ascii)
-                    (throw 'non-ascii (point)))
-                (forward-char 1)))))
-    (if point
-        (goto-char point)
-        (message "No non-ascii characters."))))
+(require 'load-directory)
+(load-directory "~/.emacs.d/conf.d")
 
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell
@@ -74,6 +61,8 @@
       icicle-image-files-in-Completions nil)
 
 (setq-default indent-tabs-mode nil)
+(setq c-default-style "python"
+      c-basic-offset 4)
 (global-auto-revert-mode 1)
 (column-number-mode 1)
 (show-paren-mode t)
@@ -114,17 +103,6 @@
 ;; icicles
 (require 'icicles)
 (icy-mode 1)
-
-(defun condense-whitespace ()
-  "Kill the whitespace between two non-whitespace characters"
-  (interactive "*")
-  (save-excursion
-    (save-restriction
-      (save-match-data
-        (progn
-          (re-search-backward "[^ \t\r\n]" nil t)
-          (re-search-forward "[ \t\r\n]+" nil t)
-          (replace-match " " nil nil))))))
 
 (add-to-list 'completion-ignored-extensions "pyc")
 
@@ -199,40 +177,8 @@
   (dolist (path load-path)
     (byte-recompile-directory path 0)))
 
-(defadvice js2-reparse (before json)
-  (setq js2-buffer-file-name buffer-file-name))
-(ad-activate 'js2-reparse)
-
-
-(add-hook
- 'c-mode-hook
- (function
-  (lambda nil
-    (if (string-match "postgresql" buffer-file-name)
-        (progn
-          (c-set-style "bsd")
-          (setq c-basic-offset 4)
-          (setq tab-width 4)
-          (c-set-offset 'case-label '+)
-          (setq fill-column 79)
-          (setq indent-tabs-mode t))))))
-
-(defadvice js2-parse-statement (around json)
-  (if (and (= tt js2-LC)
-           js2-buffer-file-name
-           (string-equal (substring js2-buffer-file-name -5) ".json")
-           (eq (+ (save-excursion
-                    (goto-char (point-min))
-                    (back-to-indentation)
-                    (while (eolp)
-                      (next-line)
-                      (back-to-indentation))
-                    (point)) 1) js2-ts-cursor))
-      (setq ad-return-value (js2-parse-assign-expr))
-    ad-do-it))
-(ad-activate 'js2-parse-statement)
-
 (require 'slime)
+
 ;; (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
 ;; (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
 ;; ;; Optionally, specify the lisp program you are using. Default is "lisp"
