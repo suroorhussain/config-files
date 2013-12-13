@@ -5,8 +5,8 @@
 (add-to-list 'package-archives
   '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
-(require 'load-directory)
-(load-directory "~/.emacs.d/conf.d")
+(dolist (dir (directory-files "~/.emacs.d/conf.d" t ".*\.el$"))
+  (load dir))
 
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell
@@ -178,30 +178,15 @@
     (byte-recompile-directory path 0)))
 
 (require 'slime)
-
-;; (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-;; (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-;; ;; Optionally, specify the lisp program you are using. Default is "lisp"
-;; (setq inferior-lisp-program "sbcl")
-
-;; (eval-after-load "slime"
-;;   '(progn
-;;     (slime-setup '(slime-fancy slime-asdf slime-banner slime-autodoc))
-;;     (setq slime-complete-symbol*-fancy t)
-;;     (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)))
-;; (put 'downcase-region 'disabled nil)
-
-
-;; (defun term-execute (s)
-;;   (let ((term-buffer (get-buffer "*terminal*")))
-;;     (term-send-string term-buffer (concat s "\n"))
-;;     (save-current-buffer
-;;       (set-buffer "*terminal*")
-;;       (goto-char (point-max)))))
-
-;; (defun run-on-this (command)
-;;   (interactive "F")
-;;   (let ((full-command (concat command " " buffer-file-truename)))
-;;     (term-execute full-command)))
-
-;; (term-exec (get-buffer "*terminal*") "ls" "ls" (current-buffer) nil)
+(require 'eldoc)
+(dolist (hook (list
+               'ielm-mode-hook
+               'emacs-lisp-mode-hook
+               'lisp-interaction-mode-hook
+               'message-mode-hook
+               'Info-mode-hook
+               'erc-mode-hook
+               'org-mode-hook
+               ))
+  (add-hook hook 'turn-on-eldoc-mode))
+(setq eldoc-idle-delay 0)
