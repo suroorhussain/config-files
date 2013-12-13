@@ -1,9 +1,13 @@
 (add-to-list 'load-path "~/.emacs.d/libs")
 
+
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives
   '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+(require 'auto-compile)
+(auto-compile-on-load-mode 1)
 
 (dolist (dir (directory-files "~/.emacs.d/conf.d" t ".*\.el$"))
   (load dir))
@@ -111,7 +115,6 @@
           (,(kbd "M-RET") toggle-frame-fullscreen)
           (,(kbd "C-\\") condense-whitespace)
           (,(kbd "M-c") kill-ring-save)
-          (,(kbd "C-;") auto-complete)
           (,(kbd "C-=") flymake-goto-next-error)
           (,(kbd "C-o") find-file-in-project)))
 
