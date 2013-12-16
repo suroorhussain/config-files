@@ -21,6 +21,6 @@
 (when (eq system-type 'darwin)
   (set-face-attribute 'default
                       nil
-                      :font "Menlo"
-                      :height 125
-                      :width 'condensed))
+                      :font "DejaVu Sans Mono"
+                      :height 120))
+;;(print (font-family-list))

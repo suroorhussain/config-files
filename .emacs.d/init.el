@@ -179,7 +179,7 @@
   (dolist (path load-path)
     (byte-recompile-directory path 0)))
 
-(require 'slime)
+;(require 'slime)
 (require 'eldoc)
 (dolist (hook (list
                'ielm-mode-hook
