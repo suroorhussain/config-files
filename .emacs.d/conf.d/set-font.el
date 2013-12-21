@@ -18,9 +18,5 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(when (eq system-type 'darwin)
-  (set-face-attribute 'default
-                      nil
-                      :font "DejaVu Sans Mono"
-                      :height 120))
+
 ;;(print (font-family-list))

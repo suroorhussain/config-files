@@ -31,13 +31,6 @@
             (setq retval (cons 'exception (list ex)))))
          retval)))
 
-(defmacro try-independently (&rest body)
-  (let (retval (gensym))
-    (dolist (x body retval) ()
-            (push `(try-this ,x) retval))
-    (setq retval (reverse retval))
-    (push 'progn retval)))
-
 (defun auto-load-mode (mode extensions &optional mode-fn)
   ; If not already a list, wrap it in one.
   (setq extensions (if (listp extensions) extensions (list extensions))
@@ -84,7 +77,11 @@
   (auto-insert-mode 1)
   (require 'uniquify)
   (setq uniquify-buffer-name-style 'reverse)
-
+  (when (eq system-type 'darwin)
+    (set-face-attribute 'default
+                        nil
+                        :font "DejaVu Sans Mono"
+                        :height 120))
   (require 'midnight)
   (midnight-delay-set 'midnight-delay "4:30am")
 
@@ -161,7 +158,7 @@
   "from __future__ import unicode_literals\n"
   "\n")
 
-(define-auto-insert "\\.py" 'new-py-file)
+;(define-auto-insert "\\.py" 'new-py-file)
 
 (autoload 'gofmt "go-mode")
 

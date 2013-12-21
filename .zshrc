@@ -36,15 +36,16 @@ unsetopt histsavenodups
 PS1="%{$fg[green]%}%n@%m:%{$fg[cyan]%}%~%{$reset_color%}%% "
 
 for new_path in \
+    /usr/local/opt/*/libexec/gnubin \
     "/sbin" \
     "/usr/sbin" \
     "/opt/local/bin" \
     "/usr/local/bin" \
-    "/usr/local/opt/coreutils/libexec/gnubin" \
     "$HOME/opt/bin" \
     "$HOME/bin" \
     "/usr/local/sbin" \
-    "/opt/local/lib/postgresql92/bin" ; do
+    "/opt/local/lib/postgresql92/bin" \
+    "/opt/X11/bin"; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"
     fi
@@ -56,10 +57,15 @@ function act {
 }
 
 eval "`dircolors -b`"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_CTYPE=C
+
 export EDITOR='emacsclient'
 export ALTERNATE_EDITOR='emacsnw'
 export VISUAL=$EDITOR
 export PAGER=less
+export PYTHONIOENCODING="utf_8"
 
 case "$TERM" in
     xterm-color) color_prompt=yes;;
