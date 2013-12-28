@@ -9,7 +9,7 @@
       (background-mode . dark)
       (border-color . "gray4")
       (cursor-color . "aquamarine")
-      (foreground-color . "#BBB")
+      (foreground-color . "#AAA")
       (mouse-color . "khaki"))
      ((buffer-face-mode-face . variable-pitch)
       (compilation-message-face . underline)

@@ -36,7 +36,9 @@ unsetopt histsavenodups
 PS1="%{$fg[green]%}%n@%m:%{$fg[cyan]%}%~%{$reset_color%}%% "
 
 for new_path in \
-    /usr/local/opt/*/libexec/gnubin \
+    "/usr/local/opt/coreutils/libexec/gnubin" \
+    "/usr/local/opt/gnu-sed/libexec/gnubin" \
+    "/usr/local/opt/gnu-tar/libexec/gnubin" \
     "/sbin" \
     "/usr/sbin" \
     "/opt/local/bin" \
@@ -48,6 +50,14 @@ for new_path in \
     "/opt/X11/bin"; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"
+    fi
+done
+
+for new_man_path in \
+    "/usr/local/opt/coreutils/libexec/gnuman" \
+    "/usr/local/opt/gnu-sed/libexec/gnuman"; do
+    if [ -d $new_man_path ] ; then
+        MANPATH="$new_man_path:$MANPATH"
     fi
 done
 
