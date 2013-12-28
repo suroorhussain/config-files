@@ -418,7 +418,7 @@
 ;;  `icicles-doc2.el'.
 ;;
 ;;  For descriptions of changes to this file, see `icicles-chg.el'.
- 
+
 ;;(@> "Index")
 ;;
 ;;  If you have library `linkd.el' and Emacs 22 or later, load
@@ -431,7 +431,7 @@
 ;;  (@> "Internal Variables (alphabetical)")
 ;;  (@> "Macros")
 ;;  (@> "Icicles Top-Level Commands, Part 1")
- 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; This program is free software; you can redistribute it and/or
@@ -505,11 +505,8 @@
   ;; secondary-selection-yank-commands, secondary-selection-yank-secondary-commands,
   ;; yank-pop-secondary
 
-(eval-when-compile
- (or (condition-case nil
-         (load-library "icicles-mac")   ; Use load-library to ensure latest .elc.
-       (error nil))
-     (require 'icicles-mac)))           ; Require, so can load separately if not on `load-path'.
+(require 'icicles-mac)
+
   ;; icicle-assoc-delete-all, icicle-(buffer|file)-bindings, icicle-condition-case-no-debug,
   ;; icicle-define-bookmark(-other-window)-command, icicle-define(-file)-command,
   ;; icicle-define-add-to-alist-command
@@ -627,7 +624,7 @@
 (defvar yow-load-message)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- 
+
 ;;(@* "Internal Variables (alphabetical)")
 
 ;;; Internal variables (alphabetical) --------------------------------
@@ -653,7 +650,7 @@ Non-nil means `icicle-locate-file*' uses external command `locate'.")
 
 (defvar icicle-new-bufs-to-kill ()
   "List of temporary buffers for content-searching commands.")
- 
+
 ;;(@* "Macros")
 
 ;;; Macros -----------------------------------------------------------
@@ -768,7 +765,7 @@ Non-nil READ-ONLY-P means visit file in read-only mode."
                              (get-buffer (file-name-nondirectory fil))
                            (get-file-buffer fil)))
           (push fil icicle-new-bufs-to-keep))))))
- 
+
 ;;(@* "Icicles Top-Level Commands, Part 1")
 
 ;;; Icicles Top-Level Commands, Part 1 -------------------------------
@@ -9260,7 +9257,7 @@ command for more information."
     (visit-tags-table-buffer 'same)     ; To pick up `default-directory' of TAGS table.
     (funcall icicle-find-file-abs-action-fn fil)) ; FREE here: `icicle-find-file-abs-action-fn'.
   prompt icicle-abs-file-candidates nil ; `completing-read' args
-  (and (fboundp 'confirm-nonexistent-file-or-buffer)  (confirm-nonexistent-file-or-buffer)) ;Emacs 23. 
+  (and (fboundp 'confirm-nonexistent-file-or-buffer)  (confirm-nonexistent-file-or-buffer)) ;Emacs 23.
   nil 'file-name-history (if (eq major-mode 'dired-mode)
                              (condition-case nil ; E.g. error because not on file line (ignore)
                                  (abbreviate-file-name (dired-get-file-for-visit))

@@ -72,7 +72,7 @@
 ;;  See also: Library `lacarte.el', which lets you execute menu
 ;;  commands, cycling and completing them.  It is not part of Icicles,
 ;;  but it is greatly enhanced by Icicles.
- 
+
 ;;(@> "Index")
 ;;
 ;;  Index
@@ -87,7 +87,7 @@
 ;;
 ;;  (@> "Things Defined in Icicles")
 ;;  (@> "Miscellaneous")
- 
+
 ;;(@* "Things Defined in Icicles")
 ;;
 ;;  Things Defined in Icicles
@@ -1529,7 +1529,7 @@
 ;;  `icicles-mac.el').
 ;;  ******************
 
- 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; This program is free software; you can redistribute it and/or
@@ -1555,14 +1555,7 @@
 
 
 ;;; Load other Icicles files (except documentation) ------------------
-
-(eval-when-compile
- (or (condition-case nil
-         ;; Use load-library to ensure latest .elc.
-         (load-library "icicles-mac")
-       (error nil))
-     ;; Require, so can load separately if not on `load-path'.
-     (require 'icicles-mac)))
+(require 'icicles-mac)
 
 (require 'icicles-face)
 (require 'icicles-opt)  ;; Requires face
@@ -1573,7 +1566,7 @@
 (require 'icicles-cmd2) ;; Requires mac, opt, var, fn, mcmd, cmd1
 (require 'icicles-mode) ;; Requires face, opt, cmd
 
- 
+
 ;;(@* "Miscellaneous")
 
 ;;; Miscellaneous  -----------------------------------------
@@ -1633,19 +1626,19 @@
 ;;;
 ;;;###autoload (autoload 'icy-mode    "icicles" "Toggle Icicle mode - see `icicle-mode'." t nil)
 
-;;;###autoload (autoload 'icicle-mode "icicles" 
+;;;###autoload (autoload 'icicle-mode "icicles"
 ;;;###autoload"Icicle mode: Toggle minibuffer input completion and cycling.
 ;;;###autoload Non-nil prefix ARG turns mode on if ARG > 0, else turns it off.
 ;;;###autoload Icicle mode is a global minor mode.  It binds keys in the minibuffer.
-;;;###autoload \ 
+;;;###autoload \
 ;;;###autoload For more information, use `\\<minibuffer-local-completion-map>\\[icicle-minibuffer-help]' \
 ;;;###autoload when the minibuffer is active.
-;;;###autoload \ 
+;;;###autoload \
 ;;;###autoload Depending on your platform, if you use Icicles in a text terminal
 ;;;###autoload \(that is, without a window system/manager), you might need to change
 ;;;###autoload some of the key bindings if some of the default bindings are not
 ;;;###autoload available to you.
-;;;###autoload \ 
+;;;###autoload \
 ;;;###autoload Icicle mode defines many top-level commands.  For a list, see the
 ;;;###autoload Commentary headers of files `icicles-cmd1.el' and `icicles-cmd2.el'."
 ;;;###autoload t nil)

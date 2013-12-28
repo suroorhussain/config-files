@@ -244,7 +244,7 @@
 ;;  `filesets-get-filelist' - Fix.  Bug #976 reported to Emacs devel.
 ;;
 ;;  For descriptions of changes to this file, see `icicles-chg.el'.
- 
+
 ;;(@> "Index")
 ;;
 ;;  If you have library `linkd.el' and Emacs 22 or later, load
@@ -261,7 +261,7 @@
 ;;  (@> "Icicles functions - S-TAB completion cycling")
 ;;  (@> "Icicles functions - common helper functions")
 ;;  (@> "Icicles functions - sort functions")
- 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; This program is free software; you can redistribute it and/or
@@ -289,12 +289,7 @@
 (require 'hexrgb nil t) ;; (no error if not found): hexrgb-color-name-to-hex
 (require 'wid-edit+ nil t) ;; (no error if not found):
                            ;; redefined color widget (for icicle-var-is-of-type-p)
-
-(eval-when-compile
- (or (condition-case nil
-         (load-library "icicles-mac")   ; Use load-library to ensure latest .elc.
-       (error nil))
-     (require 'icicles-mac)))           ; Require, so can load separately if not on `load-path'.
+(require 'icicles-mac)
   ;; icicle-with-selected-window
 
 (require 'icicles-opt)                  ; (This is required anyway by `icicles-var.el'.)
@@ -399,7 +394,7 @@
 
 
 
- 
+
 ;;(@* "Macros")
 
 ;;; Macros -----------------------------------------------------------
@@ -435,7 +430,7 @@ rather than FUN itself, to `minibuffer-setup-hook'."
       (unwind-protect
            (progn (add-hook 'minibuffer-setup-hook ,hook) ,@body)
         (remove-hook 'minibuffer-setup-hook ,hook)))))
- 
+
 ;;(@* "Redefined standard functions")
 
 ;;; Redefined standard functions -------------------------------------
@@ -452,7 +447,7 @@ rather than FUN itself, to `minibuffer-setup-hook'."
 (unless (fboundp 'icicle-ORIG-choose-completion-string)
   (defalias 'icicle-ORIG-choose-completion-string (symbol-function 'choose-completion-string)))
 
-(cond ((= emacs-major-version 22)                
+(cond ((= emacs-major-version 22)
        (defun icicle-choose-completion-string (choice &optional buffer base-size)
          "Switch to BUFFER and insert the completion choice CHOICE.
 BASE-SIZE, if non-nil, says how many characters of BUFFER's text
@@ -2907,7 +2902,7 @@ produce extra completion candidates (which are indicated using face
   the marked files in Dired.
 
 * MIME-type associations provide candidates appropriate for the marked
-  files (Emacs 23 and later), 
+  files (Emacs 23 and later),
 
 * If option `icicle-guess-commands-in-path' is non-nil, then
   executable files (or all files, if `shell-completion-execonly' is
@@ -3036,7 +3031,7 @@ This is a menu filter function which ignores the MENU argument."
                     ["+ Open Recent File..." icicle-recent-file]
                     ["+ Open Recent File (Other Window)..." icicle-recent-file-other-window]
                     ["+ Remove from Recent Files List..." icicle-remove-file-from-recentf-list]))))))
- 
+
 ;;(@* "Icicles functions - completion display (not cycling)")
 
 ;;; Icicles functions - completion display (not cycling) -------------
@@ -3768,7 +3763,7 @@ This must be called in the minibuffer."
   "Buffer position of end of minibuffer prompt, or `point-min'.
 Version of `minibuffer-prompt-end' that works for Emacs 20 and later."
   (if (fboundp 'minibuffer-prompt-end) (minibuffer-prompt-end) (point-min)))
- 
+
 ;;(@* "Icicles functions - TAB completion cycling")
 
 ;;; Icicles functions - TAB completion cycling --------------------
@@ -4024,7 +4019,7 @@ same as for `substitute-in-file-name'."
                       (comp                    (complete-with-action action table (substring string beg)
                                                                      (lambda (&rest args) t))))
                  (if (stringp comp) (concat prefix comp) (mapcar (lambda (s) (concat prefix s)) comp)))))))))
- 
+
 ;;(@* "Icicles functions - S-TAB completion cycling")
 
 ;;; Icicles functions - S-TAB completion cycling -------------------
@@ -4351,7 +4346,7 @@ If LEN is nil, treat it as the length of STRING."
     (let ((subs  ()))
       (dotimes (idx (- (length string) (1- len)))  (push (substring string idx (+ idx len))  subs))
       (nreverse subs))))
- 
+
 ;;(@* "Icicles functions - common helper functions")
 
 ;;; Icicles functions - common helper functions ----------------------
@@ -6957,7 +6952,7 @@ For Emacs 22 and prior, return a single default (a string)."
          (funcall #'non-nil-symbol-name-nearest-point))
         ((icicle-thing-at-point 'symbol))
         ((function-called-at-point))))
- 
+
 ;;(@* "Icicles functions - sort functions")
 
 ;;; Icicles functions - sort functions -------------------------------

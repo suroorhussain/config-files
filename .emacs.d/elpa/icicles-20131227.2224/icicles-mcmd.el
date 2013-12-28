@@ -345,7 +345,7 @@
 ;;  `icicles-doc2.el'.
 ;;
 ;;  For descriptions of changes to this file, see `icicles-chg.el'.
- 
+
 ;;(@> "Index")
 ;;
 ;;  If you have library `linkd.el' and Emacs 22 or later, load
@@ -360,7 +360,7 @@
 ;;    (@> "Minibuffer editing commands")
 ;;    (@> "Commands to sort completion candidates")
 ;;    (@> "Other commands to be used mainly in the minibuffer")
- 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; This program is free software; you can redistribute it and/or
@@ -387,12 +387,8 @@
 (eval-when-compile (require 'filesets nil t)) ; Emacs 22+.
   ;; filesets-data, filesets-entry-get-files, filesets-entry-mode, filesets-entry-set-files,
   ;; filesets-files-equalp, filesets-init, filesets-member, filesets-set-config
+(require 'icicles-mac)
 
-(eval-when-compile
- (or (condition-case nil
-         (load-library "icicles-mac")   ; Use load-library to ensure latest .elc.
-       (error nil))
-     (require 'icicles-mac)))           ; Require, so can load separately if not on `load-path'.
   ;; icicle-assoc-delete-all, icicle-define-sort-command
 (require 'icicles-opt)                  ; (This is required anyway by `icicles-var.el'.)
   ;; icicle-alternative-sort-comparer, icicle-buffer-ignore-space-prefix-flag,
@@ -464,7 +460,7 @@
 (defvar to-insert)                      ; Here.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- 
+
 ;;(@* "Redefined standard commands")
 
 ;;; Redefined standard commands --------------------------------------
@@ -921,7 +917,7 @@ POSITION is a buffer position."
       (when (and current  (wholenump curr-pos))
         (icicle-msg-maybe-in-minibuffer "Deleted `%s'"
                                         (icicle-propertize current 'face 'icicle-msg-emphasis))))))
- 
+
 ;;(@* "Icicles commands")
 
 ;;; Icicles commands -------------------------------------------------
@@ -1129,7 +1125,7 @@ Otherwise, invoke `icicle-dabbrev-completion' (or
                         (if (fboundp 'icicle-dabbrev-completion)
                             'icicle-dabbrev-completion
                           'dabbrev-completion))))
-        
+
 (defun icicle-make-directory (dir)   ; Bound to `C-c +' in minibuffer, for file-name completion.
   "Create a directory."
   (interactive
@@ -1412,7 +1408,7 @@ but the `display' string is unique for each call."
   "Delete all user input in the minibuffer, then update completions."
   (interactive)
   (icicle-call-then-update-Completions #'icicle-clear-minibuffer))
- 
+
 ;;(@* "Commands to sort completion candidates")
 
 ;;; Commands to sort completion candidates . . . . . . . . . . . . . .
@@ -2016,7 +2012,7 @@ If ALTERNATIVEP is non-nil, the alternative sort order is returned."
   (when (get-buffer-window "*Completions*" 0) (icicle-display-candidates-in-Completions))
   (when (interactive-p) (icicle-msg-maybe-in-minibuffer "Added in the saved sort order")))
 
- 
+
 ;;(@* "Other commands to be used mainly in the minibuffer")
 
 ;;; Other commands to be used mainly in the minibuffer . . . . . . . .
