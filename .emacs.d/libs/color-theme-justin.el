@@ -1,5 +1,6 @@
-(eval-when-compile
-  (require 'color-theme))
+(require 'color-theme)
+;(color-theme-initialize)
+
 (defun color-theme-justin ()
   "Color theme by Justin Van Winkle, created 2011-10-09."
   (interactive)
