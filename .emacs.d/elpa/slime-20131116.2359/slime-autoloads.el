@@ -44,7 +44,10 @@ CONTRIBS is a list of contrib packages to load."
 
 ;;; slime-autoloads.el ends here
 
-;;;### (autoloads nil nil ("hyperspec.el" "slime-pkg.el" "slime.el")
-;;;;;;  (21155 61557 89338 230000))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/slime-20131116.2359/hyperspec.el"
+;;;;;;  "../../../../.emacs.d/elpa/slime-20131116.2359/slime-autoloads.el"
+;;;;;;  "../../../../.emacs.d/elpa/slime-20131116.2359/slime-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/slime-20131116.2359/slime.el")
+;;;;;;  (21182 52119 224176 0))
 
 ;;;***

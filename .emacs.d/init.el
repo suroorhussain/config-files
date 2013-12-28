@@ -8,27 +8,33 @@
 (auto-compile-on-load-mode 1)
 (auto-compile-on-save-mode 1)
 
-(add-to-list 'load-path "~/.emacs.d/libs")
+(add-to-list 'load-path "~/.emacs.d/lisp")
 
-(setq inhibit-startup-message t
-      require-final-newline t
-      ring-bell-function 'ignore
-      mac-pass-command-to-system nil
-      mac-option-key-is-meta nil
-      mac-option-modifier 'hyper
+(require 'color-theme-justin)
+(color-theme-justin)
+
+(setq ac-auto-start t
+      backup-by-copying-when-mismatch t
+      icicle-image-files-in-Completions nil
+      inhibit-startup-message t
       mac-command-key-is-meta t
       mac-command-modifier 'meta
-      ac-auto-start t
-      backup-by-copying-when-mismatch t
+      mac-option-key-is-meta nil
+      mac-option-modifier 'hyper
+      mac-pass-command-to-system nil
       make-backup-files nil
-      icicle-image-files-in-Completions nil)
+      require-final-newline t
+      ring-bell-function 'ignore)
 
-(scroll-bar-mode -1)
+(auto-insert-mode 1)
+(column-number-mode 1)
+(global-auto-revert-mode 1)
 (menu-bar-mode -1)
+(scroll-bar-mode -1)
+(set-fringe-mode 2)
+(show-paren-mode t)
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(set-fringe-mode 2)
-(auto-insert-mode 1)
 
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell
@@ -51,20 +57,12 @@
 (dolist (fn (directory-files "~/.emacs.d/conf.d" t ".*\.el$"))
   (load (file-name-sans-extension fn)))
 
-
-(require 'color-theme-justin)
-(color-theme-justin)
-
-; Setup menu's etc.
-
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 (setq-default indent-tabs-mode nil)
 (setq c-default-style "python"
       c-basic-offset 4)
-(global-auto-revert-mode 1)
-(column-number-mode 1)
-(show-paren-mode t)
-
 
 (autoload 'find-file-in-repository "find-file-in-repository" "Find file in repo." t)
 
@@ -91,7 +89,16 @@
 (require 'midnight)
 (midnight-delay-set 'midnight-delay "4:30am")
 
-
-(require 'icicles-mac)
 (require 'icicles)
 (icy-mode 1)
+
+(defun compile-uncompiled ()
+  (interactive)
+  (require 'em-glob)
+  (dolist (fn (eshell-extended-glob "~/.emacs.d/**/*.el"))
+    (unless (file-exists-p (concat fn "c"))
+      (unless (string-match-p "load" fn)
+        (print (concat "automatically compiling: " fn))
+        (toggle-auto-compile fn 'start)))))
+
+(compile-uncompiled)
