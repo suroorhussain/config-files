@@ -49,6 +49,7 @@
       make-backup-files nil
       icicle-image-files-in-Completions nil)
 
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 (setq-default indent-tabs-mode nil)
 (setq c-default-style "python"
       c-basic-offset 4)
