@@ -1,8 +1,4 @@
-;;; js2-json-fixup.el --- Fix up js2-mode to allow editing of json files without errors.
-
-;; Copyright (C) 2013  Justin Van Winkle
-
-;; Author: Justin Van Winkle <jvanwink@rt.lan>
+(auto-load-mode 'js2-mode '("\\.js" "\\.json") "js2")
 
 (defadvice js2-reparse (before json)
   (setq js2-buffer-file-name buffer-file-name))
