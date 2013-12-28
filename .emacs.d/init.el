@@ -66,14 +66,14 @@
 (show-paren-mode t)
 
 
-(autoload 'find-file-in-project "find-file-in-project" "Find file in project." t)
+(autoload 'find-file-in-repository "find-file-in-repository" "Find file in repo." t)
 
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "M-RET") 'toggle-frame-fullscreen)
 (global-set-key (kbd "C-\\") 'condense-whitespace)
 (global-set-key (kbd "M-c") 'kill-ring-save)
 (global-set-key (kbd "C-=") 'flymake-goto-next-error)
-(global-set-key (kbd "C-o") 'find-file-in-project)
+(global-set-key (kbd "C-o") 'find-file-in-repository)
 
 (auto-load-mode 'html-mode "\\.html")
 (auto-load-mode 'markdown-mode "\\.md")
@@ -84,7 +84,6 @@
 (auto-load-mode 'yaml-mode '("\\.yml" "\\.yaml"))
 (auto-load-mode 'nxml-mode '("\\.xml" "\\.wsdl" "\\.svg" "\\.xslt" "\\.wsdd" "\\.xsl" "\\.rng" "\\.xhtml"))
 (auto-load-mode 'ruby-mode "Rakefile")
-(auto-load-mode 'peg-mode '("\\.peg"))
 (auto-load-mode 'go-mode "\\.go")
 
 (require 'uniquify)
@@ -92,7 +91,6 @@
 (require 'midnight)
 (midnight-delay-set 'midnight-delay "4:30am")
 
-(require 'show-wspace)
 
 (require 'icicles-mac)
 (require 'icicles)
