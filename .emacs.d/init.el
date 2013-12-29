@@ -27,10 +27,8 @@
   (autoload mode extension-fn nil t)
   (add-to-list 'auto-mode-alist (cons regex mode)))
 
-
 (dolist (fn (directory-files "~/.emacs.d/conf.d" t ".*\.el$"))
   (load (file-name-sans-extension fn)))
-
 
 (defun compile-uncompiled (glob)
   (interactive)
@@ -41,5 +39,5 @@
         (print (concat "automatically compiling: " fn))
         (toggle-auto-compile fn 'start)))))
 
-(compile-uncompiled "~/.emacs.d/lisp/*.el")
-(compile-uncompiled "~/.emacs.d/conf.d/*.el")
+(compile-uncompiled "~/.emacs.d/**/*.el")
+(compile-uncompiled "~/.emacs.d/*.el")
