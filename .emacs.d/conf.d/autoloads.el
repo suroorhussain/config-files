@@ -1,0 +1,15 @@
+(auto-load-mode 'html-mode "\\.html")
+(auto-load-mode 'markdown-mode "\\.md")
+(auto-load-mode 'sass-mode "\\.sass")
+(auto-load-mode 'css-mode "\\.css")
+(auto-load-mode 'coffee-mode "\\.coffee")
+(auto-load-mode 'jinja2-mode "\\.jinja" "jinja2")
+(auto-load-mode 'yaml-mode '("\\.yml" "\\.yaml"))
+(auto-load-mode 'nxml-mode '("\\.xml" "\\.wsdl" "\\.svg" "\\.xslt" "\\.wsdd" "\\.xsl" "\\.rng" "\\.xhtml"))
+(auto-load-mode 'ruby-mode "Rakefile")
+(auto-load-mode 'go-mode "\\.go")
+
+(autoload 'find-file-in-repository "find-file-in-repository" "Find file in repo." t)
+
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
