@@ -38,6 +38,3 @@
       (unless (string-match-p "load" fn)
         (print (concat "automatically compiling: " fn))
         (toggle-auto-compile fn 'start)))))
-
-(compile-uncompiled "~/.emacs.d/**/*.el")
-(compile-uncompiled "~/.emacs.d/*.el")
