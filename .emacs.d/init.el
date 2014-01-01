@@ -1,14 +1,4 @@
 (setq gc-cons-threshold 20000000)
-(require 'package)
-(package-initialize)
-(add-to-list 'package-archives
-  '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-(require 'auto-compile)
-(auto-compile-on-load-mode 1)
-(auto-compile-on-save-mode 1)
-
-(add-to-list 'load-path "~/.emacs.d/lisp")
 
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell
@@ -27,8 +17,21 @@
   (autoload mode extension-fn nil t)
   (add-to-list 'auto-mode-alist (cons regex mode)))
 
-(dolist (fn (directory-files "~/.emacs.d/conf.d" t ".*\.el$"))
-  (load (file-name-sans-extension fn)))
+(add-hook 'after-init-hook 'my-after-init-hook)
+(defun my-after-init-hook ()
+  ;(require 'auto-compile)
+  ;(auto-compile-on-load-mode 1)
+  ;(auto-compile-on-save-mode 1)
+
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+  (add-to-list 'load-path "~/.emacs.d/lisp")
+  (dolist (fn (directory-files "~/.emacs.d/conf.d" t ".*\.el$"))
+    (load (file-name-sans-extension fn)))
+  (icy-mode 1)
+  )
+
 
 (defun compile-uncompiled (glob)
   (interactive "GPath glob: \n")

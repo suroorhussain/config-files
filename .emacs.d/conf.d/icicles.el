@@ -1,2 +1,2 @@
-(require 'icicles)
-(icy-mode 1)
+;(require 'icicles)
+;(icy-mode 1)

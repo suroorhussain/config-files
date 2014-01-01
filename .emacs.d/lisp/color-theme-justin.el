@@ -1,5 +1,3 @@
-(require 'color-theme)
-
 (defun color-theme-justin ()
   "Color theme by Justin Van Winkle, created 2011-10-09."
   (interactive)
