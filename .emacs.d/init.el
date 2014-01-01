@@ -31,10 +31,9 @@
   (load (file-name-sans-extension fn)))
 
 (defun compile-uncompiled (glob)
-  (interactive)
+  (interactive "GPath glob: \n")
   (require 'em-glob)
   (dolist (fn (eshell-extended-glob glob))
     (unless (file-exists-p (concat fn "c"))
-      (unless (string-match-p "load" fn)
-        (print (concat "automatically compiling: " fn))
-        (toggle-auto-compile fn 'start)))))
+      (print (concat "automatically compiling: " fn))
+      (toggle-auto-compile fn 'start))))
