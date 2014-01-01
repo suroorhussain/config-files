@@ -1,24 +1,5 @@
 #!/bin/bash
 
-for f in \
-    .bashrc \
-    bin \
-    .curlrc \
-    .emacs.d \
-    .fonts.conf \
-    .gitconfig \
-    .gtkrc \
-    .gtkrc-2.0 \
-    .hgrc \
-    .profile \
-    .sbclrc \
-    .tidyrc \
-    .xinitrc \
-    .xmodmap \
-    .Xmodmap \
-    .xmonad \
-    .Xresources \
-    .zshrc ; do
-    rm -f $f ;
-    ln -s .config-files/$f ;
+for f in `find .config-files -maxdepth 1 -mindepth 1 -name '.*'` .config-files/bin; do
+    ln -f -s -v $f ;
 done
