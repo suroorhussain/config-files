@@ -1,0 +1,73 @@
+;; Object python2.7/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "python2.7/"
+  :tables (list 
+   (semanticdb-table "glob.py"
+    :major-mode 'python-mode
+    :tags 
+        '( ("\"\"\"Filename globbing utility.\"\"\"" code nil nil [1 33])
+            ("sys" include nil nil [35 45])
+            ("os" include nil nil [46 55])
+            ("re" include nil nil [56 65])
+            ("fnmatch" include nil nil [66 80])
+            ("try" code nil nil [82 268])
+            ("__all__" variable nil nil [269 296])
+            ("glob" function
+               (:documentation "Return a list of paths matching a pathname pattern.
+
+    The pattern may contain simple shell-style wildcards a la
+    fnmatch. However, unlike fnmatch, filenames starting with a
+    dot are special cases that are not matched by '*' and '?'
+    patterns.
+
+    "
+                :arguments 
+                  ( ("pathname" variable nil (reparse-symbol function_parameters) [307 315]))                  )
+                nil [298 622])
+            ("iglob" function
+               (:documentation "Return an iterator which yields the paths matching a pathname pattern.
+
+    The pattern may contain simple shell-style wildcards a la
+    fnmatch. However, unlike fnmatch, filenames starting with a
+    dot are special cases that are not matched by '*' and '?'
+    patterns.
+
+    "
+                :arguments 
+                  ( ("pathname" variable nil (reparse-symbol function_parameters) [633 641]))                  )
+                nil [623 1738])
+            ("glob1" function (:arguments 
+              ( ("dirname" variable nil (reparse-symbol function_parameters) [1973 1980])
+                ("pattern" variable nil (reparse-symbol function_parameters) [1982 1989]))              ) nil [1963 2447])
+            ("glob0" function (:arguments 
+              ( ("dirname" variable nil (reparse-symbol function_parameters) [2458 2465])
+                ("basename" variable nil (reparse-symbol function_parameters) [2467 2475]))              ) nil [2448 2829])
+            ("magic_check" variable nil nil [2831 2864])
+            ("has_magic" function (:arguments 
+              ( ("s" variable nil (reparse-symbol function_parameters) [2880 2881]))              ) nil [2866 2929]))          
+    :file "glob.py"
+    :pointmax 2929
+    :fsize 2928
+    :lastmodtime '(21201 25440 0 0)
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "os.py"
+    :file "os.py"
+    :fsize 25769
+    :lastmodtime '(21201 25440 0 0)
+    )
+   (semanticdb-table "re.py"
+    :file "re.py"
+    :fsize 12959
+    :lastmodtime '(21201 25440 0 0)
+    )
+   (semanticdb-table "fnmatch.py"
+    :file "fnmatch.py"
+    :fsize 3239
+    :lastmodtime '(21201 25440 0 0)
+    )
+   )
+  :file "!usr!lib!python2.7!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2"
+  )

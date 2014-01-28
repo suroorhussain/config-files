@@ -1,0 +1,46 @@
+;; Object src/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "src/"
+  :tables (list 
+   (semanticdb-table "lcp.hpp"
+    :major-mode 'c++-mode
+    :tags 
+        '( ("vector" include (:system-flag t) nil [1 18])
+            ("std" using (:type ("std" type
+                 (:prototype t
+                  :type "namespace")
+                  nil nil)) nil [20 40])
+            ("make_lcp" function
+               (:arguments 
+                  ( ("s" variable
+                       (:pointer 1
+                        :constant-flag t
+                        :type "unsigned char")
+                        (reparse-symbol arg-sub-list) [56 79])
+                    ("sa" variable
+                       (:pointer 1
+                        :constant-flag t
+                        :type "int")
+                        (reparse-symbol arg-sub-list) [87 101])
+                    ("sa_length" variable (:type "int") (reparse-symbol arg-sub-list) [109 123])
+                    ("lcp" variable
+                       (:reference 1
+                        :type ("vector" type
+                             (:template-specifier 
+                                ( ("int" type nil nil nil))                                
+                              :type "class")
+                              nil nil))
+                        (reparse-symbol arg-sub-list) [131 148]))                  
+                :type "void")
+                nil [42 576]))          
+    :file "lcp.hpp"
+    :pointmax 562
+    :fsize 576
+    :lastmodtime '(21223 25273 567998 126000)
+    :unmatched-syntax 'nil
+    )
+   )
+  :file "!home!jvanwink!repos!suffix_array!src!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2"
+  )

@@ -1,0 +1,44 @@
+;; Object jvanwink/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "jvanwink/"
+  :tables (list 
+   (semanticdb-table "test.cpp"
+    :major-mode 'c++-mode
+    :tags 
+        '( ("google/sparse_hash_map" include (:system-flag t) nil [1 34])
+            ("iostream" include (:system-flag t) nil [35 54])
+            ("std::hash" using (:type ("std::hash" type
+                 (:prototype t
+                  :type "class")
+                  nil nil)) nil [56 72])
+            ("eqstr" type
+               (:members 
+                  ( ("()" function
+                       (:operator-flag t
+                        :arguments 
+                          ( ("s1" variable
+                               (:pointer 1
+                                :constant-flag t
+                                :type "char")
+                                (reparse-symbol arg-sub-list) [107 122])
+                            ("s2" variable
+                               (:pointer 1
+                                :constant-flag t
+                                :type "char")
+                                (reparse-symbol arg-sub-list) [123 138]))                          
+                        :type "bool")
+                        (reparse-symbol classsubparts) [91 212]))                  
+                :type "struct")
+                nil [74 215])
+            ("main" function (:type "int") nil [218 931]))          
+    :file "test.cpp"
+    :pointmax 932
+    :fsize 921
+    :lastmodtime '(21223 32317 703866 926000)
+    :unmatched-syntax 'nil
+    )
+   )
+  :file "!home!jvanwink!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2"
+  )

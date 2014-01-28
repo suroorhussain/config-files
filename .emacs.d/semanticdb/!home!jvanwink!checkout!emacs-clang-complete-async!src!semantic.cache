@@ -1,0 +1,345 @@
+;; Object src/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "src/"
+  :tables (list 
+   (semanticdb-table "completion_serv.c"
+    :major-mode 'c-mode
+    :tags 
+        '( ("stdlib.h" include (:system-flag t) nil [1 20])
+            ("stdio.h" include (:system-flag t) nil [21 39])
+            ("string.h" include (:system-flag t) nil [40 59])
+            ("completion.h" include nil nil [60 83])
+            ("__copy_cmdlineArgs" function
+               (:typemodifiers ("static")
+                :arguments 
+                  ( ("argc" variable (:type "int") (reparse-symbol arg-sub-list) [195 204])
+                    ("argv" variable
+                       (:pointer 1
+                        :dereference 1
+                        :type "char")
+                        (reparse-symbol arg-sub-list) [205 218])
+                    ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [219 247]))                  
+                :type "void")
+                nil [164 717])
+            ("__initialize_completionSession" function
+               (:arguments 
+                  ( ("argc" variable (:type "int") (reparse-symbol arg-sub-list) [893 902])
+                    ("argv" variable
+                       (:pointer 1
+                        :dereference 1
+                        :type "char")
+                        (reparse-symbol arg-sub-list) [903 916])
+                    ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [917 945]))                  
+                :type "void")
+                nil [857 1300])
+            ("startup_completionSession" function
+               (:arguments 
+                  ( ("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1483 1492])
+                    ("argv" variable
+                       (:pointer 1
+                        :dereference 1
+                        :type "char")
+                        (reparse-symbol arg-sub-list) [1493 1506])
+                    ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1507 1535]))                  
+                :type "void")
+                nil [1452 1887])
+            ("__get_CXUnsavedFile" function
+               (:typemodifiers ("static")
+                :arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :constant-flag t
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1988 2022]))                  
+                :type ("CXUnsavedFile" type
+                     (:prototype t
+                      :type "struct")
+                      nil nil))
+                nil [1940 2245])
+            ("completion_parseTranslationUnit" function
+               (:arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [2297 2325]))                  
+                :type ("CXTranslationUnit" type (:type "class") nil nil))
+                nil [2247 2683])
+            ("completion_reparseTranslationUnit" function
+               (:arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [2723 2751]))                  
+                :type "int")
+                nil [2685 2946])
+            ("completion_codeCompleteAt" function
+               (:pointer 1
+                :arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [3002 3030])
+                    ("line" variable (:type "int") (reparse-symbol arg-sub-list) [3031 3040])
+                    ("column" variable (:type "int") (reparse-symbol arg-sub-list) [3041 3052]))                  
+                :type ("CXCodeCompleteResults" type (:type "class") nil nil))
+                nil [2948 3293]))          
+    :file "completion_serv.c"
+    :pointmax 3294
+    :fsize 3293
+    :lastmodtime '(21223 31052 784210 160000)
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "completion.h"
+    :major-mode 'c-mode
+    :tags 
+        '( ("_COMPLETION_SESSION_H_" variable (:constant-flag t) nil [40 62])
+            ("stdio.h" include (:system-flag t) nil [64 82])
+            ("clang-c/Index.h" include (:system-flag t) nil [83 109])
+            ("completion_Session" type
+               (:typedef ("__completion_Session_struct" type (:type "struct") nil nil)
+                :superclasses "__completion_Session_struct"
+                :type "typedef")
+                nil [112 908])
+            ("__completion_Session_struct" type
+               (:members 
+                  ( ("src_filename" variable
+                       (:pointer 1
+                        :constant-flag t
+                        :type "char")
+                        (reparse-symbol classsubparts) [196 221])
+                    ("src_buffer" variable
+                       (:pointer 1
+                        :type "char")
+                        (reparse-symbol classsubparts) [261 278])
+                    ("src_length" variable (:type "int") (reparse-symbol classsubparts) [329 346])
+                    ("buffer_capacity" variable (:type "int") (reparse-symbol classsubparts) [422 444])
+                    ("num_args" variable (:type "int") (reparse-symbol classsubparts) [521 535])
+                    ("cmdline_args" variable
+                       (:pointer 2
+                        :type "char")
+                        (reparse-symbol classsubparts) [587 607])
+                    ("cx_index" variable (:type ("CXIndex" type (:type "class") nil nil)) (reparse-symbol classsubparts) [735 762])
+                    ("cx_tu" variable (:type ("CXTranslationUnit" type (:type "class") nil nil)) (reparse-symbol classsubparts) [767 791])
+                    ("ParseOptions" variable (:type "unsigned int") (reparse-symbol classsubparts) [829 852])
+                    ("CompleteAtOptions" variable (:type "unsigned int") (reparse-symbol classsubparts) [857 885]))                  
+                :type "struct")
+                nil [112 908])
+            ("DEFAULT_PARSE_OPTIONS" variable (:constant-flag t) nil [962 983])
+            ("DEFAULT_COMPLETEAT_OPTIONS" variable (:constant-flag t) nil [1037 1063])
+            ("INITIAL_SRC_BUFFER_SIZE" variable (:constant-flag t) nil [1103 1126])
+            ("__initialize_completionSession" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1432 1441])
+                    ("argv" variable
+                       (:pointer 1
+                        :dereference 1
+                        :type "char")
+                        (reparse-symbol arg-sub-list) [1442 1455])
+                    ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1456 1484]))                  
+                :type "void")
+                nil [1396 1485])
+            ("startup_completionSession" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1668 1677])
+                    ("argv" variable
+                       (:pointer 1
+                        :dereference 1
+                        :type "char")
+                        (reparse-symbol arg-sub-list) [1678 1691])
+                    ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1692 1720]))                  
+                :type "void")
+                nil [1637 1721])
+            ("completion_printCompletionLine" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("completion_string" variable (:type ("CXCompletionString" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [1807 1844])
+                    ("fp" variable
+                       (:pointer 1
+                        :type ("FILE" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1845 1854]))                  
+                :type "void")
+                nil [1771 1855])
+            ("completion_printCodeCompletionResults" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("res" variable
+                       (:pointer 1
+                        :type ("CXCodeCompleteResults" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1941 1968])
+                    ("fp" variable
+                       (:pointer 1
+                        :type ("FILE" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1969 1978]))                  
+                :type "void")
+                nil [1898 1979])
+            ("completion_parseTranslationUnit" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [2082 2110]))                  
+                :type ("CXTranslationUnit" type (:type "class") nil nil))
+                nil [2032 2111])
+            ("completion_reparseTranslationUnit" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [2150 2178]))                  
+                :type "int")
+                nil [2112 2179])
+            ("completion_codeCompleteAt" function
+               (:prototype-flag t
+                :pointer 1
+                :arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [2234 2262])
+                    ("line" variable (:type "int") (reparse-symbol arg-sub-list) [2263 2272])
+                    ("column" variable (:type "int") (reparse-symbol arg-sub-list) [2273 2284]))                  
+                :type ("CXCodeCompleteResults" type (:type "class") nil nil))
+                nil [2180 2285]))          
+    :file "completion.h"
+    :pointmax 2325
+    :fsize 2324
+    :lastmodtime '(21223 31130 763495 782000)
+    :unmatched-syntax 'nil
+    :lexical-table 
+        '(("DEFAULT_COMPLETEAT_OPTIONS" . ((symbol "CXCodeComplete_IncludeMacros" 1047 . 1075)))
+          ("INITIAL_SRC_BUFFER_SIZE" . ((number "4096" 1113 . 1117)))
+          ("_COMPLETION_SESSION_H_")
+          ("DEFAULT_PARSE_OPTIONS" . ((symbol "CXTranslationUnit_PrecompiledPreamble" 972 . 1009)))
+          )
+
+    )
+   (semanticdb-table "msg_callback.h"
+    :major-mode 'c-mode
+    :tags 
+        '( ("_COMPLETION_PROTOCOL_H_" variable (:constant-flag t) nil [41 64])
+            ("completion.h" include nil nil [68 91])
+            ("completion_AcceptRequest" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [198 226])
+                    ("fp" variable
+                       (:pointer 1
+                        :type ("FILE" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [227 236]))                  
+                :type "void")
+                nil [168 237])
+            ("completion_doCompletion" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1157 1185])
+                    ("fp" variable
+                       (:pointer 1
+                        :type ("FILE" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1186 1195]))                  
+                :type "void")
+                nil [1128 1196])
+            ("completion_doSourcefile" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1245 1273])
+                    ("fp" variable
+                       (:pointer 1
+                        :type ("FILE" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1274 1283]))                  
+                :type "void")
+                nil [1216 1284])
+            ("completion_doCmdlineArgs" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1334 1362])
+                    ("fp" variable
+                       (:pointer 1
+                        :type ("FILE" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1363 1372]))                  
+                :type "void")
+                nil [1304 1373])
+            ("completion_doReparse" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1419 1447])
+                    ("fp" variable
+                       (:pointer 1
+                        :type ("FILE" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1448 1457]))                  
+                :type "void")
+                nil [1393 1458])
+            ("completion_doSyntaxCheck" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1508 1536])
+                    ("fp" variable
+                       (:pointer 1
+                        :type ("FILE" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1537 1546]))                  
+                :type "void")
+                nil [1478 1547])
+            ("completion_doShutdown" function
+               (:prototype-flag t
+                :arguments 
+                  ( ("session" variable
+                       (:pointer 1
+                        :type ("completion_Session" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1594 1622])
+                    ("fp" variable
+                       (:pointer 1
+                        :type ("FILE" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1623 1632]))                  
+                :type "void")
+                nil [1567 1633]))          
+    :file "msg_callback.h"
+    :pointmax 1692
+    :fsize 1691
+    :lastmodtime '(21223 27407 413950 527000)
+    :unmatched-syntax 'nil
+    :lexical-table 
+        '(("_COMPLETION_PROTOCOL_H_")
+          )
+
+    )
+   )
+  :file "!home!jvanwink!checkout!emacs-clang-complete-async!src!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2"
+  )
