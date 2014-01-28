@@ -35,6 +35,7 @@ unsetopt histsavenodups
 PS1="%{$fg[green]%}%n@%m:%{$fg[cyan]%}%~%{$reset_color%}%% "
 
 for new_path in \
+    "/usr/local/llvm-3.4/bin" \
     "/usr/local/opt/coreutils/libexec/gnubin" \
     "/usr/local/opt/gnu-sed/libexec/gnubin" \
     "/usr/local/opt/gnu-tar/libexec/gnubin" \
@@ -91,6 +92,9 @@ alias loc='mdfind -name'
 alias as="apt-cache search"
 alias c-indent="gindent -nbad -bap -nbc -bbo -hnl -br -brs -c33 -cd33 -ncdb -ce -ci4 -cli0 -d0 -di1 -nfc1 -i4 -ip0 -l80 -lp -npcs -npsl -ncs -nsc -sob -nfca -cp33 -ss -ts8 -il1 -ppi 3 -brf"
 
+export CC=/usr/local/llvm-3.4/bin/clang
+export CXX=/usr/local/llvm-3.4/bin/clang++
+
 export CRAM_VENV=~/.venv/cram
 function cramit {
     cd ~/repos/cram
@@ -100,5 +104,3 @@ function cramit {
 function remssh {
     ssh-keygen -f ~/.ssh/known_hosts -R $1
 }
-
-
