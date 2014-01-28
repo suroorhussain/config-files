@@ -12,7 +12,7 @@ import Data.Bits
 import qualified Data.Map as M
 import Data.Monoid
 
-main = xmonad $ defaultConfig
+main = xmonad $ gnomeConfig
        { terminal = "gnome-terminal"
        , modMask = mod4Mask -- set the mod key to the windows key
        , startupHook = setWMName "LG3D"
