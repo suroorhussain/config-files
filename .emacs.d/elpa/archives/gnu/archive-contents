@@ -61,7 +61,7 @@
 	     (:keywords quote
 			("convenience")))])
  (debbugs .
-	  [(0 5)
+	  [(0 6)
 	   nil "SOAP library to access debbugs servers" tar
 	   ((:keywords quote
 		       ("comm" "hypermedia"))
