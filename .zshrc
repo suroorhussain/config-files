@@ -46,6 +46,7 @@ for new_path in \
     "$HOME/opt/bin" \
     "$HOME/bin" \
     "/usr/local/sbin" \
+    "/opt/bin" \
     "/opt/local/lib/postgresql92/bin" \
     "/opt/X11/bin"; do
     if [ -d $new_path ] ; then
@@ -92,8 +93,8 @@ alias loc='mdfind -name'
 alias as="apt-cache search"
 alias c-indent="gindent -nbad -bap -nbc -bbo -hnl -br -brs -c33 -cd33 -ncdb -ce -ci4 -cli0 -d0 -di1 -nfc1 -i4 -ip0 -l80 -lp -npcs -npsl -ncs -nsc -sob -nfca -cp33 -ss -ts8 -il1 -ppi 3 -brf"
 
-export CC=/usr/local/llvm-3.4/bin/clang
-export CXX=/usr/local/llvm-3.4/bin/clang++
+#export CC=/usr/local/llvm-3.4/bin/clang
+#export CXX=/usr/local/llvm-3.4/bin/clang++
 
 export CRAM_VENV=~/.venv/cram
 function cramit {
