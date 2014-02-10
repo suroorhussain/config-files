@@ -105,3 +105,7 @@ function cramit {
 function remssh {
     ssh-keygen -f ~/.ssh/known_hosts -R $1
 }
+
+function git-track {
+    git checkout --track -b $1 origin/$1
+}
