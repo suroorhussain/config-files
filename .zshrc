@@ -71,7 +71,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 export EDITOR='emacsclient'
-export ALTERNATE_EDITOR='emacsnw'
+export ALTERNATE_EDITOR='emacsclient -t'
 export VISUAL=$EDITOR
 export PAGER=less
 export PYTHONIOENCODING="utf_8"
@@ -92,6 +92,7 @@ alias gg='git grep'
 alias loc='mdfind -name'
 alias as="apt-cache search"
 alias c-indent="gindent -nbad -bap -nbc -bbo -hnl -br -brs -c33 -cd33 -ncdb -ce -ci4 -cli0 -d0 -di1 -nfc1 -i4 -ip0 -l80 -lp -npcs -npsl -ncs -nsc -sob -nfca -cp33 -ss -ts8 -il1 -ppi 3 -brf"
+alias pgnu="parallel --gnu"
 
 #export CC=/usr/local/llvm-3.4/bin/clang
 #export CXX=/usr/local/llvm-3.4/bin/clang++
@@ -109,3 +110,11 @@ function remssh {
 function git-track {
     git checkout --track -b $1 origin/$1
 }
+
+function pfdiff {
+    pip freeze | sort > /tmp/pip-freeze-diff
+    sort requirements.txt > /tmp/pip-freeze-diff-old
+    dwdiff -c /tmp/pip-freeze-diff-old /tmp/pip-freeze-diff
+}
+
+alias crunk='rsync -aHAXx --numeric-ids --delete --progress -e "ssh -T -c arcfour -o Compression=no -x"'

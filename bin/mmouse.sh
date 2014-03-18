@@ -7,3 +7,4 @@ synclient AreaTopEdge=5000
 
 xmodmap -e "keysym  Alt_R = Pointer_Button2"
 xmodmap -e "keysym  Print = Pointer_Button3"
+xkbset m
