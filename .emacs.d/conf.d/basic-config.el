@@ -15,8 +15,6 @@
 (column-number-mode 1)
 (global-auto-revert-mode 1)
 (menu-bar-mode -1)
-(scroll-bar-mode -1)
-(set-fringe-mode 2)
 (show-paren-mode t)
 (tool-bar-mode -1)
 (tooltip-mode -1)

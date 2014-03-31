@@ -33,10 +33,10 @@
   )
 
 
-(defun compile-uncompiled (glob)
-  (interactive "GPath glob: \n")
-  (require 'em-glob)
-  (dolist (fn (eshell-extended-glob glob))
-    (unless (file-exists-p (concat fn "c"))
-      (print (concat "automatically compiling: " fn))
-      (toggle-auto-compile fn 'start))))
+;(defun compile-uncompiled (glob)
+;  (interactive "GPath glob: \n")
+;  (require 'em-glob)
+;  (dolist (fn (eshell-extended-glob glob))
+;    (unless (file-exists-p (concat fn "c"))
+;      (print (concat "automatically compiling: " fn))
+;      (toggle-auto-compile fn 'start))))
