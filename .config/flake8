@@ -1,0 +1,2 @@
+[flake8]
+ignore = F0401,R0903

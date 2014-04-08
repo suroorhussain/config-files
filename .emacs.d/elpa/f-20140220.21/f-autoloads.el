@@ -1,18 +1,17 @@
 ;;; f-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil nil ("f-pkg.el" "f.el") (21305 52325 842940
-;;;;;;  0))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/f-20140220.21/f-autoloads.el"
+;;;;;;  "../../../../.emacs.d/elpa/f-20140220.21/f.el") (21315 58397
+;;;;;;  357075 0))
 
 ;;;***
 
-(provide 'f-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; f-autoloads.el ends here

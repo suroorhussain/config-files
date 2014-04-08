@@ -1,5 +1,8 @@
 (setq gc-cons-threshold 20000000)
 
+(defvar extension-fn)
+(defvar regex)
+
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell
          (replace-regexp-in-string

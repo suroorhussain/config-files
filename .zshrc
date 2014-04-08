@@ -35,10 +35,6 @@ unsetopt histsavenodups
 PS1="%{$fg[green]%}%n@%m:%{$fg[cyan]%}%~%{$reset_color%}%% "
 
 for new_path in \
-    "/usr/local/llvm-3.4/bin" \
-    "/usr/local/opt/coreutils/libexec/gnubin" \
-    "/usr/local/opt/gnu-sed/libexec/gnubin" \
-    "/usr/local/opt/gnu-tar/libexec/gnubin" \
     "/sbin" \
     "/usr/sbin" \
     "/opt/local/bin" \
@@ -47,21 +43,29 @@ for new_path in \
     "$HOME/bin" \
     "/usr/local/sbin" \
     "/opt/bin" \
-    "/opt/local/lib/postgresql92/bin" \
-    "/opt/X11/bin"; do
+    "/opt/local/bin" \
+    "/opt/local/sbin" \
+    "/opt/local/lib/postgresql93/bin" \
+    "/opt/X11/bin" \
+    "/opt/local/libexec/gnubin" \
+    "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin/"; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"
     fi
 done
 
 for new_man_path in \
-    "/usr/local/opt/coreutils/libexec/gnuman" \
-    "/usr/local/opt/gnu-sed/libexec/gnuman"; do
+    "/opt/X11/share/man" \
+    "/opt/local/share/man"; do
     if [ -d $new_man_path ] ; then
         MANPATH="$new_man_path:$MANPATH"
     fi
 done
 
+export C_INCLUDE_PATH=/opt/local/include
+export CPLUS_INCLUDE_PATH=/opt/local/include
+export LD_LIBRARY_PATH=/opt/local/lib
+export LD_INCLUDE_PATH=/opt/local/include
 
 function act {
     source $HOME/.venv/$1/bin/activate

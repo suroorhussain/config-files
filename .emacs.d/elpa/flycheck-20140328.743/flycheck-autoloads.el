@@ -1,12 +1,11 @@
 ;;; flycheck-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads (flycheck-define-error-level flycheck-info flycheck-def-option-var
-;;;;;;  flycheck-def-config-file-var global-flycheck-mode flycheck-mode)
-;;;;;;  "flycheck" "flycheck.el" (21305 52321 0 0))
-;;; Generated autoloads from flycheck.el
+;;;### (autoloads nil "flycheck" "../../../../.emacs.d/elpa/flycheck-20140328.743/flycheck.el"
+;;;;;;  "77496dd035d24a8d7f2532767fdadec2")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/flycheck-20140328.743/flycheck.el
 
 (defconst flycheck-mode-line-lighter " FlyC" "\
 The standard lighter for flycheck mode.")
@@ -123,16 +122,16 @@ The following PROPERTIES constitute an error level:
 
 ;;;***
 
-;;;### (autoloads nil nil ("flycheck-pkg.el") (21305 52321 743191
-;;;;;;  0))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/flycheck-20140328.743/flycheck-autoloads.el"
+;;;;;;  "../../../../.emacs.d/elpa/flycheck-20140328.743/flycheck-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/flycheck-20140328.743/flycheck.el")
+;;;;;;  (21315 58399 292477 0))
 
 ;;;***
 
-(provide 'flycheck-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; flycheck-autoloads.el ends here

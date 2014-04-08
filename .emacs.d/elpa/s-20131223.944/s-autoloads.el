@@ -1,18 +1,17 @@
 ;;; s-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil nil ("s-pkg.el" "s.el") (21219 29424 390314
-;;;;;;  0))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/s-20131223.944/s-autoloads.el"
+;;;;;;  "../../../../.emacs.d/elpa/s-20131223.944/s.el") (21315 58395
+;;;;;;  256655 0))
 
 ;;;***
 
-(provide 's-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; s-autoloads.el ends here
