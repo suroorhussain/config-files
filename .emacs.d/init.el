@@ -20,7 +20,6 @@
   (autoload mode extension-fn nil t)
   (add-to-list 'auto-mode-alist (cons regex mode)))
 
-(add-hook 'after-init-hook 'my-after-init-hook)
 (defun my-after-init-hook ()
   ;(require 'auto-compile)
   ;(auto-compile-on-load-mode 1)
@@ -32,8 +31,8 @@
   (add-to-list 'load-path "~/.emacs.d/lisp")
   (dolist (fn (directory-files "~/.emacs.d/conf.d" t ".*\.el$"))
     (load (file-name-sans-extension fn)))
-  (icy-mode 1)
-  )
+  (icy-mode 1))
+(add-hook 'after-init-hook 'my-after-init-hook)
 
 
 ;(defun compile-uncompiled (glob)
