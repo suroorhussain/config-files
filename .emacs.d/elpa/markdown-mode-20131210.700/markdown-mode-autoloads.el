@@ -1,11 +1,11 @@
 ;;; markdown-mode-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads (gfm-mode markdown-mode) "markdown-mode" "markdown-mode.el"
-;;;;;;  (21182 48909 0 0))
-;;; Generated autoloads from markdown-mode.el
+;;;### (autoloads nil "markdown-mode" "../../../../.emacs.d/elpa/markdown-mode-20131210.700/markdown-mode.el"
+;;;;;;  "01070cd8a0de9878a0417ad43fce551f")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/markdown-mode-20131210.700/markdown-mode.el
 
 (autoload 'markdown-mode "markdown-mode" "\
 Major mode for editing Markdown files.
@@ -22,16 +22,15 @@ Major mode for editing GitHub Flavored Markdown files.
 
 ;;;***
 
-;;;### (autoloads nil nil ("markdown-mode-pkg.el") (21182 48909 994103
-;;;;;;  0))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/markdown-mode-20131210.700/markdown-mode-autoloads.el"
+;;;;;;  "../../../../.emacs.d/elpa/markdown-mode-20131210.700/markdown-mode.el")
+;;;;;;  (21315 61021 238943 0))
 
 ;;;***
 
-(provide 'markdown-mode-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; markdown-mode-autoloads.el ends here

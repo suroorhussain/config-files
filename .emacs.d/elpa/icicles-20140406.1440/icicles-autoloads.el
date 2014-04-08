@@ -3,8 +3,9 @@
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "icicles" "icicles.el" (21315 3717 0 0))
-;;; Generated autoloads from icicles.el
+;;;### (autoloads nil "icicles" "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles.el"
+;;;;;;  "6d65fee2674244b37d868c0d66017eb8")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/icicles-20140406.1440/icicles.el
  (autoload 'icy-mode    "icicles" "Toggle Icicle mode - see `icicle-mode'." t nil)
  (autoload 'icicle-mode "icicles"
 "Icicle mode: Toggle minibuffer input completion and cycling.
@@ -25,10 +26,22 @@
 
 ;;;***
 
-;;;### (autoloads nil nil ("icicles-chg.el" "icicles-cmd1.el" "icicles-cmd2.el"
-;;;;;;  "icicles-doc1.el" "icicles-doc2.el" "icicles-face.el" "icicles-fn.el"
-;;;;;;  "icicles-mac.el" "icicles-mcmd.el" "icicles-mode.el" "icicles-opt.el"
-;;;;;;  "icicles-pkg.el" "icicles-var.el") (21315 3717 361219 0))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-autoloads.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-chg.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-cmd1.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-cmd2.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-doc1.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-doc2.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-face.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-fn.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-mac.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-mcmd.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-mode.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-opt.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles-var.el"
+;;;;;;  "../../../../.emacs.d/elpa/icicles-20140406.1440/icicles.el")
+;;;;;;  (21315 60939 293734 0))
 
 ;;;***
 

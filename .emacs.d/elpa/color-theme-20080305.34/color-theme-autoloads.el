@@ -3,9 +3,9 @@
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "color-theme" "color-theme.el" (21155 61625
-;;;;;;  898066 586000))
-;;; Generated autoloads from color-theme.el
+;;;### (autoloads nil "color-theme" "../../../../.emacs.d/elpa/color-theme-20080305.34/color-theme.el"
+;;;;;;  "6bbdc8fa563db4ac5a83e7638a1625b2")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/color-theme-20080305.34/color-theme.el
 
 (autoload 'color-theme-select "color-theme" "\
 Displays a special buffer for selecting and installing a color theme.
@@ -139,8 +139,10 @@ Initialize the color theme package by loading color-theme-libraries.
 
 ;;;***
 
-;;;### (autoloads nil nil ("color-theme-pkg.el") (21155 61625 903112
-;;;;;;  886000))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/color-theme-20080305.34/color-theme-autoloads.el"
+;;;;;;  "../../../../.emacs.d/elpa/color-theme-20080305.34/color-theme-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/color-theme-20080305.34/color-theme.el")
+;;;;;;  (21315 59708 445564 0))
 
 ;;;***
 

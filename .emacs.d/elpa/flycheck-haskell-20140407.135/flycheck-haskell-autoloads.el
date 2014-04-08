@@ -3,9 +3,9 @@
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "flycheck-haskell" "flycheck-haskell.el" (21315
-;;;;;;  3721 0 0))
-;;; Generated autoloads from flycheck-haskell.el
+;;;### (autoloads nil "flycheck-haskell" "../../../../.emacs.d/elpa/flycheck-haskell-20140407.135/flycheck-haskell.el"
+;;;;;;  "22f9003b7b24d87860d2762a36167894")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/flycheck-haskell-20140407.135/flycheck-haskell.el
 
 (autoload 'flycheck-haskell-setup "flycheck-haskell" "\
 Setup Haskell support for Flycheck.
@@ -21,8 +21,10 @@ path as well.
 
 ;;;***
 
-;;;### (autoloads nil nil ("flycheck-haskell-pkg.el") (21315 3721
-;;;;;;  866769 0))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/flycheck-haskell-20140407.135/flycheck-haskell-autoloads.el"
+;;;;;;  "../../../../.emacs.d/elpa/flycheck-haskell-20140407.135/flycheck-haskell-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/flycheck-haskell-20140407.135/flycheck-haskell.el")
+;;;;;;  (21315 59775 809681 0))
 
 ;;;***
 

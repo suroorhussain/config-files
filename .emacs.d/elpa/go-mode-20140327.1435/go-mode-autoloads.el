@@ -1,11 +1,11 @@
 ;;; go-mode-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads (go-download-play godoc gofmt-before-save go-mode)
-;;;;;;  "go-mode" "go-mode.el" (21305 52317 0 0))
-;;; Generated autoloads from go-mode.el
+;;;### (autoloads nil "go-mode" "../../../../.emacs.d/elpa/go-mode-20140327.1435/go-mode.el"
+;;;;;;  "a64b411a067b0c73a85f8891e6d5549e")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/go-mode-20140327.1435/go-mode.el
 
 (autoload 'go-mode "go-mode" "\
 Major mode for editing Go source text.
@@ -87,16 +87,17 @@ buffer. Tries to look for a URL at point.
 
 ;;;***
 
-;;;### (autoloads nil nil ("go-mode-load.el" "go-mode-pkg.el") (21305
-;;;;;;  52318 10027 0))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/go-mode-20140327.1435/go-mode-autoloads.el"
+;;;;;;  "../../../../.emacs.d/elpa/go-mode-20140327.1435/go-mode-load.el"
+;;;;;;  "../../../../.emacs.d/elpa/go-mode-20140327.1435/go-mode-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/go-mode-20140327.1435/go-mode.el")
+;;;;;;  (21315 60977 83686 0))
 
 ;;;***
 
-(provide 'go-mode-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; go-mode-autoloads.el ends here

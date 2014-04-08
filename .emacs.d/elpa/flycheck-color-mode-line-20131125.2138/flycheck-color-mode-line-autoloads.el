@@ -1,11 +1,11 @@
 ;;; flycheck-color-mode-line-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads (flycheck-color-mode-line-mode) "flycheck-color-mode-line"
-;;;;;;  "flycheck-color-mode-line.el" (21219 30349 0 0))
-;;; Generated autoloads from flycheck-color-mode-line.el
+;;;### (autoloads nil "flycheck-color-mode-line" "../../../../.emacs.d/elpa/flycheck-color-mode-line-20131125.2138/flycheck-color-mode-line.el"
+;;;;;;  "2c7271e8eb9f5133efbd1c7ed718aafb")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/flycheck-color-mode-line-20131125.2138/flycheck-color-mode-line.el
 
 (autoload 'flycheck-color-mode-line-mode "flycheck-color-mode-line" "\
 Minor mode to color the mode line with the Flycheck status.
@@ -25,16 +25,15 @@ Otherwise behave as if called interactively.
 
 ;;;***
 
-;;;### (autoloads nil nil ("flycheck-color-mode-line-pkg.el") (21219
-;;;;;;  30349 853570 0))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/flycheck-color-mode-line-20131125.2138/flycheck-color-mode-line-autoloads.el"
+;;;;;;  "../../../../.emacs.d/elpa/flycheck-color-mode-line-20131125.2138/flycheck-color-mode-line.el")
+;;;;;;  (21315 59822 423755 0))
 
 ;;;***
 
-(provide 'flycheck-color-mode-line-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; flycheck-color-mode-line-autoloads.el ends here

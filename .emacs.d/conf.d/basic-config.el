@@ -1,3 +1,7 @@
+(tool-bar-mode -1)
+(tooltip-mode -1)
+      
+
 (setq ac-auto-start t
       backup-by-copying-when-mismatch t
       icicle-image-files-in-Completions nil
@@ -16,5 +20,3 @@
 (global-auto-revert-mode 1)
 (menu-bar-mode -1)
 (show-paren-mode t)
-(tool-bar-mode -1)
-(tooltip-mode -1)

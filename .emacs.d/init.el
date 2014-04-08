@@ -20,20 +20,19 @@
   (autoload mode extension-fn nil t)
   (add-to-list 'auto-mode-alist (cons regex mode)))
 
+(print "after-init-hook defined")
 (defun my-after-init-hook ()
-  ;(require 'auto-compile)
-  ;(auto-compile-on-load-mode 1)
-  ;(auto-compile-on-save-mode 1)
-
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
+  (print "running after-init-hook")
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
   (add-to-list 'load-path "~/.emacs.d/lisp")
+
+  (print "loading conf.d")
   (dolist (fn (directory-files "~/.emacs.d/conf.d" t ".*\.el$"))
+    (print fn)
     (load (file-name-sans-extension fn)))
   (icy-mode 1))
 (add-hook 'after-init-hook 'my-after-init-hook)
-
 
 ;(defun compile-uncompiled (glob)
 ;  (interactive "GPath glob: \n")
