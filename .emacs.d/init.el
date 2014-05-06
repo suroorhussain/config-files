@@ -118,9 +118,11 @@
 	  (list buffer-file-name)))
   (add-to-list 'flymake-allowed-file-name-masks
 	       '("^[^\*]+\\.py$" flymake-pylint-init)))
-					;(setq inferior-lisp-program "/opt/sbcl/bin/sbcl")
-					;(require 'slime-autoloads)
-					;(slime-setup '(slime-fancy))
+
+(setq inferior-lisp-program "/usr/local/bin/sbcl")
+(require 'slime-autoloads)
+(setq slime-contribs '(slime-fancy slime-asdf))
+
 (setq-default indent-tabs-mode nil)
 (setq c-default-style "python"
       c-basic-offset 4)
@@ -148,3 +150,15 @@
   (set-exec-path-from-shell-PATH)
   (scroll-bar-mode -1)
   (set-fringe-mode 2))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(icicle-command-abbrev-alist (quote ((query-replace b 1)))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

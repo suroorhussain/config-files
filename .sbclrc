@@ -2,7 +2,7 @@
       '(("SYS:SRC;**;*.*.*" #P"/usr/share/sbcl-source/src/**/*.*")
         ("SYS:CONTRIB;**;*.*.*" #P"/usr/share/sbcl-source/src/contrib/**/*.*")))
 
-;(require 'sb-aclrepl)
+(require 'sb-aclrepl)
 
 #-quicklisp
 (let ((quicklisp-init (merge-pathnames ".quicklisp/setup.lisp"
