@@ -1,5 +1,3 @@
-(setq gc-cons-threshold 20000000)
-
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
@@ -104,24 +102,25 @@
 
 (auto-load-mode 'cython-mode '("\\.pyx" "\\.pxd"))
 
-(add-hook 'python-mode-hook
-	  (lambda ()
-	    (if (not (null buffer-file-name))
-		(flymake-mode))))
+;; (add-hook 'python-mode-hook
+;; 	  (lambda ()
+;; 	    (if (not (null buffer-file-name))
+;; 		(flymake-mode))))
 
-(add-hook 'python-mode-hook 'show-ws-highlight-tabs)
+;; (add-hook 'python-mode-hook 'show-ws-highlight-tabs)
 (add-to-list 'completion-ignored-extensions "pyc")
 
-(when (load "flymake" t)
-  (defun flymake-pylint-init ()
-    (list "~/bin/lintrunner.sh"
-	  (list buffer-file-name)))
-  (add-to-list 'flymake-allowed-file-name-masks
-	       '("^[^\*]+\\.py$" flymake-pylint-init)))
+;; (when (load "flymake" t)
+;;   (defun flymake-pylint-init ()
+;;     (list "~/bin/lintrunner.sh"
+;; 	  (list buffer-file-name)))
+;;   (add-to-list 'flymake-allowed-file-name-masks
+;; 	       '("^[^\*]+\\.py$" flymake-pylint-init)))
 
-(setq inferior-lisp-program "/usr/local/bin/sbcl")
+(setq inferior-lisp-program "sbcl")
 (require 'slime-autoloads)
 (setq slime-contribs '(slime-fancy slime-asdf))
+;(setq slime-fuzzy-completion-in-place nil)
 
 (setq-default indent-tabs-mode nil)
 (setq c-default-style "python"

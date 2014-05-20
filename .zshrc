@@ -1,4 +1,6 @@
 zstyle :compinstall filename '/home/jvanwink/.zshrc'
+zstyle ':completion:*' rehash true
+
 fpath=(/usr/local/share/zsh-completions $fpath)
 
 source ~/.private_profile
