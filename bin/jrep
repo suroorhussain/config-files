@@ -1,0 +1,59 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import re
+from contextlib import closing
+from mmap import mmap
+from mmap import ACCESS_READ
+from sys import stdin
+
+
+flags = [('-L', 'LOCALE'),
+         ('-D', 'DOTALL'),
+         ('-U', 'UNICODE'),
+         ('-I', 'IGNORECASE'),
+         ('-M', 'MULTILINE'),
+         ('-V', 'VERBOSE'),
+         ('-T', 'TEMPLATE')]
+
+
+def file_gen(fns):
+    for fn in fns:
+        with open(fn, 'r') as f:
+            with closing(mmap(f.fileno(), 0, access=ACCESS_READ)) as m:
+                yield m
+
+
+def apply_re(rx, fns):
+    for s in file_gen(fns):
+        for m in rx.finditer(s):
+            if m:
+                for group in m.groups(0):
+                    if group:
+                        yield group
+
+
+
+
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('pattern')
+    parser.add_argument('fns', nargs='*',
+                        metavar='FILE')
+    for short_flag, flag in flags:
+        parser.add_argument(short_flag, '--' + flag,
+                            default=False,
+                            action='store_true')
+
+    args = parser.parse_args()
+
+    re_flags = 0
+    for _, flag in flags:
+        if getattr(args, flag):
+            re_flags |= getattr(re, flag)
+    rx = re.compile(args.pattern, re_flags)
+
+    for result in apply_re(rx, args.fns):
+        print result

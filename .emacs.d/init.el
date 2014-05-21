@@ -120,14 +120,12 @@
 (setq inferior-lisp-program "sbcl")
 (require 'slime-autoloads)
 (setq slime-contribs '(slime-fancy slime-asdf))
+(slime-setup)
 ;(setq slime-fuzzy-completion-in-place nil)
 
 (setq-default indent-tabs-mode nil)
 (setq c-default-style "python"
       c-basic-offset 4)
-
-(require 'uniquify)
-(defvar uniquify-buffer-name-style 'reverse)
 
 (when window-system
   (when (eq system-type 'darwin)
