@@ -5,7 +5,6 @@ import re
 from contextlib import closing
 from mmap import mmap
 from mmap import ACCESS_READ
-from sys import stdin
 
 
 flags = [('-L', 'LOCALE'),
@@ -31,9 +30,6 @@ def apply_re(rx, fns):
                 for group in m.groups(0):
                     if group:
                         yield group
-
-
-
 
 
 if __name__ == '__main__':
