@@ -124,3 +124,5 @@ function pfdiff {
 }
 
 alias crunk='rsync -aHAXx --numeric-ids --delete --progress -e "ssh -T -c arcfour -o Compression=no -x"'
+
+alias c11='clang++ -std=c++11 -stdlib=libc++'

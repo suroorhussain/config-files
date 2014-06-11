@@ -5,6 +5,7 @@ import re
 from contextlib import closing
 from mmap import mmap
 from mmap import ACCESS_READ
+from sys import stdin
 
 
 flags = [('-L', 'LOCALE'),
@@ -22,14 +23,24 @@ def file_gen(fns):
             with closing(mmap(f.fileno(), 0, access=ACCESS_READ)) as m:
                 yield m
 
+def search_string(rx, s):
+    for m in rx.finditer(s):
+        if m:
+            for group in m.groups(0):
+                if group:
+                    yield group
+
 
 def apply_re(rx, fns):
     for s in file_gen(fns):
-        for m in rx.finditer(s):
-            if m:
-                for group in m.groups(0):
-                    if group:
-                        yield group
+        for result in search_string(rx, s):
+            yield result
+
+
+def apply_stdin(rx):
+    s = stdin.read()
+    for result in search_string(rx, s):
+        yield result
 
 
 if __name__ == '__main__':
@@ -51,5 +62,10 @@ if __name__ == '__main__':
             re_flags |= getattr(re, flag)
     rx = re.compile(args.pattern, re_flags)
 
-    for result in apply_re(rx, args.fns):
+    if args.fns:
+        results = apply_re(rx, args.fns)
+    else:
+        results = apply_stdin(rx)
+
+    for result in results:
         print result
