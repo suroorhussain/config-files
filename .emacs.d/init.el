@@ -101,6 +101,11 @@
   "\n")
 
 (auto-load-mode 'cython-mode '("\\.pyx" "\\.pxd"))
+(eval-after-load 'c++-mode
+  '(progn
+     (require 'auto-complete-clang)
+     (define-key c++-mode-map (kbd "C-c i") 'clang-format-region)
+     (define-key c++-mode-map (kbd "C-c c") 'ac-complete-clang)))
 
 ;; (add-hook 'python-mode-hook
 ;; 	  (lambda ()
@@ -121,7 +126,6 @@
 (require 'slime-autoloads)
 (setq slime-contribs '(slime-fancy slime-asdf))
 (slime-setup)
-;(setq slime-fuzzy-completion-in-place nil)
 
 (setq-default indent-tabs-mode nil)
 
@@ -138,6 +142,7 @@
 
   (require 'color-theme)
   (require 'color-theme-justin)
+  (require 'clang-format)
   (color-theme-justin)
   (tool-bar-mode -1)
   (tooltip-mode -1)
@@ -166,7 +171,6 @@
  ;; If there is more than one, they won't work right.
  '(flycheck-clang-language-standard "c++11")
  '(flycheck-clang-standard-library "libc++")
- '(flycheck-cppcheck-checks (quote ("style" "missingInclude" "performance")))
  '(global-flycheck-mode t nil (flycheck))
  '(global-semantic-idle-scheduler-mode t)
  '(global-semanticdb-minor-mode t)

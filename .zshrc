@@ -76,7 +76,7 @@ function act {
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-export EDITOR='emacsclient'
+export EDITOR='emacsnw'
 export ALTERNATE_EDITOR='emacsclient -t'
 export VISUAL=$EDITOR
 export PAGER=less
@@ -125,4 +125,4 @@ function pfdiff {
 
 alias crunk='rsync -aHAXx --numeric-ids --delete --progress -e "ssh -T -c arcfour -o Compression=no -x"'
 
-alias c11='clang++ -std=c++11 -stdlib=libc++'
+alias c11='clang++-mp-3.5 -std=c++11 -stdlib=libc++'
