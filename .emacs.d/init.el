@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
@@ -24,7 +26,7 @@
 (auto-load-mode 'sass-mode "\\.sass")
 (auto-load-mode 'css-mode "\\.css")
 (auto-load-mode 'coffee-mode "\\.coffee")
-
+(auto-load-mode 'jinja2-mode "\\.jinja")
 (auto-load-mode 'yaml-mode '("\\.yml" "\\.yaml"))
 (auto-load-mode 'nxml-mode '("\\.xml" "\\.wsdl" "\\.svg" "\\.xslt" "\\.wsdd" "\\.xsl" "\\.rng" "\\.xhtml"))
 (auto-load-mode 'ruby-mode "Rakefile")
@@ -35,25 +37,26 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-
-(setq ac-auto-start t
-      backup-by-copying-when-mismatch t
-      icicle-image-files-in-Completions nil
-      inhibit-startup-message t
-      mac-command-key-is-meta t
-      mac-command-modifier 'meta
-      mac-option-key-is-meta nil
-      mac-option-modifier 'hyper
-      mac-pass-command-to-system nil
-      make-backup-files nil
-      require-final-newline t
-      ring-bell-function 'ignore)
-
-(auto-insert-mode 1)
-(column-number-mode 1)
-(global-auto-revert-mode 1)
-(menu-bar-mode -1)
-(show-paren-mode t)
+(custom-set-variables
+ '(ac-auto-start t)
+ '(backup-by-copying-when-mismatch t)
+ '(icicle-image-files-in-Completions nil)
+ '(inhibit-startup-message t)
+ '(mac-command-key-is-meta t)
+ '(mac-command-modifier 'meta)
+ '(mac-option-key-is-meta nil)
+ '(mac-option-modifier 'hyper)
+ '(mac-pass-command-to-system nil)
+ '(make-backup-files nil)
+ '(require-final-newline t)
+ '(ring-bell-function 'ignore)
+ '(auto-insert-mode 1)
+ '(column-number-mode 1)
+ '(global-auto-revert-mode 1)
+ '(menu-bar-mode -1)
+ '(show-paren-mode t)
+ '(c-default-style "stroustrup")
+ '(c-basic-offset 4))
 
 (defun condense-whitespace ()
   "Kill the whitespace between two non-whitespace characters"
@@ -101,26 +104,18 @@
   "\n")
 
 (auto-load-mode 'cython-mode '("\\.pyx" "\\.pxd"))
-(eval-after-load 'c++-mode
-  '(progn
-     (require 'auto-complete-clang)
-     (define-key c++-mode-map (kbd "C-c i") 'clang-format-region)
-     (define-key c++-mode-map (kbd "C-c c") 'ac-complete-clang)))
+;(require 'c++-mode)
+;(require 'c-mode)
+(defun jv-setup-c-mode ()
+  (define-key c++-mode-map (kbd "C-c i") 'clang-format-region)
+  (define-key c++-mode-map (kbd "C-c c") 'ac-complete-clang)
+  (define-key c-mode-map (kbd "C-c i") 'clang-format-region)
+  (define-key c-mode-map (kbd "C-c c") 'ac-complete-clang)
+  (require 'auto-complete-clang))
 
-;; (add-hook 'python-mode-hook
-;; 	  (lambda ()
-;; 	    (if (not (null buffer-file-name))
-;; 		(flymake-mode))))
 
-;; (add-hook 'python-mode-hook 'show-ws-highlight-tabs)
+(add-hook 'c++-mode-hook 'jv-setup-c-mode)
 (add-to-list 'completion-ignored-extensions "pyc")
-
-;; (when (load "flymake" t)
-;;   (defun flymake-pylint-init ()
-;;     (list "~/bin/lintrunner.sh"
-;; 	  (list buffer-file-name)))
-;;   (add-to-list 'flymake-allowed-file-name-masks
-;; 	       '("^[^\*]+\\.py$" flymake-pylint-init)))
 
 (setq inferior-lisp-program "sbcl")
 (require 'slime-autoloads)
@@ -160,8 +155,7 @@
   (let ((use-dialog-box nil))
     ad-do-it))
 
-(setq c-default-style "stroustrup"
-      c-basic-offset 4)
+
 (c-set-offset 'innamespace 0)
 
 (custom-set-variables

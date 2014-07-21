@@ -1,9 +1,9 @@
 ;;; yaml-mode-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+
 
-;;;### (autoloads nil "yaml-mode" "../../../../.emacs.d/elpa/yaml-mode-20130310.2101/yaml-mode.el"
+;;;### (autoloads (yaml-mode yaml) "yaml-mode" "../../../../.emacs.d/elpa/yaml-mode-20130310.2101/yaml-mode.el"
 ;;;;;;  "4420e8062193c6879069550742131706")
 ;;; Generated autoloads from ../../../../.emacs.d/elpa/yaml-mode-20130310.2101/yaml-mode.el
 
@@ -20,15 +20,17 @@ Simple mode to edit YAML.
 
 ;;;***
 
-;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/yaml-mode-20130310.2101/yaml-mode-autoloads.el"
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/yaml-mode-20130310.2101/yaml-mode-pkg.el"
 ;;;;;;  "../../../../.emacs.d/elpa/yaml-mode-20130310.2101/yaml-mode.el")
-;;;;;;  (21315 60995 917746 0))
+;;;;;;  (21443 58734 663851 0))
 
 ;;;***
 
+(provide 'yaml-mode-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; coding: utf-8
 ;; End:
 ;;; yaml-mode-autoloads.el ends here

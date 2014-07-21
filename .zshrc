@@ -47,10 +47,10 @@ for new_path in \
     "/opt/bin" \
     "/opt/local/bin" \
     "/opt/local/sbin" \
-    "/opt/local/lib/postgresql93/bin" \
+    "/usr/local/pgsql/bin" \
     "/opt/X11/bin" \
     "/opt/local/libexec/gnubin" \
-    "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin/"; do
+    "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin"; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"
     fi
@@ -125,4 +125,6 @@ function pfdiff {
 
 alias crunk='rsync -aHAXx --numeric-ids --delete --progress -e "ssh -T -c arcfour -o Compression=no -x"'
 
-alias c11='clang++-mp-3.5 -std=c++11 -stdlib=libc++'
+alias c11='clang++-mp-3.5 -std=c++11 -stdlib=libc++ -ferror-limit=2 -pedantic'
+
+#export JAVA_HOME=`/usr/libexec/java_home`

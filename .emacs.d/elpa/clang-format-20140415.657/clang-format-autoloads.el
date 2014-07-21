@@ -1,11 +1,11 @@
 ;;; clang-format-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+
 
-;;;### (autoloads nil "clang-format" "clang-format.el" (21400 22937
-;;;;;;  0 0))
-;;; Generated autoloads from clang-format.el
+;;;### (autoloads (clang-format-region) "clang-format" "../../../../.emacs.d/elpa/clang-format-20140415.657/clang-format.el"
+;;;;;;  "da07dc9b326825ece57e91ac9cdd6187")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/clang-format-20140415.657/clang-format.el
 
 (autoload 'clang-format-region "clang-format" "\
 Use clang-format to format the code between START and END according to STYLE.
@@ -16,9 +16,17 @@ is no active region.  If no style is given uses `clang-format-style'.
 
 ;;;***
 
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/clang-format-20140415.657/clang-format-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/clang-format-20140415.657/clang-format.el")
+;;;;;;  (21443 58849 891540 0))
+
+;;;***
+
+(provide 'clang-format-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; coding: utf-8
 ;; End:
 ;;; clang-format-autoloads.el ends here
