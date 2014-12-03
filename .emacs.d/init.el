@@ -2,7 +2,8 @@
 
 (require 'package)
 (package-initialize)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
 (defun set-exec-path-from-shell-PATH ()
@@ -10,7 +11,8 @@
 	 (replace-regexp-in-string
 	  "[ \t\n]*$"
 	  ""
-	  (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+	  (shell-command-to-string
+           "$SHELL --login -i -c 'echo $PATH'"))))
     (setenv "PATH" path-from-shell)
     (setq exec-path (split-string path-from-shell path-separator))))
 
@@ -28,11 +30,15 @@
 (auto-load-mode 'coffee-mode "\\.coffee")
 (auto-load-mode 'jinja2-mode "\\.jinja")
 (auto-load-mode 'yaml-mode '("\\.yml" "\\.yaml"))
-(auto-load-mode 'nxml-mode '("\\.xml" "\\.wsdl" "\\.svg" "\\.xslt" "\\.wsdd" "\\.xsl" "\\.rng" "\\.xhtml"))
+(auto-load-mode 'nxml-mode '("\\.xml" "\\.wsdl" "\\.svg"
+                             "\\.xslt" "\\.wsdd" "\\.xsl"
+                             "\\.rng" "\\.xhtml"))
 (auto-load-mode 'ruby-mode "Rakefile")
 (auto-load-mode 'go-mode "\\.go")
 
-(autoload 'find-file-in-repository "find-file-in-repository" "Find file in repo." t)
+(autoload 'find-file-in-repository
+  "find-file-in-repository"
+  "Find file in repo." t)
 
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -104,8 +110,8 @@
   "\n")
 
 (auto-load-mode 'cython-mode '("\\.pyx" "\\.pxd"))
-;(require 'c++-mode)
-;(require 'c-mode)
+                                        ;(require 'c++-mode)
+                                        ;(require 'c-mode)
 (defun jv-setup-c-mode ()
   (define-key c++-mode-map (kbd "C-c i") 'clang-format-region)
   (define-key c++-mode-map (kbd "C-c c") 'ac-complete-clang)
@@ -140,6 +146,7 @@
   (require 'clang-format)
   (color-theme-justin)
   (tool-bar-mode -1)
+  (menu-bar-mode -1)
   (tooltip-mode -1)
   (global-unset-key "\C-z")
   (set-exec-path-from-shell-PATH)

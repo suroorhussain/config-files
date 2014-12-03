@@ -4,9 +4,8 @@
 
 
 ;;;### (autoloads (flycheck-color-mode-line-mode) "flycheck-color-mode-line"
-;;;;;;  "../../../../.emacs.d/elpa/flycheck-color-mode-line-20131125.2138/flycheck-color-mode-line.el"
-;;;;;;  "2c7271e8eb9f5133efbd1c7ed718aafb")
-;;; Generated autoloads from ../../../../.emacs.d/elpa/flycheck-color-mode-line-20131125.2138/flycheck-color-mode-line.el
+;;;;;;  "flycheck-color-mode-line.el" (21630 4922 287866 848000))
+;;; Generated autoloads from flycheck-color-mode-line.el
 
 (autoload 'flycheck-color-mode-line-mode "flycheck-color-mode-line" "\
 Minor mode to color the mode line with the Flycheck status.
@@ -26,9 +25,8 @@ Otherwise behave as if called interactively.
 
 ;;;***
 
-;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/flycheck-color-mode-line-20131125.2138/flycheck-color-mode-line-pkg.el"
-;;;;;;  "../../../../.emacs.d/elpa/flycheck-color-mode-line-20131125.2138/flycheck-color-mode-line.el")
-;;;;;;  (21443 58840 603304 0))
+;;;### (autoloads nil nil ("flycheck-color-mode-line-pkg.el") (21630
+;;;;;;  4922 376354 322000))
 
 ;;;***
 

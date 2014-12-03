@@ -1,14 +1,16 @@
-Emacs.fontBackend: xft
-Emacs.font: DejaVu Sans Mono-7
+Emacs.FontBackend: xft
+Emacs.font: DejaVu Sans Mono-5
 Emacs.verticalScrollBars: off
 Emacs.menuBar: off
 Emacs.toolBar: off
 
-Xft.dpi:        200
-Xft.antialias:  true
-Xft.rgba:       rgb
-Xft.hinting:    true
-Xft.hintstyle:  hintfull
+Xft.antialias: 1
+Xft.autohint: 0
+Xft.dpi: 96
+Xft.hinting: 1
+Xft.hintstyle: hintfull
+Xft.lcdfilter: lcddefault
+Xft.rgba: rgb
 
 URxvt*background: Black
 URxvt*boldFont: xft:DejaVu Sans Mono:style=Bold:size=10

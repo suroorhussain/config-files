@@ -1,7 +1,7 @@
 import XMonad
 import XMonad.Util.EZConfig
 import XMonad.Hooks.SetWMName
-import XMonad.Config.Kde
+import XMonad.Config.Gnome
 import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.NoBorders
 import XMonad.Actions.Submap
@@ -12,13 +12,13 @@ import Data.Bits
 import qualified Data.Map as M
 import Data.Monoid
 
-main = xmonad $ kde4Config
-       { terminal = "konsole"
+main = xmonad $ gnomeConfig
+       { terminal = "gnome-terminal"
        , modMask = mod4Mask -- set the mod key to the windows key
        , startupHook = setWMName "LG3D"
-       , layoutHook  = smartBorders (layoutHook kde4Config)
+       , layoutHook  = smartBorders (layoutHook gnomeConfig)
        , manageHook = composeAll
-                      [ manageHook kde4Config
+                      [ manageHook gnomeConfig
                       , isFullscreen --> doFullFloat
                       , title =? "VLC (XVideo output)" --> doFullFloat
                       ]

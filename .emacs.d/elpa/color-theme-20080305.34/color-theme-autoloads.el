@@ -7,9 +7,8 @@
 ;;;;;;  color-theme-compare color-theme-make-snapshot color-theme-analyze-defun
 ;;;;;;  color-theme-print color-theme-install-at-point-for-current-frame
 ;;;;;;  color-theme-install-at-mouse color-theme-describe color-theme-select)
-;;;;;;  "color-theme" "../../../../.emacs.d/elpa/color-theme-20080305.34/color-theme.el"
-;;;;;;  "6bbdc8fa563db4ac5a83e7638a1625b2")
-;;; Generated autoloads from ../../../../.emacs.d/elpa/color-theme-20080305.34/color-theme.el
+;;;;;;  "color-theme" "color-theme.el" (21630 8496 615802 839000))
+;;; Generated autoloads from color-theme.el
 
 (autoload 'color-theme-select "color-theme" "\
 Displays a special buffer for selecting and installing a color theme.
@@ -143,9 +142,8 @@ Initialize the color theme package by loading color-theme-libraries.
 
 ;;;***
 
-;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/color-theme-20080305.34/color-theme-pkg.el"
-;;;;;;  "../../../../.emacs.d/elpa/color-theme-20080305.34/color-theme.el")
-;;;;;;  (21443 58846 434247 0))
+;;;### (autoloads nil nil ("color-theme-pkg.el") (21630 8496 634802
+;;;;;;  815000))
 
 ;;;***
 
