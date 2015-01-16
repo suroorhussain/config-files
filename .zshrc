@@ -83,7 +83,6 @@ export PAGER=less
 export PYTHONIOENCODING="utf_8"
 
 export LESS='-S -R'
-export GREP_OPTIONS='--color=auto'
 export LS_OPTIONS="-b --color=auto"
 . ~/.ls_colors
 export DEBEMAIL="justin.vanwinkle@gmail.com"
@@ -91,6 +90,7 @@ export DEBFULLNAME="Justin Van Winkle"
 export TERM="xterm-256color"
 
 alias ls="ls $LS_OPTIONS"
+alias grep="grep --color=auto"
 alias gf='find | grep -v \.pyc$ | grep'
 alias fa='find | ack-grep'
 alias ggf='git ls-files | grep'
