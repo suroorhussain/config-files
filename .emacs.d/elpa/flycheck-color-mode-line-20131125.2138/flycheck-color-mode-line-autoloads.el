@@ -1,10 +1,10 @@
 ;;; flycheck-color-mode-line-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads (flycheck-color-mode-line-mode) "flycheck-color-mode-line"
-;;;;;;  "flycheck-color-mode-line.el" (21630 4922 287866 848000))
+;;;### (autoloads nil "flycheck-color-mode-line" "flycheck-color-mode-line.el"
+;;;;;;  (21759 6735 0 0))
 ;;; Generated autoloads from flycheck-color-mode-line.el
 
 (autoload 'flycheck-color-mode-line-mode "flycheck-color-mode-line" "\
@@ -25,16 +25,9 @@ Otherwise behave as if called interactively.
 
 ;;;***
 
-;;;### (autoloads nil nil ("flycheck-color-mode-line-pkg.el") (21630
-;;;;;;  4922 376354 322000))
-
-;;;***
-
-(provide 'flycheck-color-mode-line-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; flycheck-color-mode-line-autoloads.el ends here

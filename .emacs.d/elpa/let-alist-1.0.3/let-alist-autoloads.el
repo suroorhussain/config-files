@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "let-alist" "let-alist.el" (21684 13502 0 0))
+;;;### (autoloads nil "let-alist" "let-alist.el" (21759 6701 0 0))
 ;;; Generated autoloads from let-alist.el
 
 (autoload 'let-alist "let-alist" "\

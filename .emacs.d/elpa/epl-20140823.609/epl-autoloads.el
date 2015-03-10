@@ -1,18 +1,16 @@
 ;;; epl-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil nil ("epl-pkg.el" "epl.el") (21630 4919 654722
-;;;;;;  758000))
+;;;### (autoloads nil nil ("epl-pkg.el" "epl.el") (21759 6736 38931
+;;;;;;  0))
 
 ;;;***
 
-(provide 'epl-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; epl-autoloads.el ends here
