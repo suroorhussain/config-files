@@ -9,7 +9,7 @@
 ;;          2001-2002 Reuben Thomas (>=v1.4)
 ;;          2003      Dave Love <fx@gnu.org>
 ;; Keywords: faces files Haskell
-;; Version: 13.10
+;; Version: 13.12
 ;; URL: https://github.com/haskell/haskell-mode
 
 ;; This file is not part of GNU Emacs.
@@ -781,6 +781,8 @@ see documentation for that variable for more details."
 ;;;###autoload
 (add-to-list 'auto-mode-alist        '("\\.l[gh]s\\'" . literate-haskell-mode))
 ;;;###autoload
+(add-to-list 'auto-mode-alist        '("\\.hsc\\'" . haskell-mode))
+;;;###autoload
 (add-to-list 'interpreter-mode-alist '("runghc" . haskell-mode))
 ;;;###autoload
 (add-to-list 'interpreter-mode-alist '("runhaskell" . haskell-mode))
@@ -794,6 +796,15 @@ If nil, use the Hoogle web-site."
   :group 'haskell
   :type '(choice (const :tag "Use Web-site" nil)
                  string))
+
+(defcustom haskell-hoogle-url "http://haskell.org/hoogle/?q=%s"
+  "Default value for hoogle web site.
+"
+  :group 'haskell
+  :type '(choice
+          (const :tag "haskell-org" "http://haskell.org/hoogle/?q=%s")
+          (const :tag "fp-complete" "https://www.fpcomplete.com/hoogle?q=%s")
+          string))
 
 ;;;###autoload
 (defun haskell-hoogle (query &optional info)
@@ -812,7 +823,7 @@ is asked to show extra info for the items matching QUERY.."
                         nil nil def)
            current-prefix-arg)))
   (if (null haskell-hoogle-command)
-      (browse-url (format "http://haskell.org/hoogle/?q=%s" query))
+      (browse-url (format haskell-hoogle-url (url-hexify-string query)))
     (let ((hoogle-args (append (when info '("-i"))
                                (list "--color" (shell-quote-argument query)))))
       (with-help-window "*hoogle*"
@@ -865,6 +876,14 @@ is asked to show extra info for the items matching QUERY.."
           (hoogle-start-server)
         (error "hoogle is not installed")))))
 
+(defcustom haskell-hayoo-url "http://hayoo.fh-wedel.de/?query=%s"
+  "Default value for hayoo web site.
+"
+  :group 'haskell
+  :type '(choice
+          (const :tag "fh-wedel.de" "http://hayoo.fh-wedel.de/?query=%s")
+          string))
+
 ;;;###autoload
 (defun haskell-hayoo (query)
   "Do a Hayoo search for QUERY."
@@ -875,7 +894,7 @@ is asked to show extra info for the items matching QUERY.."
                             (format "Hayoo query (default %s): " def)
                           "Hayoo query: ")
                         nil nil def))))
-  (browse-url (format "http://holumbus.fh-wedel.de/hayoo/hayoo.html?query=%s" query)))
+  (browse-url (format haskell-hayoo-url (url-hexify-string query))))
 
 ;;;###autoload
 (defalias 'hayoo 'haskell-hayoo)

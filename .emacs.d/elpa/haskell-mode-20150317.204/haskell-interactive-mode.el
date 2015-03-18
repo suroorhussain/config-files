@@ -416,7 +416,7 @@ SESSION, otherwise operate on the current buffer.
       (message "%s"
                (concat (car lines)
                        (if (and (cdr lines) (stringp (cadr lines)))
-                           (format " [ %s .. ]" (haskell-string-take (haskell-trim (cadr lines)) 10))
+                           (format " [ %s .. ]" (haskell-string-take (haskell-string-trim (cadr lines)) 10))
                          ""))))))
 
 (defun haskell-interactive-mode-tab ()
@@ -1110,7 +1110,7 @@ haskell-present, depending on configuration."
                   ;; `haskell-process-use-presentation-mode' is t.
                   (haskell-interactive-mode-echo
                    (haskell-process-session (car state))
-                   response
+                   (replace-regexp-in-string "\n\\'" "" response)
                    (cl-caddr state))
                   (if haskell-process-use-presentation-mode
                       (progn (haskell-present (cadr state)

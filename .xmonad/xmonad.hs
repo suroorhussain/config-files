@@ -13,7 +13,7 @@ import qualified Data.Map as M
 import Data.Monoid
 
 main = xmonad $ gnomeConfig
-       { terminal = "gnome-terminal"
+       { terminal = "mate-terminal"
        , modMask = mod4Mask -- set the mod key to the windows key
        , startupHook = setWMName "LG3D"
        , layoutHook  = smartBorders (layoutHook gnomeConfig)
