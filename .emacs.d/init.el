@@ -75,6 +75,20 @@
 	  (re-search-forward "[ \t\r\n]+" nil t)
 	  (replace-match " " nil nil))))))
 
+(defun python-swap-quotes ()
+  (interactive)
+  (save-excursion
+    (let ((state (syntax-ppss)))
+      (when (eq 'string (syntax-ppss-context state))
+        (let* ((left (nth 8 state))
+               (right (1- (scan-sexps left 1)))
+               (newquote (if (= ?' (char-after left))
+                             ?\" ?')))
+          (dolist (loc (list left right))
+            (goto-char loc)
+            (delete-char 1)
+            (insert-char newquote 1)))))))
+
 (defun find-first-non-ascii-char ()
   "Find the first non-ascii character from point onwards."
   (interactive)
