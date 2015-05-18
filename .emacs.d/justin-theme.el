@@ -3,7 +3,7 @@
 
 (custom-theme-set-faces
  'justin
- '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :width normal :height 78 :weight normal :slant normal :underline nil :overline nil :strike-through nil :box nil :inverse-video nil :foreground "#AAA" :background "black" :stipple nil :inherit nil))))
+ '(default ((t (:foreground "#AAA" :background "black"))))
  '(cursor ((t (:foreground "gray4" :background "aquamarine"))))
  '(fixed-pitch ((t (:family "Monospace"))))
  '(variable-pitch ((t (:family "Sans Serif"))))
