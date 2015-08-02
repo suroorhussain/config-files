@@ -15,6 +15,7 @@
 
 [grep]
     color = auto
+    line-number
 
 [apply]
     whitespace = strip

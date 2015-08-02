@@ -50,6 +50,7 @@ for new_path in \
     "/usr/local/pgsql/bin" \
     "/opt/X11/bin" \
     "/opt/local/libexec/gnubin" \
+    "/opt/local/lib/postgresql94/bin" \
     "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin"; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"
@@ -64,10 +65,10 @@ for new_man_path in \
     fi
 done
 
-export C_INCLUDE_PATH=/opt/local/include
-export CPLUS_INCLUDE_PATH=/opt/local/include
-export LD_LIBRARY_PATH=/opt/local/lib
-export LD_INCLUDE_PATH=/opt/local/include
+export C_INCLUDE_PATH=/opt/local/include:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include
+export CPLUS_INCLUDE_PATH=/opt/local/include:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include
+export LD_LIBRARY_PATH=/opt/local/lib:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/
+export LD_INCLUDE_PATH=/opt/local/include:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include
 
 function act {
     source $HOME/.venv/$1/bin/activate
@@ -125,6 +126,6 @@ function pfdiff {
 
 alias crunk='rsync -aHAXx --numeric-ids --delete --progress -e "ssh -T -c arcfour -o Compression=no -x"'
 
-alias c11='clang++-mp-3.5 -std=c++11 -stdlib=libc++ -ferror-limit=2 -pedantic'
+alias c11='clang++-mp-3.6 -std=c++11 -stdlib=libc++ -ferror-limit=2 -pedantic'
 
 #export JAVA_HOME=`/usr/libexec/java_home`
