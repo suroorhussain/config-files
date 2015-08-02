@@ -1,5 +1,5 @@
 Emacs.FontBackend: xft
-Emacs.font: DejaVu Sans Mono-5
+Emacs.font: DejaVu Sans Mono-14
 Emacs.verticalScrollBars: off
 Emacs.menuBar: off
 Emacs.toolBar: off
