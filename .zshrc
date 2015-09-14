@@ -106,7 +106,7 @@ alias pgnu="parallel --gnu"
 
 export CRAM_VENV=~/.venv/cram
 function cramit {
-    cd ~/repos/cram
+    cd ~/ebay/cram
     source bin/activate.sh
 }
 

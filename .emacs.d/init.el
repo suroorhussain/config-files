@@ -130,8 +130,7 @@
   (define-key c++-mode-map (kbd "C-c i") 'clang-format-region)
   (define-key c++-mode-map (kbd "C-c c") 'ac-complete-clang)
   (define-key c-mode-map (kbd "C-c i") 'clang-format-region)
-  (define-key c-mode-map (kbd "C-c c") 'ac-complete-clang)
-  (require 'auto-complete-clang))
+  (define-key c-mode-map (kbd "C-c c") 'ac-complete-clang))
 
 
 (add-hook 'c++-mode-hook 'jv-setup-c-mode)
