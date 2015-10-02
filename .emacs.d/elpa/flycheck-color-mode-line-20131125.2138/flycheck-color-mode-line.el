@@ -4,8 +4,8 @@
 ;;
 ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
 ;; Keywords: convenience language tools
-;; Version: 20131125.2138
-;; X-Original-Version: 0.3
+;; Package-Version: 20131125.2138
+;; Version: 0.3
 ;; Package-Requires: ((flycheck "0.15") (dash "1.2") (emacs "24.1"))
  
 ;; This file is not part of GNU Emacs.
