@@ -24,7 +24,7 @@ main = xmonad $ gnomeConfig
        --                ]
        , normalBorderColor  = "#2d0b0b"
        , focusedBorderColor = "#0b3456"
-       , borderWidth = 3
+       , borderWidth = 1
         }
        `additionalKeysP`
        [("M-f", fullFloatFocused)
