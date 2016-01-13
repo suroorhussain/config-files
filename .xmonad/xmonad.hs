@@ -13,15 +13,15 @@ import qualified Data.Map as M
 import Data.Monoid
 
 main = xmonad $ gnomeConfig
-       -- { terminal = "gnome-terminal"
-       { modMask = mod4Mask -- set the mod key to the windows key
-       -- , startupHook = setWMName "LG3D"
-       -- , layoutHook  = smartBorders (layoutHook gnomeConfig)
-       -- , manageHook = composeAll
-       --                [ manageHook gnomeConfig
-       --                , isFullscreen --> doFullFloat
-       --                , title =? "VLC (XVideo output)" --> doFullFloat
-       --                ]
+       { terminal = "mate-terminal"
+       , modMask = mod4Mask -- set the mod key to the windows key
+       , startupHook = setWMName "LG3D"
+       , layoutHook  = smartBorders (layoutHook gnomeConfig)
+       , manageHook = composeAll
+                      [ manageHook gnomeConfig
+                      , isFullscreen --> doFullFloat
+                      , title =? "VLC (XVideo output)" --> doFullFloat
+                      ]
        , normalBorderColor  = "#2d0b0b"
        , focusedBorderColor = "#0b3456"
        , borderWidth = 1

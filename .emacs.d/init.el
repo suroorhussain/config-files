@@ -101,6 +101,11 @@
 (midnight-delay-set 'midnight-delay "4:30am")
 
 
+(require 'virtualenvwrapper)
+(venv-initialize-interactive-shells) ;; if you want interactive shell support
+(venv-initialize-eshell) ;; if you want eshell support
+(setq venv-location "~/.venv/")
+
 (define-skeleton new-py-file
   "Python skeleton"
   ""
@@ -110,23 +115,8 @@
   "\n")
 
 (auto-load-mode 'cython-mode '("\\.pyx" "\\.pxd"))
-                                        ;(require 'c++-mode)
-                                        ;(require 'c-mode)
-(defun jv-setup-c-mode ()
-  (define-key c++-mode-map (kbd "C-c i") 'clang-format-region)
-  (define-key c++-mode-map (kbd "C-c c") 'ac-complete-clang)
-  (define-key c-mode-map (kbd "C-c i") 'clang-format-region)
-  (define-key c-mode-map (kbd "C-c c") 'ac-complete-clang)
-  (require 'auto-complete-clang))
 
-
-(add-hook 'c++-mode-hook 'jv-setup-c-mode)
 (add-to-list 'completion-ignored-extensions "pyc")
-
-(setq inferior-lisp-program "sbcl")
-(require 'slime-autoloads)
-(setq slime-contribs '(slime-fancy slime-asdf))
-(slime-setup)
 
 (setq-default indent-tabs-mode nil)
 
@@ -135,13 +125,13 @@
                       nil
                       :font "DejaVu Sans Mono"
                       :height 120))
+
 (require 'flycheck)
-(global-flycheck-mode t)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 (global-set-key (kbd "M-n") 'flycheck-next-error)
 (global-set-key (kbd "M-p") 'flycheck-previous-error)
 
 (load-theme 'justin t)
-(require 'clang-format)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (tooltip-mode -1)
@@ -149,42 +139,3 @@
 (set-exec-path-from-shell-PATH)
 (scroll-bar-mode -1)
 (set-fringe-mode 2)
-
-
-
-;; (defadvice yes-or-no-p (around prevent-dialog activate)
-;;   "Prevent yes-or-no-p from activating a dialog"
-;;   (let ((use-dialog-box nil))
-;;     ad-do-it))
-;; (defadvice y-or-n-p (around prevent-dialog-yorn activate)
-;;   "Prevent y-or-n-p from activating a dialog"
-;;   (let ((use-dialog-box nil))
-;;     ad-do-it))
-
-
-;; (c-set-offset 'innamespace 0)
-
-;; (custom-set-variables
-;;  ;; custom-set-variables was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(flycheck-clang-language-standard "c++11")
-;;  '(flycheck-clang-standard-library "libc++")
-;;  '(global-flycheck-mode t nil (flycheck))
-;;  '(global-semantic-idle-scheduler-mode t)
-;;  '(global-semanticdb-minor-mode t)
-;;  '(icicle-command-abbrev-alist (quote ((query-replace b 1))))
-;;  '(semantic-decoration-styles
-;;    (quote
-;;     (("semantic-decoration-on-includes")
-;;      ("semantic-decoration-on-protected-members")
-;;      ("semantic-decoration-on-private-members")
-;;      ("semantic-tag-boundary" . t))))
-;;  '(semantic-mode t))
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  )
