@@ -4,7 +4,7 @@
 ;;   Phil Hagelberg, Doug Alcorn, Will Farrington, Chen Bin
 ;;
 ;; Version: 5.1.0
-;; Package-Version: 20160622.1850
+;; Package-Version: 20160625.619
 ;; Author: Phil Hagelberg, Doug Alcorn, and Will Farrington
 ;; Maintainer: Chen Bin <chenbin.sh@gmail.com>
 ;; URL: https://github.com/technomancy/find-file-in-project
@@ -422,6 +422,7 @@ If CHECK-ONLY is true, only do the check."
      (ivy-read prompt collection
                :action action))))
 
+;;;###autoload
 (defun ffip-project-search (keyword find-directory)
   "Return an alist of all filenames in the project and their path.
 
@@ -479,6 +480,7 @@ If KEYWORD is list, it's the list of file names."
     (goto-char (point-min))
     (forward-line (1- lnum))))
 
+;;;###autoload
 (defun ffip-find-files (keyword open-another-window &optional find-directory fn)
   "The API to find files."
   (let* (project-files

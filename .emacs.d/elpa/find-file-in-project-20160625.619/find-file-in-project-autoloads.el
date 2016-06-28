@@ -4,7 +4,7 @@
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
 ;;;### (autoloads nil "find-file-in-project" "find-file-in-project.el"
-;;;;;;  (22380 47391 580317 405000))
+;;;;;;  (22385 62768 857841 128000))
 ;;; Generated autoloads from find-file-in-project.el
 
 (autoload 'ffip-project-root "find-file-in-project" "\
@@ -28,6 +28,22 @@ Convert KEYWORD from dash seperated to camel cased.
 If CHECK-ONLY is true, only do the check.
 
 \(fn KEYWORD &optional CHECK-ONLY)" nil nil)
+
+(autoload 'ffip-project-search "find-file-in-project" "\
+Return an alist of all filenames in the project and their path.
+
+Files with duplicate filenames are suffixed with the name of the
+directory they are found in so that they are unique.
+
+If KEYWORD is string, it's the file name or file path to find file.
+If KEYWORD is list, it's the list of file names.
+
+\(fn KEYWORD FIND-DIRECTORY)" nil nil)
+
+(autoload 'ffip-find-files "find-file-in-project" "\
+The API to find files.
+
+\(fn KEYWORD OPEN-ANOTHER-WINDOW &optional FIND-DIRECTORY FN)" nil nil)
 
 (autoload 'ffip-create-project-file "find-file-in-project" "\
 Create or Append .dir-locals.el to set up per directory.
