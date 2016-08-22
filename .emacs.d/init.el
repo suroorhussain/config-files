@@ -44,25 +44,32 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ac-auto-start t)
- '(backup-by-copying-when-mismatch t)
- '(icicle-image-files-in-Completions nil)
- '(inhibit-startup-message t)
- '(mac-command-key-is-meta t)
- '(mac-command-modifier 'meta)
- '(mac-option-key-is-meta nil)
- '(mac-option-modifier 'hyper)
- '(mac-pass-command-to-system nil)
- '(make-backup-files nil)
- '(require-final-newline t)
- '(ring-bell-function 'ignore)
  '(auto-insert-mode 1)
+ '(backup-by-copying-when-mismatch t)
+ '(c-basic-offset 4)
+ '(c-default-style "stroustrup")
  '(column-number-mode 1)
  '(global-auto-revert-mode 1)
+ '(icicle-image-files-in-Completions nil)
+ '(inhibit-startup-screen t)
+ '(mac-command-key-is-meta t)
+ '(mac-command-modifier (quote meta))
+ '(mac-option-key-is-meta nil)
+ '(mac-option-modifier (quote hyper))
+ '(mac-pass-command-to-system nil)
+ '(make-backup-files nil)
  '(menu-bar-mode -1)
- '(show-paren-mode t)
- '(c-default-style "stroustrup")
- '(c-basic-offset 4))
+ '(package-selected-packages
+   (quote
+    (yaml-mode virtualenvwrapper swiper nim-mode jedi haskell-mode flycheck-nim flycheck-color-mode-line elpy caml)))
+ '(require-final-newline t)
+ '(ring-bell-function (quote ignore))
+ '(show-paren-mode t))
 
 (defun condense-whitespace ()
   "Kill the whitespace between two non-whitespace characters"
@@ -139,3 +146,9 @@
 (set-exec-path-from-shell-PATH)
 (scroll-bar-mode -1)
 (set-fringe-mode 2)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
