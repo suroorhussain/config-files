@@ -3,7 +3,7 @@
 	email = justin@milo.com
 
 [push]
-    default = matching
+	default = current
 
 [alias]
     ci = commit -am
@@ -27,6 +27,7 @@
     b = true
     w = true
     ignore-blank-lines = true
+	algorithm = patience
 [pager]
     color = true
 
@@ -35,3 +36,5 @@
 
 [color]
     ui = true
+[core]
+	pager = less -x4

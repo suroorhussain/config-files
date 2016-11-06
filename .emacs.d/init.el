@@ -66,7 +66,7 @@
  '(menu-bar-mode -1)
  '(package-selected-packages
    (quote
-    (yaml-mode virtualenvwrapper swiper nim-mode jedi haskell-mode flycheck-nim flycheck-color-mode-line elpy caml)))
+    (icicles yaml-mode virtualenvwrapper swiper nim-mode jedi haskell-mode flycheck-color-mode-line elpy caml)))
  '(require-final-newline t)
  '(ring-bell-function (quote ignore))
  '(show-paren-mode t))
