@@ -72,7 +72,7 @@
  '(show-paren-mode t))
 
 (defun condense-whitespace ()
-  "Kill the whitespace between two non-whitespace characters"
+  "Kill the whitespace between two non-whitespace characters."
   (interactive "*")
   (save-excursion
     (save-restriction

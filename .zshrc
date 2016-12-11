@@ -129,3 +129,8 @@ alias crunk='rsync -aHAXx --numeric-ids --delete --progress -e "ssh -T -c arcfou
 alias c11='clang++-mp-3.6 -std=c++11 -stdlib=libc++ -ferror-limit=2 -pedantic'
 
 #export JAVA_HOME=`/usr/libexec/java_home`
+
+alias jv_replace_windows_newlines="sed -i 's/^M$//'"
+alias jv_strip_trailing_whitespace="sed -i -e's/[[:space:]]*$//'"
+alias jv_replace_tabs_with_spaces="sed -i $'s/\t/    /g'"
+alias jv_fix_trailing_newline="sed -i -e '$a\'"
