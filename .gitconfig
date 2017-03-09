@@ -28,6 +28,7 @@
     w = true
     ignore-blank-lines = true
 	algorithm = patience
+	renameLimit = 200000
 [pager]
     color = true
 
