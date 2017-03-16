@@ -20,9 +20,30 @@ def sort_object(obj):
         obj.sort(key=sort_key)
 
 
-if __name__ == '__main__':
-    data = sys.stdin.read()
+def main(args):
+    if args.fn:
+        data = open(args.fn).read()
+    else:
+        data = sys.stdin.read()
 
     parsed = json.loads(data)
     #sort_object(parsed)
-    print json.dumps(parsed, indent=2, sort_keys=True)
+    clean_json = json.dumps(parsed, indent=2, sort_keys=True)
+    if args.inplace:
+        open(args.fn, 'w').write(clean_json)
+    else:
+        print clean_json
+
+
+
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('fn', nargs='?')
+    parser.add_argument('-i',
+                        '--inplace',
+                        action='store_true',
+                        default=False)
+    args = parser.parse_args()
+    main(args)

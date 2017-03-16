@@ -48,6 +48,8 @@ if __name__ == '__main__':
                 ext = os.path.splitext(fn)
                 if ext in ('jar', 'js', 'pyc', 'pyo'):
                     continue
+                if fn.startswith('.#') or fn.startswith('#'):
+                    continue
                 abs_fn = os.path.join(root, fn)
                 tc.set_current_file(abs_fn)
                 # make sure you shouldn't check for hidden files

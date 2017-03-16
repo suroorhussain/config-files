@@ -51,8 +51,8 @@ for new_path in \
     "/opt/X11/bin" \
     "/opt/local/libexec/gnubin" \
     "/opt/local/lib/postgresql94/bin" \
-    "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin" \
-    "/usr/lib/postgresql/9.6/bin/"; do
+    "/usr/lib/postgresql/9.6/bin/" \
+    "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin"; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"
     fi
@@ -131,3 +131,8 @@ alias crunk='rsync -aHAXx --numeric-ids --delete --progress -e "ssh -T -c arcfou
 alias c11='clang++-mp-3.6 -std=c++11 -stdlib=libc++ -ferror-limit=2 -pedantic'
 
 #export JAVA_HOME=`/usr/libexec/java_home`
+
+alias jv_replace_windows_newlines="sed -i 's/^M$//'"
+alias jv_strip_trailing_whitespace="sed -i -e's/[[:space:]]*$//'"
+alias jv_replace_tabs_with_spaces="sed -i $'s/\t/    /g'"
+alias jv_fix_trailing_newline="sed -i -e '$a\'"
