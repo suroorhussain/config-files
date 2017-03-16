@@ -1,11 +1,11 @@
-#!/usr/bin/env python
-import simplejson
+#!/usr/bin/env python2
+import json
 import sys
 
 
 def sort_key(obj):
     if isinstance(obj, dict):
-        return simplejson.dumps(obj, indent=2, sort_keys=True)
+        return json.dumps(obj, indent=2, sort_keys=True)
     else:
         return obj
 
@@ -23,6 +23,6 @@ def sort_object(obj):
 if __name__ == '__main__':
     data = sys.stdin.read()
 
-    parsed = simplejson.loads(data)
+    parsed = json.loads(data)
     #sort_object(parsed)
-    print simplejson.dumps(parsed, indent=2, sort_keys=True)
+    print json.dumps(parsed, indent=2, sort_keys=True)

@@ -4,3 +4,4 @@ include "/usr/share/themes/Adwaita/gtk-2.0/gtkrc"
 include "/home/jvanwink/.gtkrc-2.0.mine"
 
 # -- THEME AUTO-WRITTEN BY gtk-theme-switch2 DO NOT EDIT
+gtk-key-theme-name = "Emacs"

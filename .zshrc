@@ -51,7 +51,8 @@ for new_path in \
     "/opt/X11/bin" \
     "/opt/local/libexec/gnubin" \
     "/opt/local/lib/postgresql94/bin" \
-    "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin"; do
+    "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin" \
+    "/usr/lib/postgresql/9.6/bin/"; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"
     fi
@@ -65,6 +66,7 @@ for new_man_path in \
     fi
 done
 
+export TZ=:/etc/localtime
 export C_INCLUDE_PATH=/opt/local/include:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include
 export CPLUS_INCLUDE_PATH=/opt/local/include:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include
 export LD_LIBRARY_PATH=/opt/local/lib:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/
