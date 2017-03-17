@@ -122,6 +122,7 @@
   "\n")
 
 (auto-load-mode 'cython-mode '("\\.pyx" "\\.pxd"))
+(auto-load-mode 'gcode-mode '("\\.gcd" "\\.gcode"))
 
 (add-to-list 'completion-ignored-extensions "pyc")
 
