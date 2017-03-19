@@ -345,7 +345,7 @@ main = do
           , ppSep = "   "
       }
       , manageHook = manageDocks <+> myManageHook
-      -- , startupHook = setWMName "LG3D"
+      , startupHook = setWMName "LG3D"
   }
 
 
