@@ -17,12 +17,29 @@
     (setq exec-path (split-string path-from-shell path-separator))))
 
 (defun auto-load-mode (mode extensions &optional mode-fn)
-					; If not already a list, wrap it in one.
+  "If not already a list, wrap it in one."
   (setq extensions (if (listp extensions) extensions (list extensions))
 	extension-fn (if mode-fn mode-fn (symbol-name mode))
 	regex (concat "\\(" (mapconcat 'identity extensions "\\|") "\\)\\'"))
   (autoload mode extension-fn nil t)
   (add-to-list 'auto-mode-alist (cons regex mode)))
+
+(defun set-window-width (n)
+  "Set the selected window's width."
+  (adjust-window-trailing-edge (selected-window) (- n (window-width)) t))
+
+(defun set-80-columns ()
+  "Set the selected window to 80 columns."
+  (interactive)
+  (set-window-width 80))
+
+(defun set-all-80 ()
+  "Set all windows in this frame to 80 columns"
+  (interactive)
+  (dolist (window (window-list))
+    (adjust-window-trailing-edge window (- 80 (window-width window)) t)))
+
+(set-all-80)
 
 (auto-load-mode 'markdown-mode "\\.md")
 (auto-load-mode 'sass-mode "\\.sass")
@@ -103,10 +120,10 @@
 (global-set-key (kbd "C-\\") 'condense-whitespace)
 (global-set-key (kbd "M-c") 'kill-ring-save)
 (global-set-key (kbd "C-o") 'find-file-in-repository)
+(global-set-key (kbd "C-x ~") 'set-80-columns)
 
 (require 'midnight)
 (midnight-delay-set 'midnight-delay "4:30am")
-
 
 (require 'virtualenvwrapper)
 (venv-initialize-interactive-shells) ;; if you want interactive shell support
