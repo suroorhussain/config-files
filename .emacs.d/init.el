@@ -39,8 +39,6 @@
   (dolist (window (window-list))
     (adjust-window-trailing-edge window (- 80 (window-width window)) t)))
 
-(set-all-80)
-
 (auto-load-mode 'markdown-mode "\\.md")
 (auto-load-mode 'sass-mode "\\.sass")
 (auto-load-mode 'css-mode "\\.css")
