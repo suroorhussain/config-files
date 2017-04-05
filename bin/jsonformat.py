@@ -35,8 +35,6 @@ def main(args):
         print clean_json
 
 
-
-
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
