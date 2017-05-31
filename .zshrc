@@ -72,6 +72,9 @@ export CPLUS_INCLUDE_PATH=/opt/local/include:/opt/local/Library/Frameworks/Pytho
 export LD_LIBRARY_PATH=/opt/local/lib:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/
 export LD_INCLUDE_PATH=/opt/local/include:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include
 
+export GLIBCPP_FORCE_NEW=1
+export GLIBCXX_FORCE_NEW=1
+
 function act {
     source $HOME/.venv/$1/bin/activate
 }
