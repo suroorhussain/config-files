@@ -81,7 +81,7 @@
  '(menu-bar-mode -1)
  '(package-selected-packages
    (quote
-    (icicles yaml-mode virtualenvwrapper swiper nim-mode jedi haskell-mode flycheck-color-mode-line elpy caml)))
+    (latex-pretty-symbols latex-preview-pane icicles yaml-mode virtualenvwrapper swiper nim-mode jedi haskell-mode flycheck-color-mode-line elpy caml)))
  '(require-final-newline t)
  '(ring-bell-function (quote ignore))
  '(show-paren-mode t))
