@@ -6,6 +6,9 @@
              '("melpa" . "http://melpa.milkbox.net/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
+(defmacro call-if-defined (fun arg)
+  `(if (functionp ',fun) (,fun ,arg)))
+
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell
 	 (replace-regexp-in-string
@@ -155,13 +158,13 @@
 (global-set-key (kbd "M-p") 'flycheck-previous-error)
 
 (load-theme 'justin t)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(tooltip-mode -1)
+(call-if-defined tool-bar-mode -1)
+(call-if-defined menu-bar-mode -1)
+(call-if-defined tooltip-mode -1)
+(call-if-defined scroll-bar-mode -1)
+(call-if-defined set-fringe-mode 2)
 (global-unset-key "\C-z")
 (set-exec-path-from-shell-PATH)
-(scroll-bar-mode -1)
-(set-fringe-mode 2)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
