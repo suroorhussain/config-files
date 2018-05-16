@@ -6,6 +6,7 @@ import System.IO
 import System.Exit
 import XMonad
 import XMonad.Config
+import XMonad.Config.Gnome
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -328,24 +329,16 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 -- per-workspace layout choices.
 --
 -- By default, do nothing.
-myStartupHook = return ()
+myStartupHook = do {
+  setWMName "LG3D"
+  }
 
 
 ------------------------------------------------------------------------
 -- Run xmonad with all the defaults we set up.
 --
-main = do
-  xmproc <- spawnPipe "xmobar ~/.xmonad/xmobar.hs"
-  xmonad $ defaults {
-      logHook = dynamicLogWithPP $ xmobarPP {
-            ppOutput = hPutStrLn xmproc
-          , ppTitle = xmobarColor xmobarTitleColor "" . shorten 100
-          , ppCurrent = xmobarColor xmobarCurrentWorkspaceColor ""
-          , ppSep = "   "
-      }
-      , manageHook = manageDocks <+> myManageHook
-      , startupHook = setWMName "LG3D"
-  }
+main = do xmonad $ defaults
+
 
 
 ------------------------------------------------------------------------
@@ -356,13 +349,12 @@ main = do
 --
 -- No need to modify this.
 --
-defaults = defaultConfig {
+defaults = gnomeConfig {
     -- simple stuff
     terminal           = myTerminal,
     focusFollowsMouse  = myFocusFollowsMouse,
     borderWidth        = myBorderWidth,
     modMask            = myModMask,
-    workspaces         = myWorkspaces,
     normalBorderColor  = myNormalBorderColor,
     focusedBorderColor = myFocusedBorderColor,
 
@@ -372,6 +364,5 @@ defaults = defaultConfig {
 
     -- hooks, layouts
     layoutHook         = smartBorders $ myLayout,
-    manageHook         = myManageHook,
     startupHook        = myStartupHook
 }
