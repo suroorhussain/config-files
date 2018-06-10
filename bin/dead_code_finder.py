@@ -57,12 +57,12 @@ if __name__ == '__main__':
                     try:
                         tokenize.tokenize(open(abs_fn).readline, tc)
                     except (tokenize.TokenError, IndentationError):
-                        print abs_fn, 'could not tokenize as python source'
+                        print(abs_fn, 'could not tokenize as python source')
 
     for def_token in sorted(tc.def_tokens,
                             key=lambda x: tc.token_location.get(x)):
         if def_token not in tc.token_count:
-            print 'token not found by tokenizer: %s' % def_token
+            print('token not found by tokenizer: %s' % def_token)
         elif tc.token_count[def_token] == 0:
             abs_fn, line = tc.token_location.get(def_token)
-            print '{0}:{1}:'.format(abs_fn, line), '\t\t', def_token
+            print('{0}:{1}:'.format(abs_fn, line), '\t\t', def_token)
