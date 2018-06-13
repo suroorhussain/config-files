@@ -1,5 +1,5 @@
 Emacs.FontBackend: xft
-Emacs.font: Monaco-11
+Emacs.font: Monaco-12
 Emacs.verticalScrollBars: off
 Emacs.menuBar: off
 Emacs.toolBar: off

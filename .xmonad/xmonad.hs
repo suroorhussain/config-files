@@ -30,7 +30,7 @@ import qualified Data.Map        as M
 myTerminal = "/usr/bin/mate-terminal"
 
 -- The command to lock the screen or show the screensaver.
-myScreensaver = "/usr/bin/mate-screensaver-command --lock"
+myScreensaver = "/usr/bin/xscreensaver-command -lock"
 
 -- The command to take a selective screenshot, where you select
 -- what you'd like to capture on the screen.
@@ -65,20 +65,6 @@ myWorkspaces = ["1:term","2:web","3:code","4:vm","5:media"] ++ map show [6..9]
 -- To match on the WM_NAME, you can use 'title' in the same way that
 -- 'className' and 'resource' are used below.
 --
-myManageHook = composeAll
-    [ className =? "Chromium"       --> doShift "4:web"
-    , className =? "Google-chrome"  --> doShift "4:web"
-    , resource  =? "desktop_window" --> doIgnore
-    , className =? "Galculator"     --> doFloat
-    , className =? "Steam"          --> doFloat
-    , resource  =? "gpicview"       --> doFloat
-    , className =? "MPlayer"        --> doFloat
-    , className =? "VirtualBox"     --> doShift "4:vm"
-    , className =? "Xchat"          --> doShift "5:media"
-    , className =? "stalonetray"    --> doIgnore
-    , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
-
-
 ------------------------------------------------------------------------
 -- Layouts
 -- You can specify and transform your layouts by modifying these values.
@@ -104,7 +90,7 @@ myLayout = avoidStruts (
 -- Currently based on the ir_black theme.
 --
 myNormalBorderColor  = "#000000"
-myFocusedBorderColor = "#087738"
+myFocusedBorderColor = "#3e5477"
 
 -- Colors for text and backgrounds of each tab when in "Tabbed" layout.
 tabConfig = defaultTheme {

@@ -130,7 +130,7 @@ alias crunk='rsync -aHAXx --numeric-ids --delete --progress -e "ssh -T -c arcfou
 alias c11='clang++-mp-3.6 -std=c++11 -stdlib=libc++ -ferror-limit=2 -pedantic'
 
 #export JAVA_HOME=`/usr/libexec/java_home`
-alias frsync='rsync -avPz -e "ssh -T -c arcfour -oCompression=no"'
+alias frsync='rsync -avPz -e "ssh -T -c aes128-ctr -oCompression=no"'
 
 alias jv_replace_windows_newlines="sed -i 's/^M$//'"
 alias jv_strip_trailing_whitespace="sed -i -e's/[[:space:]]*$//'"
