@@ -123,6 +123,10 @@ function pfdiff {
     dwdiff -c /tmp/pip-freeze-diff-old /tmp/pip-freeze-diff
 }
 
+function upgrade-pip {
+    pip install -U $(pip freeze | awk '{split($0, a, "=="); print a[1]}')
+}
+
 alias crunk='rsync -aHAXx --numeric-ids --delete --progress -e "ssh -T -c arcfour -o Compression=no -x"'
 
 alias c11='clang++-mp-3.6 -std=c++11 -stdlib=libc++ -ferror-limit=2 -pedantic'
