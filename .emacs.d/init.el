@@ -85,7 +85,7 @@
  '(menu-bar-mode -1)
  '(package-selected-packages
    (quote
-    (js2-mode matlab-mode latex-pretty-symbols latex-preview-pane icicles yaml-mode virtualenvwrapper swiper jedi haskell-mode flycheck-color-mode-line elpy caml)))
+    (xterm-color js2-mode matlab-mode latex-pretty-symbols latex-preview-pane icicles yaml-mode virtualenvwrapper swiper jedi haskell-mode flycheck-color-mode-line elpy caml)))
  '(require-final-newline t)
  '(ring-bell-function (quote ignore))
  '(show-paren-mode t))
@@ -157,6 +157,24 @@
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (global-set-key (kbd "M-n") 'flycheck-next-error)
 (global-set-key (kbd "M-p") 'flycheck-previous-error)
+
+(setq comint-output-filter-functions
+      (remove 'ansi-color-process-output comint-output-filter-functions))
+
+(add-hook 'shell-mode-hook
+          (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
+
+;; Also set TERM accordingly (xterm-256color)
+;; You can also use it with eshell (and thus get color output from system ls):
+
+(require 'eshell)
+
+(add-hook 'eshell-before-prompt-hook
+          (lambda ()
+            (setq xterm-color-preserve-properties t)))
+
+(add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+(setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
 
 (load-theme 'justin t)
 (call-if-defined tool-bar-mode -1)

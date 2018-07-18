@@ -4,6 +4,7 @@ zstyle ':completion:*' rehash true
 fpath=(/usr/local/share/zsh-completions $fpath)
 
 source ~/.private_profile
+source ~/.zprofile
 
 autoload -Uz compinit && compinit
 autoload -U colors && colors
@@ -93,7 +94,7 @@ export LS_OPTIONS="-b --color=auto"
 . ~/.ls_colors
 export DEBEMAIL="justin.vanwinkle@gmail.com"
 export DEBFULLNAME="Justin Van Winkle"
-export TERM="xterm-256color"
+#export TERM="xterm-256color"
 
 alias ls="ls $LS_OPTIONS"
 alias grep="grep --color=auto"
@@ -127,6 +128,11 @@ function pfdiff {
 
 function upgrade-pip {
     pip install -U $(pip freeze | awk '{split($0, a, "=="); print a[1]}')
+}
+
+function upgrade-calibre {
+    sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+
 }
 
 alias crunk='rsync -aHAXx --numeric-ids --delete --progress -e "ssh -T -c arcfour -o Compression=no -x"'
