@@ -1,4 +1,0 @@
-#!/bin/bash
-
-autossh -M55445 -f 104.155.57.17 -D9997 -C -p 22 -l jvanwink -n -N
-#sshuttle -D -r pythonorific.org 0.0.0.0/0 -x 10.0.0.0/8

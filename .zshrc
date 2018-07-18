@@ -99,18 +99,17 @@ export DEBFULLNAME="Justin Van Winkle"
 alias ls="ls $LS_OPTIONS"
 alias grep="grep --color=auto"
 alias gf='find | grep -v \.pyc$ | grep'
-alias fa='find | ack-grep'
 alias ggf='git ls-files | grep'
 alias gg='git grep'
-alias loc='mdfind -name'
 alias as="apt-cache search"
 alias c-indent="gindent -nbad -bap -nbc -bbo -hnl -br -brs -c33 -cd33 -ncdb -ce -ci4 -cli0 -d0 -di1 -nfc1 -i4 -ip0 -l80 -lp -npcs -npsl -ncs -nsc -sob -nfca -cp33 -ss -ts8 -il1 -ppi 3 -brf"
 alias pgnu="parallel --gnu"
 
-if [ -n "$DESKTOP_SESSION" ];then
-    eval $(gnome-keyring-daemon --start)
-    export SSH_AUTH_SOCK
-fi
+# if [ -n "$DESKTOP_SESSION" ];then
+#     eval $(gnome-keyring-daemon --start)
+#     export SSH_AUTH_SOCK
+# fi
+
 
 function remssh {
     ssh-keygen -f ~/.ssh/known_hosts -R $1
