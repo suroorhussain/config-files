@@ -44,6 +44,7 @@ for new_path in \
     "/usr/local/bin" \
     "$HOME/opt/bin" \
     "$HOME/bin" \
+    "$HOME/.cabal/bin" \
     "/usr/local/sbin" \
     "/opt/bin" \
     "/opt/local/bin" \

@@ -2,22 +2,16 @@
 -- Author: Vic Fryzel
 -- http://github.com/vicfryzel/xmonad-config
 
-import System.IO
 import System.Exit
 import XMonad
-import XMonad.Config
 import XMonad.Config.Gnome
-import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
-import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
-import XMonad.Layout.ThreeColumns
-import XMonad.Util.Run(spawnPipe)
-import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Layout.ResizableTile
+import XMonad.Util.Run()
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
@@ -51,37 +45,9 @@ myLauncher = "gmrun"
 myWorkspaces = ["1:term","2:web","3:code","4:vm","5:media"] ++ map show [6..9]
 
 
-------------------------------------------------------------------------
--- Window rules
--- Execute arbitrary actions and WindowSet manipulations when managing
--- a new window. You can use this to, for example, always float a
--- particular program, or have a client always appear on a particular
--- workspace.
---
--- To find the property name associated with a program, use
--- > xprop | grep WM_CLASS
--- and click on the client you're interested in.
---
--- To match on the WM_NAME, you can use 'title' in the same way that
--- 'className' and 'resource' are used below.
---
-------------------------------------------------------------------------
--- Layouts
--- You can specify and transform your layouts by modifying these values.
--- If you change layout bindings be sure to use 'mod-shift-space' after
--- restarting (with 'mod-q') to reset your layout state to the new
--- defaults, as xmonad preserves your old layout settings by default.
---
--- The available layouts.  Note that each layout is separated by |||,
--- which denotes layout choice.
---
 myLayout = avoidStruts (
-    ThreeColMid 1 (3/100) (1/2) |||
-    Tall 1 (3/100) (1/2) |||
-    Mirror (Tall 1 (3/100) (1/2)) |||
-    tabbed shrinkText tabConfig |||
-    Full |||
-    spiral (6/7)) |||
+    Mirror(ResizableTall 3 (3/100) (1/3) []) |||
+    Mirror (Tall 1 (3/100) (1/2))) |||
     noBorders (fullscreenFull Full)
 
 
@@ -254,6 +220,12 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- Restart xmonad.
   , ((modMask, xK_q),
      restart "xmonad" True)
+
+  , ((modMask, xK_a),
+     sendMessage MirrorShrink)
+  , ((modMask, xK_z),
+     sendMessage MirrorExpand)
+
   ]
   ++
 
@@ -349,6 +321,6 @@ defaults = gnomeConfig {
     mouseBindings      = myMouseBindings,
 
     -- hooks, layouts
-    layoutHook         = smartBorders $ myLayout,
+    layoutHook         = myLayout,
     startupHook        = myStartupHook
 }

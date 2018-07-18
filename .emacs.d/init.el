@@ -85,7 +85,7 @@
  '(menu-bar-mode -1)
  '(package-selected-packages
    (quote
-    (xterm-color js2-mode matlab-mode latex-pretty-symbols latex-preview-pane icicles yaml-mode virtualenvwrapper swiper jedi haskell-mode flycheck-color-mode-line elpy caml)))
+    (intero xterm-color js2-mode matlab-mode latex-pretty-symbols latex-preview-pane icicles yaml-mode virtualenvwrapper swiper jedi haskell-mode flycheck-color-mode-line elpy caml)))
  '(require-final-newline t)
  '(ring-bell-function (quote ignore))
  '(show-paren-mode t))
