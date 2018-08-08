@@ -1,3 +1,3 @@
 #!/bin/bash
 
-postgres -k ~/.dbs/socket -D $1
+postgres -k ~/.dbs/socket -D ~/.dbs/$1

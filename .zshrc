@@ -53,8 +53,7 @@ for new_path in \
     "/opt/X11/bin" \
     "/opt/local/libexec/gnubin" \
     "/opt/local/lib/postgresql94/bin" \
-    "/usr/lib/postgresql/9.6/bin/" \
-    "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin"; do
+    "/usr/lib/postgresql/11/bin/" ; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"
     fi
@@ -95,7 +94,7 @@ export LS_OPTIONS="-b --color=auto"
 . ~/.ls_colors
 export DEBEMAIL="justin.vanwinkle@gmail.com"
 export DEBFULLNAME="Justin Van Winkle"
-#export TERM="xterm-256color"
+export TERM="xterm-256color"
 
 alias ls="ls $LS_OPTIONS"
 alias grep="grep --color=auto"

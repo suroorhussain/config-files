@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+chown -vR $SUDO_USER: $HOME | grep -v 'retained as'
