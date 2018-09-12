@@ -157,6 +157,8 @@
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (global-set-key (kbd "M-n") 'flycheck-next-error)
 (global-set-key (kbd "M-p") 'flycheck-previous-error)
+(setq flycheck-python-pycompile-executable "/usr/bin/python3")
+(setq flycheck-python-flake8-executable "/usr/local/bin/flake8")
 
 (setq comint-output-filter-functions
       (remove 'ansi-color-process-output comint-output-filter-functions))

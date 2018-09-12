@@ -24,7 +24,7 @@ setopt histignorealldups
 setopt histignoredups
 setopt histreduceblanks
 setopt histverify
-setopt incappendhistory
+setopt incappend_history
 setopt sharehistory
 unsetopt banghist
 unsetopt cshjunkiehistory
@@ -53,6 +53,7 @@ for new_path in \
     "/opt/X11/bin" \
     "/opt/local/libexec/gnubin" \
     "/opt/local/lib/postgresql94/bin" \
+    "$HOME/.MATLAB/R2018a/bin/" \
     "/usr/lib/postgresql/11/bin/" ; do
     if [ -d $new_path ] ; then
         PATH="$new_path:$PATH"
