@@ -85,7 +85,7 @@
  '(menu-bar-mode -1)
  '(package-selected-packages
    (quote
-    (intero xterm-color js2-mode matlab-mode latex-pretty-symbols latex-preview-pane icicles yaml-mode virtualenvwrapper swiper jedi haskell-mode flycheck-color-mode-line elpy caml)))
+    (lsp-mode rustic flycheck-rust use-package flycheck-clang-analyzer intero xterm-color js2-mode matlab-mode latex-pretty-symbols latex-preview-pane icicles yaml-mode virtualenvwrapper swiper jedi haskell-mode flycheck-color-mode-line elpy caml)))
  '(require-final-newline t)
  '(ring-bell-function (quote ignore))
  '(show-paren-mode t))
@@ -174,6 +174,10 @@
 (add-hook 'eshell-before-prompt-hook
           (lambda ()
             (setq xterm-color-preserve-properties t)))
+(use-package flycheck-clang-analyzer
+  :ensure t
+  :after flycheck
+  :config (flycheck-clang-analyzer-setup))
 
 (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
 (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
