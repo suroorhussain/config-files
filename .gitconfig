@@ -39,3 +39,4 @@
     ui = true
 [core]
 	pager = less -x4
+	mergeoptions = --no-edit

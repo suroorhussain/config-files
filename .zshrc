@@ -3,8 +3,13 @@ zstyle ':completion:*' rehash true
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 
-source ~/.private_profile
-source ~/.zprofile
+if [ -f ~/.private_profile ] ; then
+    source ~/.private_profile
+fi
+
+if [ -f ~/.zprofile ] ; then
+    source ~/.zprofile
+fi
 
 autoload -Uz compinit && compinit
 autoload -U colors && colors
@@ -40,7 +45,6 @@ PS1="%{$fg[green]%}%n@%m:%{$fg[cyan]%}%~%{$reset_color%}%% "
 for new_path in \
     "/sbin" \
     "/usr/sbin" \
-    "/opt/local/bin" \
     "/usr/local/bin" \
     "$HOME/opt/bin" \
     "$HOME/bin" \
@@ -49,10 +53,6 @@ for new_path in \
     "/opt/bin" \
     "/opt/local/bin" \
     "/opt/local/sbin" \
-    "/usr/local/pgsql/bin" \
-    "/opt/X11/bin" \
-    "/opt/local/libexec/gnubin" \
-    "/opt/local/lib/postgresql94/bin" \
     "$HOME/.MATLAB/R2018a/bin/" \
     "/usr/lib/postgresql/11/bin/" ; do
     if [ -d $new_path ] ; then
@@ -60,22 +60,18 @@ for new_path in \
     fi
 done
 
-for new_man_path in \
-    "/opt/X11/share/man" \
-    "/opt/local/share/man"; do
-    if [ -d $new_man_path ] ; then
-        MANPATH="$new_man_path:$MANPATH"
-    fi
-done
+# for new_man_path in \
+#     "/opt/X11/share/man" \
+#     "/opt/local/share/man"; do
+#     if [ -d $new_man_path ] ; then
+#         MANPATH="$new_man_path:$MANPATH"
+#     fi
+# done
 
-export TZ=:/etc/localtime
-export C_INCLUDE_PATH=/opt/local/include:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include
-export CPLUS_INCLUDE_PATH=/opt/local/include:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include
-export LD_LIBRARY_PATH=/opt/local/lib:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/
-export LD_INCLUDE_PATH=/opt/local/include:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include
-
-export GLIBCPP_FORCE_NEW=1
-export GLIBCXX_FORCE_NEW=1
+#export C_INCLUDE_PATH=/opt/local/include
+#export CPLUS_INCLUDE_PATH=/opt/local/include
+#export LD_LIBRARY_PATH=/opt/local/lib
+#export LD_INCLUDE_PATH=/opt/local/include
 
 function act {
     source $HOME/.venv/$1/bin/activate
@@ -102,22 +98,9 @@ alias grep="grep --color=auto"
 alias gf='find | grep -v \.pyc$ | grep'
 alias ggf='git ls-files | grep'
 alias gg='git grep'
-alias as="apt-cache search"
-alias c-indent="gindent -nbad -bap -nbc -bbo -hnl -br -brs -c33 -cd33 -ncdb -ce -ci4 -cli0 -d0 -di1 -nfc1 -i4 -ip0 -l80 -lp -npcs -npsl -ncs -nsc -sob -nfca -cp33 -ss -ts8 -il1 -ppi 3 -brf"
-alias pgnu="parallel --gnu"
-
-# if [ -n "$DESKTOP_SESSION" ];then
-#     eval $(gnome-keyring-daemon --start)
-#     export SSH_AUTH_SOCK
-# fi
-
 
 function remssh {
     ssh-keygen -f ~/.ssh/known_hosts -R $1
-}
-
-function git-track {
-    git checkout --track -b $1 origin/$1
 }
 
 function pfdiff {
@@ -130,16 +113,9 @@ function upgrade-pip {
     pip install -U $(pip freeze | awk '{split($0, a, "=="); print a[1]}')
 }
 
-function upgrade-calibre {
-    sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+alias c1z='clang++ -g -Weverything -Wno-c++98-compat -pedantic -std=c++1z -march=native -ferror-limit=2'
+alias c11='clang -g -Weverything -pedantic -std=c11 -march=native -ferror-limit=2'
 
-}
-
-alias crunk='rsync -aHAXx --numeric-ids --delete --progress -e "ssh -T -c arcfour -o Compression=no -x"'
-
-alias c11='clang++-mp-3.6 -std=c++11 -stdlib=libc++ -ferror-limit=2 -pedantic'
-
-#export JAVA_HOME=`/usr/libexec/java_home`
 alias frsync='rsync -avPz -e "ssh -T -c aes128-ctr -oCompression=no"'
 
 alias jv_replace_windows_newlines="sed -i 's/^M$//'"
