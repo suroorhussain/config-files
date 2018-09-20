@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
@@ -25,7 +25,7 @@ class TokenCollector(object):
     def __call__(self, *args):
         token_type = args[0]
         token = args[1]
-        if token.startswith(b'__') and token.endswith(b'__'):
+        if token.startswith('__') and token.endswith('__'):
             return
         if token_type == 1:
             if self.last_token in ('def', 'class'):
@@ -55,7 +55,10 @@ if __name__ == '__main__':
                 # make sure you shouldn't check for hidden files
                 if abs_fn.endswith('.py'):
                     try:
-                        tokenize.tokenize(open(abs_fn).readline, tc)
+                        tokens = tokenize.tokenize(
+                            open(abs_fn, 'rb').readline)
+                        for token in tokens:
+                            tc(*token)
                     except (tokenize.TokenError, IndentationError):
                         print(abs_fn, 'could not tokenize as python source')
 
@@ -65,4 +68,4 @@ if __name__ == '__main__':
             print('token not found by tokenizer: %s' % def_token)
         elif tc.token_count[def_token] == 0:
             abs_fn, line = tc.token_location.get(def_token)
-            print('{0}:{1}:'.format(abs_fn, line), '\t\t', def_token)
+            print(f'{abs_fn}:{line}:\t\t', def_token)
