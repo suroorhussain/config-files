@@ -46,6 +46,7 @@ for new_path in \
     "/sbin" \
     "/usr/sbin" \
     "/usr/local/bin" \
+    "$HOME/.anaconda3/bin" \
     "$HOME/opt/bin" \
     "$HOME/bin" \
     "$HOME/.cabal/bin" \
