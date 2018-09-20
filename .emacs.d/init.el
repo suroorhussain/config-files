@@ -9,15 +9,15 @@
 (defmacro call-if-defined (fun arg)
   `(if (functionp ',fun) (,fun ,arg)))
 
-(defun set-exec-path-from-shell-PATH ()
-  (let ((path-from-shell
-	 (replace-regexp-in-string
-	  "[ \t\n]*$"
-	  ""
-	  (shell-command-to-string
-           "$SHELL --login -i -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
+;; (defun set-exec-path-from-shell-PATH ()
+;;   (let ((path-from-shell
+;; 	 (replace-regexp-in-string
+;; 	  "[ \t\n]*$"
+;; 	  ""
+;; 	  (shell-command-to-string
+;;            "$SHELL --login -i -c 'echo $PATH'"))))
+;;     (setenv "PATH" path-from-shell)
+;;     (setq exec-path (split-string path-from-shell path-separator))))
 
 (defun auto-load-mode (mode extensions &optional mode-fn)
   "If not already a list, wrap it in one."
@@ -124,6 +124,12 @@
 (global-set-key (kbd "C-o") 'find-file-in-repository)
 (global-set-key (kbd "C-x ~") 'set-80-columns)
 
+(require 'tramp)
+(setq tramp-default-method "ssh")
+(require 'tramp-sh nil t)
+(setf tramp-ssh-controlmaster-options
+      (concat "-o SendEnv TRAMP=yes " tramp-ssh-controlmaster-options))
+
 (require 'midnight)
 (midnight-delay-set 'midnight-delay "4:30am")
 
@@ -189,7 +195,7 @@
 (call-if-defined scroll-bar-mode -1)
 (call-if-defined set-fringe-mode 2)
 (global-unset-key "\C-z")
-(set-exec-path-from-shell-PATH)
+;; (set-exec-path-from-shell-PATH)         ;
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
