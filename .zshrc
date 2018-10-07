@@ -61,6 +61,12 @@ for new_path in \
     fi
 done
 
+if [ -n "$DESKTOP_SESSION" ]; then
+    eval $(gnome-keyring-daemon --start)
+    export SSH_AUTH_SOCK
+fi
+
+
 # for new_man_path in \
 #     "/opt/X11/share/man" \
 #     "/opt/local/share/man"; do

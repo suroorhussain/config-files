@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
 (require 'package)
-;(package-initialize)
+(package-initialize)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp")
@@ -137,14 +137,6 @@
 (venv-initialize-interactive-shells) ;; if you want interactive shell support
 (venv-initialize-eshell) ;; if you want eshell support
 (setq venv-location "~/.venv/")
-
-(define-skeleton new-py-file
-  "Python skeleton"
-  ""
-  "#!/usr/bin/env python\n"
-  "# -*- coding: utf-8 -*-\n"
-  "from __future__ import unicode_literals\n"
-  "\n")
 
 (auto-load-mode 'cython-mode '("\\.pyx" "\\.pxd"))
 (auto-load-mode 'gcode-mode '("\\.gcd" "\\.gcode"))

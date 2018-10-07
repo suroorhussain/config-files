@@ -4,7 +4,6 @@
 
 import System.Exit
 import XMonad
-import XMonad.Config.Gnome
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
 import XMonad.Layout.Fullscreen
@@ -12,6 +11,8 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ResizableTile
 import XMonad.Util.Run()
+import XMonad.Util.Run(spawnPipe)
+import XMonad.Util.SpawnOnce
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
@@ -24,7 +25,7 @@ import qualified Data.Map        as M
 myTerminal = "/usr/bin/mate-terminal"
 
 -- The command to lock the screen or show the screensaver.
-myScreensaver = "/usr/bin/mate-screensaver-command --lock"
+myScreensaver = "/usr/bin/xscreensaver-command -lock"
 
 -- The command to take a selective screenshot, where you select
 -- what you'd like to capture on the screen.
@@ -115,16 +116,16 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
      spawn myScreenshot)
 
   -- Mute volume.
-  , ((modMask .|. controlMask, xK_m),
-     spawn "amixer -q set Master toggle")
+  , ((0            , 0x1008ff12),
+     spawn "pactl set-sink-mute 0 toggle")
 
   -- Decrease volume.
-  , ((modMask .|. controlMask, xK_j),
-     spawn "amixer -q set Master 10%-")
+  , ((0            , 0x1008ff11),
+     spawn "pactl set-sink-volume 0 -10%")
 
   -- Increase volume.
-  , ((modMask .|. controlMask, xK_k),
-     spawn "amixer -q set Master 10%+")
+  , ((0            , 0x1008ff13),
+     spawn "pactl set-sink-volume 0 +10%")
 
   -- Audio previous.
   , ((0, 0x1008FF16),
@@ -210,6 +211,9 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_period),
      sendMessage (IncMasterN (-1)))
 
+  , ((modMask .|. shiftMask, xK_b),
+     sendMessage ToggleStruts)
+
   -- Toggle the status bar gap.
   -- TODO: update this binding with avoidStruts, ((modMask, xK_b),
 
@@ -287,15 +291,21 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 -- per-workspace layout choices.
 --
 -- By default, do nothing.
-myStartupHook = do {
+myStartupHook = do
   setWMName "LG3D"
-  }
+--  spawnOnce "~/.xinitrc"
+
 
 
 ------------------------------------------------------------------------
 -- Run xmonad with all the defaults we set up.
 --
-main = do xmonad $ defaults
+main = do
+--  xmproc <- spawnPipe "/usr/bin/xmobar"
+  xmonad $ docks $ defaults   {
+    manageHook = manageDocks <+> manageHook defaultConfig
+    , layoutHook = avoidStruts  $  layoutHook defaultConfig
+    }
 
 
 
@@ -307,7 +317,7 @@ main = do xmonad $ defaults
 --
 -- No need to modify this.
 --
-defaults = gnomeConfig {
+defaults = defaultConfig {
     -- simple stuff
     terminal           = myTerminal,
     focusFollowsMouse  = myFocusFollowsMouse,

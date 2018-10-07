@@ -40,3 +40,5 @@
 [core]
     pager = less -x4
     mergeoptions = --no-edit
+[credential]
+	helper = /usr/lib/git-core/git-credential-libsecret
