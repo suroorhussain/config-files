@@ -303,8 +303,8 @@ myStartupHook = do
 main = do
 --  xmproc <- spawnPipe "/usr/bin/xmobar"
   xmonad $ docks $ defaults   {
-    manageHook = manageDocks <+> manageHook defaultConfig
-    , layoutHook = avoidStruts  $  layoutHook defaultConfig
+    manageHook = manageDocks <+> manageHook defaults
+    , layoutHook = avoidStruts  $  layoutHook defaults
     }
 
 
