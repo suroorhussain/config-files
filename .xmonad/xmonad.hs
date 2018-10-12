@@ -25,7 +25,7 @@ import qualified Data.Map        as M
 myTerminal = "/usr/bin/mate-terminal"
 
 -- The command to lock the screen or show the screensaver.
-myScreensaver = "/usr/bin/xscreensaver-command -lock"
+myScreensaver = "xflock4"
 
 -- The command to take a selective screenshot, where you select
 -- what you'd like to capture on the screen.
