@@ -1,0 +1,163 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Fri Oct 12 19:36:51 2018
+;; Desktop file format version 208
+;; Emacs version 25.2.2
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (23489 12307 855069 525000) (desktop . "208") "jvanwink@bt" nil nil ((((font-backend xft) (font . "-unknown-Monaco-normal-normal-normal-*-15-*-*-*-m-0-iso10646-1") (font-parameter . "Monaco-10") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars) (horizontal-scroll-bars) (foreground-color . "#AAA") (background-color . "black") (mouse-color . "#4c4c4c") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 2) (right-fringe . 2) (scroll-bar-foreground . "#4c4c4c") (scroll-bar-background . "#f2f1f0") (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 0) (scroll-bar-height . 0) (alpha) (fullscreen) (display-type . color) (background-mode . dark) (cursor-color . "aquamarine") (environment) (frameset--id . "3C2A-CEAC-DB87-5356") (frameset--mini t . t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (visibility . t) (display . ":1") (explicit-name) (height . 75) (width . 161) (left . 825) (top . 0)) ((min-height . 4) (min-width . 20) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 4) (min-pixel-height . 76) (min-pixel-width . 180) (min-pixel-height-ignore . 57) (min-pixel-width-ignore . 54) (min-pixel-height-safe . 19) (min-pixel-width-safe . 36)) hc (pixel-width . 1461) (pixel-height . 1419) (total-width . 162) (total-height . 75) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 729) (pixel-height . 1419) (total-width . 81) (total-height . 75) (normal-height . 1.0) (normal-width . 0.4989733059548255) (buffer "divsufsort.c" (selected . t) (hscroll . 0) (fringes 2 2 nil) (margins nil) (scroll-bars nil 0 t nil 0 t) (vscroll . 0) (dedicated) (point . 13825) (start . 12670))) (leaf (last . t) (pixel-width . 732) (pixel-height . 1419) (total-width . 81) (total-height . 75) (normal-height . 1.0) (normal-width . 0.5010266940451745) (buffer "Makefile" (selected) (hscroll . 0) (fringes 2 2 nil) (margins nil) (scroll-bars nil 0 t nil 0 t) (vscroll . 0) (dedicated) (point . 78) (start . 1)))))])
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("omp.get" "<" "sssort" "divsuf" "clang" "eval-after" "clang-tidy" "perf" "cloud" "-O"))
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq file-name-history '("~/.emacs.d/" "~/repos/libdivsufsort/src/divsufsort.c" "~/repos/libdivsufsort/src/sssort.c" "~/repos/libdivsufsort/src/divsufsort_private.h" "~/repos/libdivsufsort/src/divsufsort.h" "~/repos/libdivsufsort/src/mksary.c" "~/repos/libdivsufsort/src/bwt.c" "~/repos/libdivsufsort/src/unbwt.c" "~/repos/libdivsufsort/src/sasearch.c" "~/repos/libdivsufsort/src/divsufsort_private.h" "~/repos/libdivsufsort/compile_commands.json" "~/.emacs.d/" "~/repos/libdivsufsort/src/suftest.c" "~/.emacs.d/init.el" "~/repos/libdivsufsort/src/config.h" "~/repos/libdivsufsort/src/divsufsort_private.h" "~/repos/libdivsufsort/src/divsufsort.c" "~/repos/libdivsufsort/src/Makefile" "~/repos/libdivsufsort/src/" "~/.config-files/default_build_deps" "~/.config-files/default_packages" "~/repos/libdivsufsort/CMakeLists.txt" "~/.emacs.d/" "~/repos/libdivsufsort/examples/suftest.c"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 208
+  "/home/jvanwink/repos/libdivsufsort/src/divsufsort.c"
+  "divsufsort.c"
+  'c-mode
+  '(abbrev-mode global-auto-revert-mode flycheck-mode)
+  13825
+  '(1632 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (14002 1 14002 1262 1212 1212 1130 1200 861 12644 1234 1234 1470 1216 1218 13825))))
+
+(desktop-create-buffer 208
+  "/home/jvanwink/repos/libdivsufsort/src/suftest.c"
+  "suftest.c"
+  'c-mode
+  '(abbrev-mode global-auto-revert-mode flycheck-mode)
+  1260
+  '(4790 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (4790 4787 1382 1201 1280 1261 1301 1261 1201 1221 4787 1344 1201 1260 4790 1260))))
+
+(desktop-create-buffer 208
+  "/home/jvanwink/repos/libdivsufsort/src/Makefile"
+  "Makefile"
+  'makefile-gmake-mode
+  '(global-auto-revert-mode flycheck-mode)
+  78
+  '(6 nil)
+  nil
+  nil
+  '((indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix))
+  '((mark-ring (44 101 31 78 6 6 66 102 101 6 6 318 6 402 402 78))))
+
+(desktop-create-buffer 208
+  "/home/jvanwink/repos/libdivsufsort/src/divsufsort.h"
+  "divsufsort.h"
+  'c-mode
+  '(abbrev-mode global-auto-revert-mode flycheck-mode)
+  1289
+  '(1289 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jvanwink/repos/libdivsufsort/src/divsufsort_private.h"
+  "divsufsort_private.h"
+  'c-mode
+  '(abbrev-mode global-auto-revert-mode flycheck-mode)
+  1516
+  '(1395 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (1314 1314 1574 1187 1312 1395 1515))))
+
+(desktop-create-buffer 208
+  "/home/jvanwink/repos/libdivsufsort/src/mksary.c"
+  "mksary.c"
+  'c-mode
+  '(abbrev-mode global-auto-revert-mode flycheck-mode)
+  5540
+  '(1181 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (1181 1179 5540))))
+
+(desktop-create-buffer 208
+  "/home/jvanwink/repos/libdivsufsort/src/unbwt.c"
+  "unbwt.c"
+  'c-mode
+  '(abbrev-mode global-auto-revert-mode flycheck-mode)
+  1438
+  '(1438 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (1362 1180 1319 1379 1438 1438))))
+
+(desktop-create-buffer 208
+  "/home/jvanwink/repos/libdivsufsort/src/bwt.c"
+  "bwt.c"
+  'c-mode
+  '(abbrev-mode global-auto-revert-mode flycheck-mode)
+  842
+  '(1436 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (1178 1177 1436 1436 842))))
+
+(desktop-create-buffer 208
+  "/home/jvanwink/repos/libdivsufsort/src/sasearch.c"
+  "sasearch.c"
+  'c-mode
+  '(abbrev-mode global-auto-revert-mode flycheck-mode)
+  1183
+  '(1423 t)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (1399 1 1182 1382 850 1399 1443 1423))))
+
+(desktop-create-buffer 208
+  "/home/jvanwink/.config-files/.emacs.d/init.el"
+  "init.el"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode flycheck-mode)
+  5123
+  '(5885 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . prefer-utf-8-unix))
+  '((mark-ring (5664 2757 1 5664 5753 5123))))
+
+(desktop-create-buffer 208
+  "/home/jvanwink/repos/libdivsufsort/src/config.h"
+  "config.h"
+  'c-mode
+  '(abbrev-mode global-auto-revert-mode flycheck-mode)
+  1622
+  '(1622 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "src"
+  'dired-mode
+  '(global-auto-revert-mode)
+  274
+  '(nil nil)
+  t
+  '("/home/jvanwink/repos/libdivsufsort/src/")
+  nil
+  '((mark-ring nil)))
+

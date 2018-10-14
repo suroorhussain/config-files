@@ -85,7 +85,7 @@
  '(menu-bar-mode -1)
  '(package-selected-packages
    (quote
-    (clang-format lsp-mode rustic flycheck-rust use-package flycheck-clang-analyzer intero xterm-color js2-mode matlab-mode latex-pretty-symbols latex-preview-pane icicles yaml-mode virtualenvwrapper swiper jedi haskell-mode flycheck-color-mode-line elpy caml)))
+    (flycheck-clang-tidy clang-format lsp-mode rustic flycheck-rust use-package flycheck-clang-analyzer intero xterm-color js2-mode matlab-mode latex-pretty-symbols latex-preview-pane icicles yaml-mode virtualenvwrapper swiper jedi haskell-mode flycheck-color-mode-line elpy caml)))
  '(require-final-newline t)
  '(ring-bell-function (quote ignore))
  '(show-paren-mode t))
@@ -158,29 +158,23 @@
 (setq flycheck-python-pycompile-executable "/usr/bin/python3")
 (setq flycheck-python-flake8-executable "/usr/local/bin/flake8")
 
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-clang-tidy-setup))
+(setq flycheck-clang-language-standard "c++1z")
+
 (setq comint-output-filter-functions
       (remove 'ansi-color-process-output comint-output-filter-functions))
 
 (add-hook 'shell-mode-hook
           (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
 
-;; Also set TERM accordingly (xterm-256color)
-;; You can also use it with eshell (and thus get color output from system ls):
-
-(require 'eshell)
-
-(add-hook 'eshell-before-prompt-hook
-          (lambda ()
-            (setq xterm-color-preserve-properties t)))
-(use-package flycheck-clang-analyzer
-  :ensure t
-  :after flycheck
-  :config (flycheck-clang-analyzer-setup))
 
 (require 'clang-format)
 (global-set-key (kbd "C-c i") 'clang-format-region)
 (global-set-key (kbd "C-c u") 'clang-format-buffer)
 
+
+(require 'eshell)
 (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
 (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
 
