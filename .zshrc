@@ -104,6 +104,7 @@ alias grep="grep --color=auto"
 alias gf='find | grep -v \.pyc$ | grep'
 alias ggf='git ls-files | grep'
 alias gg='git grep'
+alias cat=ccat
 
 function remssh {
     ssh-keygen -f ~/.ssh/known_hosts -R $1
