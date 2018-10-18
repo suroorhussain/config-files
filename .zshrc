@@ -40,9 +40,10 @@ unsetopt histnofunctions
 unsetopt histnostore
 unsetopt histsavenodups
 
-PS1="%{$fg[green]%}%n@%m:%{$fg[cyan]%}%~%{$reset_color%}%% "
+PS1="%{$fg[green]%}%{$DISPLAY_USER%}@%{$DISPLAY_HOST%}:%{$fg[cyan]%}%~%{$reset_color%}%% "
 
 for new_path in \
+    "/snap/bin" \
     "/sbin" \
     "/usr/sbin" \
     "/usr/local/bin" \
@@ -79,6 +80,24 @@ fi
 #export LD_LIBRARY_PATH=/opt/local/lib
 #export LD_INCLUDE_PATH=/opt/local/include
 
+function precmd() {
+    PROMPT_DISPLAY_USER='' ;
+    if [[ $USER != $LOGIN_USER ]]; then
+        PROMPT_DISPLAY_USER=$USER ;
+    fi
+
+    DISPLAY_HOST=''
+    if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+        DISPLAY_HOST=$HOST
+        # many other tests omitted
+    # else
+    #     case $(ps -o comm= -p $PPID) in
+    #         sshd|*/sshd) DISPLAY_HOST=$HOST ;;
+    #     esac
+    fi
+    PS1="%{$fg[green]%}%{$DISPLAY_USER%}@%{$DISPLAY_HOST%}:%{$fg[cyan]%}%~%{$reset_color%}% %(!.#.%%) "
+}
+
 function act {
     source $HOME/.venv/$1/bin/activate
 }
@@ -104,6 +123,7 @@ alias grep="grep --color=auto"
 alias gf='find | grep -v \.pyc$ | grep'
 alias ggf='git ls-files | grep'
 alias gg='git grep'
+alias cat=ccat
 
 function remssh {
     ssh-keygen -f ~/.ssh/known_hosts -R $1
