@@ -40,7 +40,7 @@ unsetopt histnofunctions
 unsetopt histnostore
 unsetopt histsavenodups
 
-PS1="%{$fg[green]%}%{$DISPLAY_USER%}@%{$DISPLAY_HOST%}:%{$fg[cyan]%}%~%{$reset_color%}%% "
+PS1="%{$fg[green]%}%n@%m:%{$fg[cyan]%}%~%{$reset_color%}%% "
 
 for new_path in \
     "/snap/bin" \
@@ -79,7 +79,8 @@ fi
 #export CPLUS_INCLUDE_PATH=/opt/local/include
 #export LD_LIBRARY_PATH=/opt/local/lib
 #export LD_INCLUDE_PATH=/opt/local/include
-
+FG_C_PRE=$fg[green]
+FG_C_PATH=$fg[cyan]
 function precmd() {
     FG_C_PRE=$fg[green]
     FG_C_PATH=$fg[cyan]
@@ -99,8 +100,8 @@ function precmd() {
     #         sshd|*/sshd) DISPLAY_HOST=$HOST ;;
     #     esac
     fi
-    PS1="%{$FG_C_PRE%}%{$DISPLAY_USER%}@%{$DISPLAY_HOST%}:%{$FG_C_PATH%}%~%{$reset_color%}% %(!.#.%%) "
 }
+PS1="%{$FG_C_PRE%}%{$DISPLAY_USER%}@%{$DISPLAY_HOST%}:%{$FG_C_PATH%}%~%{$reset_color%}% %(!.#.%%) "
 
 function act {
     source $HOME/.venv/$1/bin/activate
