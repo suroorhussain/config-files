@@ -81,21 +81,25 @@ fi
 #export LD_INCLUDE_PATH=/opt/local/include
 
 function precmd() {
-    PROMPT_DISPLAY_USER='' ;
+    FG_C_PRE=$fg[green]
+    FG_C_PATH=$fg[cyan]
+    PROMPT_DISPLAY_USER=''
+    DISPLAY_HOST=''
+
     if [[ $USER != $LOGIN_USER ]]; then
         PROMPT_DISPLAY_USER=$USER ;
     fi
 
-    DISPLAY_HOST=''
     if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
         DISPLAY_HOST=$HOST
+        FG_C_PRE=$fg[yellow]
         # many other tests omitted
     # else
     #     case $(ps -o comm= -p $PPID) in
     #         sshd|*/sshd) DISPLAY_HOST=$HOST ;;
     #     esac
     fi
-    PS1="%{$fg[green]%}%{$DISPLAY_USER%}@%{$DISPLAY_HOST%}:%{$fg[cyan]%}%~%{$reset_color%}% %(!.#.%%) "
+    PS1="%{$FG_C_PRE%}%{$DISPLAY_USER%}@%{$DISPLAY_HOST%}:%{$FG_C_PATH%}%~%{$reset_color%}% %(!.#.%%) "
 }
 
 function act {
