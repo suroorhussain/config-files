@@ -85,7 +85,7 @@
  '(menu-bar-mode -1)
  '(package-selected-packages
    (quote
-    (flycheck-clang-tidy clang-format lsp-mode rustic flycheck-rust use-package flycheck-clang-analyzer intero xterm-color js2-mode matlab-mode latex-pretty-symbols latex-preview-pane icicles yaml-mode virtualenvwrapper swiper jedi haskell-mode flycheck-color-mode-line elpy caml)))
+    (irony clang-format lsp-mode rustic flycheck-rust use-package intero xterm-color js2-mode matlab-mode latex-pretty-symbols latex-preview-pane icicles yaml-mode virtualenvwrapper swiper jedi haskell-mode flycheck-color-mode-line elpy caml)))
  '(require-final-newline t)
  '(ring-bell-function (quote ignore))
  '(show-paren-mode t))
@@ -158,9 +158,9 @@
 (setq flycheck-python-pycompile-executable "/usr/bin/python3")
 (setq flycheck-python-flake8-executable "/usr/local/bin/flake8")
 
-(eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook #'flycheck-clang-tidy-setup))
-(setq flycheck-clang-language-standard "c++1z")
+;; (eval-after-load 'flycheck
+;;   '(add-hook 'flycheck-mode-hook #'flycheck-clang-tidy-setup))
+;; (setq flycheck-clang-language-standard "c++1z")
 
 (setq comint-output-filter-functions
       (remove 'ansi-color-process-output comint-output-filter-functions))
