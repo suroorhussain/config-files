@@ -124,12 +124,6 @@
 (global-set-key (kbd "C-o") 'find-file-in-repository)
 (global-set-key (kbd "C-x ~") 'set-80-columns)
 
-(require 'tramp)
-(setq tramp-default-method "ssh")
-(require 'tramp-sh nil t)
-(setf tramp-ssh-controlmaster-options
-      (concat "-o SendEnv TRAMP=yes " tramp-ssh-controlmaster-options))
-
 (require 'midnight)
 (midnight-delay-set 'midnight-delay "4:30am")
 

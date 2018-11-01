@@ -1,6 +1,6 @@
 [user]
     name = Justin Van Winkle
-    email = justin@milo.com
+    email = justin.vanwinkle@gmail.com
 
 [push]
     default = current
@@ -12,6 +12,9 @@
 
 [log]
     color = auto
+
+[pull]
+    no-edit = true
 
 [grep]
     color = auto
@@ -29,6 +32,7 @@
     ignore-blank-lines = true
     algorithm = patience
     renameLimit = 200000
+
 [pager]
     color = true
 
@@ -37,8 +41,7 @@
 
 [color]
     ui = true
+
 [core]
     pager = less -x4
     mergeoptions = --no-edit
-[credential]
-	helper = /usr/lib/git-core/git-credential-libsecret
